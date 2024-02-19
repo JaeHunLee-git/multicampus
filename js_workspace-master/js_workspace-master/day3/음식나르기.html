@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{margin:0px;}
+        #wrapper{
+            width: 1500px;
+            height: 900px;
+            background-color: yellow;
+        }
+        #dish{
+            position: absolute; /*부모인 wrapper를 기준으로 한 위치*/
+            left:1000px;
+            top:200px;
+            width:370px;
+            height: 400px;
+        }
+    </style>
+    <script>
+        //닭다리가 움직일지 말지를 결정짓는 전역변수
+        //let flag=false;
+
+        //프로그램이 가동되자 마자 통닭다리의 스타일 변경 
+        function init(){
+            let food = document.getElementById("food");
+            food.style.position="absolute";
+            food.style.left=300+"px";
+            food.style.top=200+"px";
+            food.style.width=180+"px";
+            //접시보다 늦게 생성된 닭다리의 레이어 즉 z-index를 높여보자 
+            food.style.zIndex=100;
+        }
+
+        //사용자가 마우스를 움직이는 동안, 해당 마우스의 좌표를 구해보자
+        function getMouseXY(){
+            console.log("당신 지금 마우스 움직이는 중이죠?");
+            //마우스의 좌표 정보를 추출하려면, 시스템이 알고있는 이벤트 
+            //정보를 얻어와 하는데, js에서는 사용자가 이벤트를 일을킬때마다
+            //메모리에  event 라는 객체가 올라간다..따라서 이 event  객체를
+            //이용하여 원하는 정보를 얻어내자! 
+            let x = event.clientX; //x축 (left 값)
+            let y = event.clientY; //y축 (top 값)
+            console.log("x축:"+x+" , y축:"+y);
+
+            //실시간으로 얻어진 마우스 좌표와 치킨의 left, top 값을 일치
+            //시킨 다면, 치킨 이미지는 마우스를 따라다니는 효과발생 
+            let flag=false;
+            if(flag){
+                let food = document.getElementById("food");
+                food.style.left=(x-90) +"px";
+                food.style.top=(y-90)+"px";
+                
+            }
+        }
+
+        //기존의 flag 뒤집기
+        //드래그할때는 테두리, 내려놓으면 테두기 없애기
+        function effect(){
+            flag = !flag;
+
+            //시각적 효과를 부여하자 
+            if(flag==true){ //드래그할때는
+                food.style.border="10px solid red";
+            }else{
+                food.style.border="0px";
+            }
+        }
+    </script>        
+</head>
+<body onLoad="init();"  onMouseMove="getMouseXY()">
+    <div id="wrapper">
+        
+        <img src="../images/chicken.webp" id="food" onClick="effect()">
+        
+        <img src="../images/dish.webp" id="dish">
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        //셀의 크기와 갯수가 정해져잇지 않기 때문에, wrapper조차도 프로그래밍적으로 
+        //즉 동적으로 생성해내자!!
+        let canvas;
+        let cellSize=10; //각 셀의 크기(정사각형)
+        let cellCount=100; //각셀의 갯수(정사각형) 
+        let cellArray=[]; //모든 셀을 담게될 배열 (그림 지울 목적)
+        let playArray=[]; //그림을 그렸던 셀을 담게될 배열(그림 재생 목적)
+        let playIndex=0;  //setInterval의 시간 간격마다 계속 1씩 증가될 전역 변수
+        let flag=false;
+
+        function createCell( y , x){
+            let cell = document.createElement("div"); // <div></div>
+            cell.style.background="#FFFFFF";
+            //경계선을 부여하자 
+            cell.style.border="1px solid green";
+            cell.style.boxSizing="border-box";
+            cell.style.width=cellSize+"px";
+            cell.style.height=cellSize+"px";
+            cell.style.position="absolute";  //canvas 를 기준으로 한 위치 
+            cell.style.top=(y*cellSize)+"px"; //y 
+            cell.style.left=(x*cellSize)+"px"; //x         
+
+            //생성된 div에 이벤트 연결 
+            cell.addEventListener("mouseover", function(){
+                //익명 함수 영역에서는 이벤트를 일으킨 주체가 되는 요소를 대명사로
+                //가리킬 수 있는데, 이때 사용되는 변수명은 this이다 
+
+                //this란? 이벤트를 일으킨 주체 요소를 말한다
+                this.style.background="red";
+                console.log("마우스 올렸어?");
+                //현재 cell은 그림이 그려진 셀이므로, playArray에 추가해둔다 
+                playArray.push(cell);
+            });
+
+            canvas.appendChild(cell);
+
+            return cell;  //생성된 cell 을 , 함수호출한 자에게 반환 
+        }
+
+        function createCanvas(){
+            canvas = document.createElement("div"); //평상시의 바로 그 wrapper
+            canvas.style.width=(cellSize*cellCount)+"px";
+            canvas.style.height=(cellSize*cellCount)+"px";
+            canvas.style.background="yellow";
+            canvas.style.margin="auto";
+            canvas.style.position="relative";
+
+            //생성된 도화지에 지정된 크기와 갯수만큼의 셀을 생성하여 부착 
+            for(let i=0; i<cellCount;i++){ //층수 y값 top
+
+                //한 층에 넣을 일차원 배열에  cell을 담아놓자
+                let arr=[]; //여기서 선언한 이유?  arr은 층수만큼 존재해야 하므로...
+                for(let j=0; j<cellCount;j++){//호수 x값 left
+                    let cell = createCell(i , j); //몇층, 몇호순인지 매개변수로 전달하자
+                    arr.push(cell);//일차원 배열에, 생성된 div를 추가
+                }
+                //이차원 배열에 넣기(여기서 넣어야 하는 이유? 층수만큼 넣어야 하니깐)
+                cellArray.push(arr);
+            }
+
+            document.body.appendChild(canvas);
+        }
+
+        //도화지 내의 모든 셀의 배경색을 다시 돌려놓자 
+        //모든 셀이 이차원 배열에 담겨 잇으므로, 삭제할때는 이차원배열을 이용할 수 있다.
+        function erase(){
+            for(let i=0; i<cellArray.length;i++){ //층수만큼...
+                for(let j=0;j<cellArray[i].length;j++){ //호수만큼 
+                    cellArray[i][j].style.background="#FFFFFF";
+                }
+            }
+        }
+
+        //재생하기 (기존의 배경색을 모두 지우고, playArray에 들어있는 사각형을 대상으로
+        //색상을 부여하자)
+        function play(){
+            //for문은 너무 속도가 빠른다..따라서 재생하기 느낌이 제대로 살지못함 
+            //for(let i=0; i<playArray.length;i++){
+            if(flag){ //논리값이 참일때만..
+                playArray[playIndex++].style.background="red";
+                if(playIndex >= playArray.length){
+                    flag=false;
+                }
+            }
+            //}
+
+        }
+            
+            
+        function init(){
+            createCanvas();     
+        }
+
+        addEventListener("load", function(){
+            init();
+
+            document.getElementById("bt_play").addEventListener("click", function(){
+                erase();
+                flag=true;
+            });
+            
+            document.getElementById("bt_del").addEventListener("click", function(){
+                erase();
+            });
+            
+            setInterval("play()", 50);
+        });
+    </script>
+</head>
+<body>    
+    <button id="bt_play">재생하기</button>
+    <button id="bt_del">지우기</button>
+</body>
+</html>

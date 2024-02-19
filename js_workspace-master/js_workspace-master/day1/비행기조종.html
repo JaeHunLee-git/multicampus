@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*문서에 게임 배경을 배경이미지로 적용해보기*/
+        #wrapper{
+            background-image: url(../images/plane/game_bg.jpg);
+            width:1280px;
+            height:640px;
+            margin: auto;
+            position: relative;/*자식 때문에...명시*/
+        }
+
+        #plane{
+            width:60px;     
+            position: absolute;/*부모를 기준으로 한 위치 */       
+            left:200px;/*x축*/
+            top:150px;/*y축*/
+        }
+    </style>
+    <script>
+        let x=200; //우주선의 x좌표값을 담기 위한 변수 
+        let y=150; //우주선의 y좌표값을 담기 위한 변수 
+
+        //우주선을 앞으로 나아가게 한다(x축 값 즉 left값을 증가시키자)
+        function moveRight(){
+            x = x + 5;
+            let plane=document.getElementById("plane");
+            plane.style.left=x+"px";     
+            console.log("x값 : " , x);
+        }
+
+        //우주선의 top 값을증가시킬 함수 
+        function moveDown(){
+            y = y+5;
+            let plane=document.getElementById("plane");
+            plane.style.top=y+"px";            
+        }
+    </script>
+</head>
+<body>
+    <!-- 게임의 스테이지 (무대) 역할을 할 div 사용 -->
+    <div id="wrapper">
+        <table>
+            <tr>
+                <td></td>                
+                <td><button>top</button></td>                
+                <td></td>                
+            </tr>                
+            <tr>
+                <td><button>Left</button></td>                
+                <td><button onClick="moveDown()">down</button></td>                
+                <td>
+                    <button onClick="moveRight()">right</button>
+                </td>                
+            </tr>                
+        </table>    
+
+        <img src="../images/plane/plane.png" id="plane">
+    </div>
+    
+
+</body>
+</html>

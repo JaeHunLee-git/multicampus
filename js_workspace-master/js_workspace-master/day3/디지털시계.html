@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            width: 700px;
+            height: 300px;
+            background-color: yellow;
+            margin: auto;
+            border-radius: 3%;
+        }
+        #content{
+            font-size:40px;
+            text-align: center;
+            height: 200px;
+            background-color: aqua;
+            line-height: 200px;
+        }
+        .box{
+            width:130px;
+            height:130px;   
+            font-size:50px;   
+            text-align: right;
+        }
+        #footer{
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+        }
+
+        /*footer id를 갖는 요소의 자식중 button 태그에 대해..*/
+        #footer button{
+            width:100px;
+            height:50px;
+        }
+    </style>
+    <script>
+        //아래의 변수들은 , 프로그램이 끝날때까지 텍스트박스를 
+        //제어하기 위해 전역변수로 빼놓았다...
+        let hh;
+        let mm;
+        let ss; 
+
+        let hr=0; //시간을 누적시킬 변수 
+        let min=0; //분을 누적시킬 변수
+        let sec=0; //프로그램이 실행되는 동안 변수가 유지되면서 그 값이
+                    //누적도 되야 하므로, 전역변수로 빼놓자
+        let flag=false;//시계의 작동을 결정짓는 논리값
+        let st; //자동함수인 setInterval  을 가리킬 변수, 추후 이 변수를 이용하여  현재 진행중인 setInterval을 멈출 수 있습니다.
+
+        /*-------------------------------------------------------------------
+        이 setCount 함수는 수동이건, 자동이건 공통으로 사용할 로직이므로 
+        이 함수안에 flag 조건을 주지 않아야 합니다.
+        -------------------------------------------------------------------*/
+        function setCount(){
+            //if(flag){ //결국 if 문은 flag의 값이 무엇이냐에 좌우...
+                //초 증가
+                sec++;//sec = sec + 1;
+                
+                //분 증가 
+                if(sec>=60){ //초가 60에 도달했다면...
+                    min++;
+                    sec=0;//초 값은 다시 0으로 돌려놓자
+                }
+
+                //아래의 코드는 무조건 수행X, 원할때만..
+                if(min >=60){ //분이 60이상되면..
+                    hr++;
+                    min=0; //분도 다시 0으로 돌려놓자
+                }
+
+                hh.value=hr;
+                ss.value=sec;
+                mm.value=min; 
+            //}
+        }
+
+        function manual(){
+            stopInterval();
+            setCount();
+        }
+        
+        function auto(){
+            stopInterval();
+            //setInterval("호출대상함수()", 몇초간격으로호출할지);
+            // 1000분의 1초까지 표현가능하므로, 1000 1초 , 100 0.1초
+            st = setInterval("setCount()", 1000); 
+        }
+
+        function stopInterval(){
+            if(st !=undefined){ //만일 현재 실행중인 setInterval이 있다면..
+                clearInterval(st); //setInterval 중지
+            }
+        }
+
+        //프로그램이 가동됨과 동시에 하고싶은 작업 처리...
+        function init(){
+            hh = document.getElementById("hh");
+            mm = document.getElementById("mm");
+            ss = document.getElementById("ss");
+
+            hh.value=0; //시 초기화
+            mm.value=0; //시 초기화
+            ss.value=0; //시 초기화
+
+            //사용자에 의해서가 아니라, 시스템이 개발자가 정의해놓은
+            //함수를 일정시간 간격으로 자동 호출하게 해보자
+
+        }
+    </script>
+</head>
+<body onLoad="init()">
+
+    <div id="wrapper">
+        <div id="content">
+            <input type="text" class="box" id="hh">시
+            <input type="text" class="box" id="mm">분
+            <input type="text" class="box" id="ss">초
+        </div>
+        <div id="footer">
+            <button onClick="auto()">Start</button>
+            <button onClick="stopInterval()">Stop</button>
+            <button onClick="manual()">수동</button>
+        </div>
+    </div>
+    
+</body>
+</html>

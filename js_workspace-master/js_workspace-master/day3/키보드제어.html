@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키보드로 물체 제어</title>
+    <style>
+        #wrapper{
+            width:1280px;
+            height: 640px;
+            margin: auto;
+            background-image: url(../images/plane/game_bg.jpg);
+            position: relative; /*자식이 명시하면 부모도 명시해야 함.*/
+            background-position:0px 0px;
+        }
+    </style>
+    <script>
+        let wrapper;
+        let img; //우주선을 가리키던 img 변수는 전역변수일 경우, 
+                    //프로그램 실행 하는 동안 계속 제어 가능..
+        let bgX=0; //배경의 x축 값을 결정짓는 전역변수 (계속 -를 누적)
+        let x=50; //우주선의  x좌표
+        let y=200; //우주선의 y좌표 
+
+        //키보드를 누르면, 적절한 위치를 설정하자
+        function move(){
+            //상,하, 좌, 우 키패드를 누르면 각각 알맞는 위치 설정 
+            //사용자가 클릭, 마우스움직이던, 키보드를 모든 이벤트 발생 상황
+            //에는 내부적으로 event 객체가 생성된다.. 
+            //console.log(event);
+
+            //event 객체는 이벤트의 정보를 담고 있으므로, 만일 키보드이벤트를
+            //발생시켰다면, 키보드와 관련된 많은 정보가 event 객체에 들어있다.
+            //console.log("내가 누른 키의 아스키값은 " , event.keyCode);
+
+            //37 좌측으로.... 
+            if(event.keyCode==37){
+                x -=5; //x = x - 5;
+                img.style.left=x+"px";
+            }
+            //39 우측으로... 
+            if(event.keyCode==39){ //우측키를 눌렀다면...
+                x+=5; // x = x +5;
+                img.style.left=x+"px";
+            }
+
+            //38 위로... 
+            if(event.keyCode==38){
+                y -= 5; 
+                img.style.top = y+"px";
+            }
+
+            //40 아래로..
+            if(event.keyCode==40){
+                y += 5; // y = y+5;
+                img.style.top=y+"px";
+            }
+
+        }
+
+        //키보드에 대한 조건처리를 switch~case문으로 처리 
+        function move2(){
+            //아스키 코드를 대상으로 case by case 따져본다
+            switch(event.keyCode){
+                case 37: x-=5;break; //left
+                case 39: x+=5;break; //right
+                case 38: y-=5;break; //top
+                case 40: y+=5 ;break; //bottom
+            }
+            img.style.left=x+"px";
+            img.style.top=y+"px";
+        }
+
+        //게임의 모든 요소가 움직이려면, 엔진이 가동되어 잇어야 한다..
+        //사람으로 비유하자면 심장이 뛰는것과 같다..
+        function gameLoop(){
+            //console.log("gameLoop called...");
+            //배경의 x 좌표를 음수값으로 누적시키자
+            bgX--; // bgX = bgX - 1; 동일한 표현
+            wrapper.style.backgroundPosition=bgX+"px  0px";
+        }
+        
+        //프로그램이 가동되면, 초기화 작업을 진행하자 
+        //1) 우주선을 동적으로 생성하여 wrapper 에 부착
+        function init(){
+            //wrapper는 문서에 이미 존재하기 때문에 get~~ 얻어온다
+            wrapper = document.getElementById("wrapper");//div
+
+            //우주선 동적(dynamic, runtime 실행시) 생성 
+            img = document.createElement("img"); // <img> 동일
+            img.src="../images/plane/plane.png"; // <img src=''> 동일
+            img.style.width=90+"px";
+            img.style.position="absolute"; //부모를 기준으로 한 위치
+            img.style.left=50+"px"; //x축으로 50px 에 놓기
+            img.style.top=200+"px"; //y축으로 200px 에 놓기
+
+            //부모 즉 컨테이너 요소에 img를 부착하자 
+            wrapper.appendChild(img);
+
+            //일정 시간 간격으로 끝없이 게임루프를 호출해주자 
+            //이 시점부터 10/1000 초 간격으로 끝없이 gameLoop() 호출.. 
+            setInterval("gameLoop()", 10);
+        }
+    </script>
+</head>
+<body onLoad="init()" onKeyDown="move2()">
+    <div id="wrapper"></div>
+</body>
+</html>
+
+

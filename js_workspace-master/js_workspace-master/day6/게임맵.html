@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            margin: auto;
+            background-color: yellow; 
+            position: relative; /*자식 때문에 명시*/
+        }        
+    </style>
+    <script>
+        //맵을 표현할 이차원 배열을 정의 
+        //map이라는 이차원 배열 크기는 wrapper의 높이(층수)를 결정할예정 
+        //map안에 들어가는 각각의 일차원 배열들은 너비(호수)를 결정할예정
+        let map=[
+            [0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,0,0,0,0,0,3,3,3,3,3,3,3,0,0]
+        ]; //이차원? or 일차원?
+
+
+        let wrapper;
+
+        //주인공, 버섯, 별, 물음표 등등 모든 아이템이 위치할 곳을 처리하는 함수
+        function createItem(filename, y, x){
+            console.log("주인공의 층수(y)은 ", y, " 호수(x)", x);
+
+            let brick = document.createElement("img"); // <img> 동일 
+            brick.src="../images/mario/"+filename; // <img src=""> 동일 
+            brick.style.position="absolute";
+            brick.style.left=x*50+"px"; //호수
+            brick.style.top=y*50+"px"; //층수
+
+            brick.style.width=50+"px";
+            brick.style.height=50+"px";
+
+            wrapper.appendChild(brick); //wrapper에 부착
+        }
+
+        //마리오가 밟고 다닐 벽돌..
+        function createMap(){
+            
+            for(let a=0; a<map.length;a++){ //층수 
+                for(let i=0;i<map[a].length;i++){ //호수
+
+                    //1~ 5사이의 숫자가 발견될때만 이미지 생성...
+                    switch(map[a][i]){ 
+                        case 1:createItem("mario.webp", a, i);break; //a는 층수, i는 호수
+                        case 2:createItem("brick1.png", a, i);break; //a는 층수, i는 호수
+                        case 3:createItem("brick2.png", a, i);break; //a는 층수, i는 호수
+                        case 4:createItem("star.webp", a, i);break; //a는 층수, i는 호수
+                        case 5:createItem("flower.webp", a, i);break; //a는 층수, i는 호수
+                    }
+                }
+            }
+
+        }
+
+        function init(){
+            wrapper = document.getElementById("wrapper");
+            wrapper.style.width= map[0].length*50 +"px";
+            wrapper.style.height=map.length*50 +"px";
+
+            createMap();
+        }
+
+        addEventListener("load", function(){
+            init();
+        });
+
+    </script>
+</head>
+<body>
+    
+    <div id="wrapper"></div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin:0px;
+        }
+        #wrapper{
+            width: 1000px;
+            height: 900px;
+            background-image: url(../images/mt/m1.jfif);
+            background-size:1000px  900px ;
+            position: relative;
+        }
+    </style>
+    <script src="../js/lib.js"></script>
+    <script>
+        
+        let firefly; //모든 영역에서 접근할 수 있도록...전역변수로 선언
+        let a=0.1;
+        let targetX=100;
+        let targetY=200;
+        let count=0; //몇번째 수행인지를 체크할 수 있는 변수
+
+        //나위치 = 현나위치 + a*(목표 - 현나위치)
+        function move(){
+            count++;
+            //console.log(count);
+            if(count%400 ==0){ //400 마다...
+                //console.log(count);
+                targetX=getRandomByRange(50,700); //고정 시키지 말고, 랜덤하게 얻어오자
+                targetY=getRandomByRange(100,900); //고정 시키지 말고, 랜덤하게 얻어오자
+            }
+
+            firefly.style.left = parseInt(firefly.style.left)+a*(targetX - parseInt(firefly.style.left))+"px";
+            firefly.style.top = parseInt(firefly.style.top)+a*(targetY - parseInt(firefly.style.top))+"px";
+        }   
+
+        function init(){
+            //반딧불 이미지를 생성하여 원하는 위치에 두자
+            firefly = document.createElement("img"); // <img>
+            firefly.src="../images/firefly.webp";
+
+            firefly.style.position="absolute";
+            firefly.style.top=0+"px";
+            firefly.style.left=0+"px";
+
+            let wrapper = document.getElementById("wrapper");
+            wrapper.appendChild(firefly);
+        }
+
+        addEventListener("load", function(){
+            init();
+            document.body.addEventListener("mousedown", function(){
+                //마우스의 좌표를 구해서  targetX, targetY  대입 
+                //console.log(event);
+                targetX=event.clientX;
+                targetY=event.clientY;
+            });
+
+            setInterval("move()", 10);
+        });
+    </script>
+</head>
+<body>
+    <div id="wrapper"></div>
+</body>
+</html>
+
+
