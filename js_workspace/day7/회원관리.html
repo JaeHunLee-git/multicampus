@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            width:1200px;
+            height:800px;
+            background-color: cadetblue;
+            margin: auto;
+        }
+        #aside1, #aside2{
+            width:200px;
+            height:100%;
+            background-color: yellow;
+            float:left;
+        }
+        #section{
+            width:800px;
+            height:100%;
+            background-color: bisque;
+            float:left;
+        }
+        #header{
+            width:100%;
+            height:50px;
+            background-color: blueviolet;
+        }
+        #content{
+            width:100%;
+            height:750px;
+            background-color: aquamarine;
+        }
+    </style>
+    <script>
+        let memberArray=[];  //1사람의 회원정보가 담겨진 일차원배열을 모아놓을 이차원배열
+                //전역변수로 선언해야, 프로그램 끝날때까지 회원들을 누적시켜놓을 수 있슴
+        let content; //회원의 목록 정보가 출력될 div
+        let currentIndex=-1; //현재 사용자가 선택한 회원의 층수 즉 memberArray의 index
+
+        //한 사람에 대한 정보를 일차원 배열에 담고, 이 일차원 배열을 각 사람마다 누적시키다
+        //보면, 결국 이차원구조의 테이블 즉 데이터베이스가 생성될 수 있다..
+        function regist(){
+            let member=[]; //한 사람의 정보를 담게 될 일차원 배열 
+            
+            let id = document.getElementById("id"); //회원아이디
+            let pass = document.getElementById("pass"); //회원비번
+            let email = document.getElementById("email"); //회원비번
+            let age = document.getElementById("age"); //회원 나이
+
+            member.push(id.value); //사용자가 입력한 아이디 값 
+            member.push(pass.value); //사용자가 입력한 비밀번호 값
+            member.push(email.value); //사용자가 입력한 메일주소 값
+            member.push(age.value); //사용자가 입력한 나이
+
+            //이차원 배열에, 회원 일차원 배열 추가하기 
+            memberArray.push(member);
+
+            //현재까지 가입한 회원 수 
+            console.log("현재까지 가입한 회원 수:",  memberArray.length);
+
+            getList();
+        }
+
+        //현재까지 누적된 회원들의 정보를 table 태그로 표현해본다 
+        function getList(){
+            let tag="<table width=\"100%\" border=\"1px\">";
+            tag+="<tr>";
+            tag+="<th>아이디</th>";                
+            tag+="<th>비밀번호</th>";                
+            tag+="<th>이메일</th>";                
+            tag+="<th>연령</th>";                
+            tag+="</tr>";
+
+            //층수 즉 표의 레코드 만큼 반복하면서 회원1명을 꺼내기 
+            //(즉 이차원배열에서 일차원 배열(회원1 사람 정보)을 꺼내자)
+            for(let i=0; i<memberArray.length;i++){//층수만큼..
+                //console.log(memberArray[i]);
+                tag+="<tr align='center'  onMouseOver=\"this.style.background='yellow'\"  onMouseOut=\"this.style.background=''\"   onClick=\"showDetail("+i+")\">";
+                for(let j=0; j< memberArray[i].length;j++){
+                    tag+="<td>"+memberArray[i][j]+"</td>";                
+                } 
+                tag+="</tr>";
+            }
+            tag+="<tr>";
+            tag+="<td colspan='4' align='right'>누적 회원수: "+memberArray.length+"명</td>";                
+            tag+="</tr>";
+            tag +="</table>";       
+
+            content.innerHTML=tag; 
+        }
+
+        //표에서 선택한 한 회원의 정보를 우측 aside2 영역에 출력
+        function showDetail(n){
+            console.log("상세보기 하고 싶어?", n);
+            currentIndex = n; //층 수를 전역변수로 보관해놓자, 그래야 다른 함수에서 사용하니깐 
+
+            //우측 영역의 입력 컴포넌트들...
+            let id2 = document.getElementById("id2"); //회원아이디
+            let pass2 = document.getElementById("pass2"); //회원비번
+            let email2 = document.getElementById("email2"); //회원비번
+            let age2 = document.getElementById("age2"); //회원 나이
+            
+            let member = memberArray[n]; //전달되어 온 n으로 즉 층수로 이차원배열을 접근하자
+
+            id2.value=member[0] ; //회원 아이디 채워넣기 
+            pass2.value=member[1] ; //비번 채워넣기 
+            email2.value=member[2] ; //이메일 채워넣기 
+            age2.value=member[3]     ; //나이 채워넣기 
+        }
+
+        //현재 보고 있는 회원의 정보를 이차원배열인 memberArray에서 제거 후, 
+        //목록을 갱신해보자 
+        function del(){
+            let result = confirm("당신 정말 "+currentIndex+" 층을 지울거에요?");
+
+            if(result){//사용자가 '확인'(긍정) 을 누르면 
+                memberArray.splice(currentIndex,  1);
+                //목록을 갱신~~
+                getList();
+            }
+        }
+
+        //현재 선택된 회원의 정보를, 우측 입력양식의 정보로 변경한 후, 
+        //목록도 갱신해주기
+        function edit(){
+            //우측 영역의 입력 컴포넌트들...
+            let id2 = document.getElementById("id2"); //회원아이디
+            let pass2 = document.getElementById("pass2"); //회원비번
+            let email2 = document.getElementById("email2"); //회원비번
+            let age2 = document.getElementById("age2"); //회원 나이
+
+            //member로 받아서 처리해도 되고, 이차원배열로 표현해도 된다
+            let member = memberArray[currentIndex];            
+            memberArray[currentIndex][0]=id2.value; //회원의 아이디 
+            memberArray[currentIndex][1]=pass2.value; //회원의 비번
+            member[2]=email2.value; //회원의 이메일
+            member[3]=age2.value; //회원의 나이 
+            //한 사람에 대한 수정이 완료되었으면, 목록 갱신 
+            getList();
+        }
+
+        addEventListener("load", function(){
+            content = document.getElementById("content");
+
+            //등록 버튼에 이벤트 연결   
+            document.getElementById("bt_regist").addEventListener("click", function(){
+                regist();
+            });
+        });
+
+    </script>
+</head>
+<body>
+    
+    <div id="wrapper">
+        <div id="aside1">
+            <input type="text" placeholder="Your ID.." id="id">
+            <input type="password" placeholder="Your Pass.." id="pass">
+            <input type="text" placeholder="Your E-Mail" id="email">
+            <input type="text" placeholder="Your Age" id="age">
+            <button id="bt_regist">등록</button>
+
+        </div>
+        <div id="section">
+            <div id="header"></div>
+            <div id="content"></div>
+        </div>
+        <div id="aside2">
+            <input type="text" placeholder="Your ID.." id="id2">
+            <input type="password" placeholder="Your Pass.." id="pass2">
+            <input type="text" placeholder="Your E-Mail" id="email2">
+            <input type="text" placeholder="Your Age" id="age2">
+            <button id="bt_edit" onClick="edit()">수정</button>
+            <button id="bt_del" onClick="del()">삭제</button>
+
+        </div>
+    </div>
+
+</body>
+</html>

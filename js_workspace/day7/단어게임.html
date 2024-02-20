@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            width:400px;
+            height:500px;
+            border: 2px solid green;
+            border-radius: 10px;
+            margin: auto;
+        }
+        #question{
+            width:100%;
+            height:200px;
+            background-color: antiquewhite;
+            line-height: 200px;
+            font-size:75px;
+            text-align: center;
+        }
+        #keyInput{
+            width:100%;
+            height:100px;
+            background-color: aquamarine;
+        }
+        #keyInput input{
+            width:98%;
+            height:98%;
+            font-size:50px;
+        }
+        #feedback{
+            width:100%;
+            height:150px;
+            background-color: burlywood;
+            line-height: 150px;
+            font-size:130px;
+            font-weight: bold;
+            text-align: center;
+            color:red;
+        }
+        #total{
+            width:100%;
+            height:50px;
+            background-color: cadetblue;
+            line-height: 50px;
+            font-size:48px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <script>
+        //게임에 사용할 단어 10개를 준비하자 
+        let wordArray=[
+            "무지개",
+            "고구마",
+            "우주선",
+            "제주도",
+            "여행",
+            "자바",
+            "도서관",
+            "마우스",
+            "김치찌게",
+            "유치원"
+        ];
+        
+        let question; //문제 출력  div
+        let feedback; //ox 출력  div
+        let total; //점수 출력 div 
+        let index=0; //몇번째 단어를 접근해야 할지를 결정짓는 전역변수(누적되어야 하므로..)
+        let txt; //사용자가 입력하는 입력양식 컴포넌트
+        let score=0; //10점씩 누적될 점수 전역변수 
+
+        function next(){
+            let key = event.keyCode; //입력한 키에 대한 ascii 코드 얻기
+            console.log(key);
+            
+            if(key==13){//사용자가 엔터를 쳤을때만...
+               
+                let mark;
+                if(question.innerText == txt.value){ //단어가 일치할 경우만 아래의 코드를 수행
+                    index++;
+                    question.innerText=wordArray[index];
+                    mark="O";
+                    score +=10;
+                }else{
+                    mark="X";
+                }
+                feedback.innerText=mark;
+                total.innerText=score+" 점";
+                txt.value="";//입력한 단어를 다시 초기화 
+            }
+        }
+
+        addEventListener("load", function(){
+            question = document.getElementById("question");
+            feedback = document.getElementById("feedback");
+            total = document.getElementById("total");
+            txt = document.querySelector("#keyInput input"); //css 선택자를 이용한 요소접근
+            
+            txt.focus();//해당 요소에 커서 올리기 
+            
+            txt.addEventListener("keyup", function(){
+                //엔터를 치면 다음 단어가 나오게..
+                next();    
+            });
+        });
+    </script>
+</head>
+<body>
+    
+    <div id="wrapper">
+        <div id="question">광화문</div>
+        <div id="keyInput">
+            <input type="text" placeholder="단어 입력">
+        </div>
+        <div id="feedback">X</div>
+        <div id="total">점수</div>
+    </div>
+
+</body>
+</html>
