@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,71 +9,89 @@
         /*두개의 채팅창이 같은 너비, 높이 스타일을 가지므로, 공통의 클래스로 정의하여 
         적용해보기
         */
-        .chatWin{
-            width:300px;
-            height:400px;
-            border:3px solid gray;
+        .chatWin {
+            width: 300px;
+            height: 400px;
+            border: 3px solid gray;
             border-radius: 5px;
             background-color: aquamarine;
-            box-sizing: border-box; /*바깥쪽으로 크기에 영향을 주지 않음*/
-        }
-        #chat1{
-            position: absolute;
-            left:100px;
-            top:200px;
-        }
-        #chat2{
-            position: absolute;
-            left:600px;
-            top:200px;
+            box-sizing: border-box;
+            /*바깥쪽으로 크기에 영향을 주지 않음*/
         }
 
-        textarea{
-            width:98%;
-            height:360px;
+        #chat1 {
+            position: absolute;
+            left: 100px;
+            top: 200px;
+        }
+
+        #chat2 {
+            position: absolute;
+            left: 600px;
+            top: 200px;
+        }
+
+        textarea {
+            width: 98%;
+            height: 360px;
             background-color: yellow;
         }
-        input[type='text']{
-            width:98%;
-            height:25px;
+
+        input[type='text'] {
+            width: 98%;
+            height: 25px;
         }
     </style>
+    <script src="../js/lib.js"></script>
     <script>
-        
-        let bad=["개새끼","십팔놈", "육시럴"];//욕 데이터베이스 
-        let good=["강아지","낭랑18세","흥"];//순화 데이터베이스
 
-        addEventListener("load", function(){
-            
+        let bad = ["개새끼", "십팔놈", "육시럴"];//욕 데이터베이스 
+        let good = ["강아지", "낭랑18세", "흥"];//순화 데이터베이스
+
+        addEventListener("load", function () {
+
             //두개의 텍스트 박스에 키보드 이벤트 연결 
-            let keyInput =document.getElementsByName("keyInput"); //input
+            let keyInput = document.getElementsByName("keyInput"); //input
             let log = document.getElementsByName("log"); //textrea
 
             //좌측 텍스트박스에 입력이 일어나면..
-            keyInput[0].addEventListener("keyup", function(e){
-                if(e.keyCode==13){
+            keyInput[0].addEventListener("keyup", function (e) {
+                if (e.keyCode == 13) {
+
+                    //메시지 처리 하기 전에 , 필터링 적용해보자 
+                    //let str = this.value; //  "나는 사과와 딸기와 포도를 좋아한다"
+
+                    //for(let i=0;i<bad.length;i++){ //욕 데이터베이스 만큼...
+                    //"야이 강아지야 너 십XX 아 , 에잇 육XX ""
+                    // str = str.replace(bad[i] , good[i]);                                                     
+                    //}
+                    let str = filterLang(this.value, bad, good);
+
                     //1)채팅 메시지를 상대방에 출력 
-                    log[1].append("A님말 : "+this.value+"\n"); //상대방인 우측 textarea에 문자열 누적
+                    log[1].append("A님말 : " + str + "\n"); //상대방인 우측 textarea에 문자열 누적
 
                     //2) 나의 textare에 기록을 남기기   
-                    log[0].append("나의말 : "+this.value+"\n");  
+                    log[0].append("나의말 : " + str + "\n");
 
                     //입력한 텍스트는 다시 초기화 
-                    this.value="";
+                    this.value = "";
                 }
             });
 
             //우측 텍스트박스에 입력이 일어나면..
-            keyInput[1].addEventListener("keyup", function(e){
-                if(e.keyCode==13){
+            keyInput[1].addEventListener("keyup", function (e) {
+                if (e.keyCode == 13) {
+
+                    let str = filterLang(this.value, bad, good);
+
                     //1)채팅 메시지를 상대방에 출력 
-                    log[0].append("B님말 : "+this.value+"\n"); //상대방인 좌측 textarea에 문자열 누적
+                    log[0].append("B님말 : " + str + "\n"); //상대방인 좌측 textarea에 문자열 누적
 
                     //2) 나의 textare에 기록을 남기기   
-                    log[1].append("나의말 : "+this.value+"\n");  
+                    log[1].append("나의말 : " + str + "\n");
 
                     //입력한 텍스트는 다시 초기화 
-                    this.value="";
+                    this.value = "";
                 }
             });
 
@@ -81,8 +100,9 @@
 
     </script>
 </head>
+
 <body>
-    
+
     <div id="wrapper">
         <div class="chatWin" id="chat1">
             <textarea name="log"></textarea>
@@ -95,4 +115,5 @@
     </div>
 
 </body>
+
 </html>
