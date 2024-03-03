@@ -1,14 +1,14 @@
-SQL> --€€ €€€ €€€ €€€€, €€€€ €€€€ €€ ,€€,
-SQL> --ðð ðð ððð ðð
-SQL> --       ?
-SQL> --€€€ €€ €€€€ €€€€ €
-SQL> --     
-SQL> --                ..      ...
-SQL> --ÐÐÐÐÐ ÐÐÐ, ÐÐ ÐÐÐ ÐÐÐ ÐÐÐ ÐÐÐ ÐÐ
-SQL> --ððð ðððð ððð ðððð DBA_ ð ðððð ððð ðð
+SQL> --â‚¬â‚¬ â‚¬â‚¬â‚¬ â‚¬â‚¬â‚¬ â‚¬â‚¬â‚¬â‚¬, â‚¬â‚¬â‚¬â‚¬ â‚¬â‚¬â‚¬â‚¬ â‚¬â‚¬ ,â‚¬â‚¬,
+SQL> --Ã°Ã° Ã°Ã° Ã°Ã°Ã° Ã°Ã°
+SQL> --ÂÂ ÂÂ ÂÂÂ ÂÂ ÂÂÂ ÂÂ ÂÂ ?
+SQL> --â‚¬â‚¬â‚¬ â‚¬â‚¬ â‚¬â‚¬â‚¬â‚¬ â‚¬â‚¬â‚¬â‚¬ â‚¬
+SQL> --ÂÂÂÂÂÂ ÂÂÂ ÂÂ ÂÂÂÂ ÂÂÂÂÂÂÂ ÂÂ
+SQL> --Â Â Â Â Â  Â Â Â Â Â Â Â  Â Â ..Â Â  Â Â Â ...
+SQL> --ÃÃÃÃÃ ÃÃÃ, ÃÃ ÃÃÃ ÃÃÃ ÃÃÃ ÃÃÃ ÃÃ
+SQL> --Ã°Ã°Ã° Ã°Ã°Ã°Ã° Ã°Ã°Ã° Ã°Ã°Ã°Ã° DBA_ Ã° Ã°Ã°Ã°Ã° Ã°Ã°Ã° Ã°Ã°
 SQL> SHOW USER
 USER is "SYSTEM"
-SQL> --                        
+SQL> --Â Â Â  Â Â Â  Â Â  Â Â  Â Â Â  Â Â Â  Â Â 
 SQL> SELECT USER_NAME FROM DBA_USERS;
 SELECT USER_NAME FROM DBA_USERS
        *
@@ -57,10 +57,10 @@ TABLE_NAME
 ------------------------------------------------------------                    
 MEMBER                                                                          
 
-SQL> --€€€ €€€€ €€€€, €€€€€, €€,€€ €€€
+SQL> --â‚¬â‚¬â‚¬ â‚¬â‚¬â‚¬â‚¬ â‚¬â‚¬â‚¬â‚¬, â‚¬â‚¬â‚¬â‚¬â‚¬, â‚¬â‚¬,â‚¬â‚¬ â‚¬â‚¬â‚¬
 SQL> --@@@ @@@@ @@@@ @@@@ SQL@@@ @@@@ DML @@ @@
-SQL> --DATA  MANIPULATION LANGUAGE( )
-SQL> --              
+SQL> --DATA  MANIPULATION LANGUAGE(ÂÂÂ ÂÂÂ)
+SQL> --Â Â  Â Â  Â Â Â  Â Â Â  
 SQL> CREATE  TABLE  FRUIT(
   2    fruit_name varchar2(15)
   3   , price  number
@@ -77,8 +77,8 @@ Wrote file afiedt.buf
   3   , price  number
   4   , loc varchar2(15)
   5* )
-SQL> --   4 
-SQL> --ðð ððð ðð , ððð ðððð ððð ðð ðð
+SQL> --ÂÂÂ ÂÂÂÂ ÂÂÂ 4Â ÂÂ
+SQL> --Ã°Ã° Ã°Ã°Ã° Ã°Ã° , Ã°Ã°Ã° Ã°Ã°Ã°Ã° Ã°Ã°Ã° Ã°Ã° Ã°Ã°
 SQL> INSERT INTO FRUIT(FRUIT_NAME, PRICE, LOC) VALUES('apple',5000,'korea');
 
 1 row created.
@@ -95,7 +95,7 @@ SQL> INSERT INTO FRUIT(FRUIT_NAME, PRICE, LOC) VALUES('mango',12000,'africa');
 
 1 row created.
 
-SQL> --  ,  
+SQL> --ÂÂÂÂ ÂÂ ÂÂÂÂÂ, ÂÂÂÂÂ 
 SQL> SELECT FRUIT_NAME, PRICE, LOC FROM FRUIT;
 
 FRUIT_NAME                          PRICE LOC                                   
@@ -105,16 +105,16 @@ graph                               20000 france
 kiwi                                 8000 aust                                  
 mango                               12000 africa                                
 
-SQL> --                ,            
-SQL> --DML ÐÐÐÐ UPDATE Ð ÐÐÐÐ
-SQL> --     
+SQL> --Â Â  Â Â Â  Â Â Â Â  Â Â Â Â , Â Â Â Â  Â Â Â Â Â  
+SQL> --DML ÃÃÃÃ UPDATE Ã ÃÃÃÃ
+SQL> --ÂÂÂ ÂÂ ÂÂ ÂÂÂÂ ÂÂÂÂÂ 
 SQL> CREATE  TABLE  FRUIT2
   2  AS
   3  SELECT FRUIT_NAME, PRICE, LOC FROM FRUIT;
 
 Table created.
 
-SQL> --    FRUIT   
+SQL> --ÂÂÂÂ ÂÂ ÂÂÂÂ ÂÂÂÂ FRUIT Â ÂÂÂÂÂ 
 SQL> UPDATE  FRUIT SET PRICE=1000;
 
 4 rows updated.
@@ -141,7 +141,7 @@ graph                               20000 france
 kiwi                                 8000 aust                                  
 mango                               12000 africa                                
 
-SQL> --ÐÐÐ ÐÐÐÐ ÐÐÐ, ÐÐ ÐÐÐÐ ÐÐÐ ÐÐÐ 
+SQL> --ÃÃÃ ÃÃÃÃ ÃÃÃ, ÃÃ ÃÃÃÃ ÃÃÃ ÃÃÃ 
 SQL> --PPP PPP PPP PP
 SQL> UPDATE  FRUIT  SET PRICE=1000 WHERE FRUIT_NAME='kiwi';
 
@@ -170,7 +170,7 @@ graph                               20000 france
 kiwi                                 1000 aust                                  
 mango                               12000 africa                                
 
-SQL> --àààà ààà àà
+SQL> --Ã Ã Ã Ã  Ã Ã Ã  Ã Ã 
 SQL> --
 SQL> delete fruit;
 
