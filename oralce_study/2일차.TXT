@@ -1,14 +1,14 @@
-SQL> --   ,    ,,
-SQL> --拙 拙 拙?拙
-SQL> --릱 릱 릱?릱 릱?릱 릱 ?
-SQL> --    
-SQL> --릱릱릱 릱?릱 릱릱 릱릱릱?릱
-SQL> --젨젨?젨젨젨?젨..젨 젨?..
-SQL> --契契?契? 契 契?契?契?契?契
-SQL> --拙?拙拙 拙?拙拙 DBA_ ?拙拙 拙?拙
+SQL> --€€ €€€ €€€ €€€€, €€€€ €€€€ €€ ,€€,
+SQL> --ðð ðð ððð ðð
+SQL> --       ?
+SQL> --€€€ €€ €€€€ €€€€ €
+SQL> --     
+SQL> --                ..      ...
+SQL> --ÐÐÐÐÐ ÐÐÐ, ÐÐ ÐÐÐ ÐÐÐ ÐÐÐ ÐÐÐ ÐÐ
+SQL> --ððð ðððð ððð ðððð DBA_ ð ðððð ððð ðð
 SQL> SHOW USER
 USER is "SYSTEM"
-SQL> --젨?젨?젨 젨 젨?젨?젨
+SQL> --                        
 SQL> SELECT USER_NAME FROM DBA_USERS;
 SELECT USER_NAME FROM DBA_USERS
        *
@@ -57,10 +57,10 @@ TABLE_NAME
 ------------------------------------------------------------                    
 MEMBER                                                                          
 
-SQL> --  , , , 
+SQL> --€€€ €€€€ €€€€, €€€€€, €€,€€ €€€
 SQL> --@@@ @@@@ @@@@ @@@@ SQL@@@ @@@@ DML @@ @@
-SQL> --DATA  MANIPULATION LANGUAGE(릱?릱?
-SQL> --젨 젨 젨?젨?
+SQL> --DATA  MANIPULATION LANGUAGE( )
+SQL> --              
 SQL> CREATE  TABLE  FRUIT(
   2    fruit_name varchar2(15)
   3   , price  number
@@ -77,8 +77,8 @@ Wrote file afiedt.buf
   3   , price  number
   4   , loc varchar2(15)
   5* )
-SQL> --릱?릱릱 릱?4?릱
-SQL> --拙 拙?拙 , 拙?拙拙 拙?拙 拙
+SQL> --   4 
+SQL> --ðð ððð ðð , ððð ðððð ððð ðð ðð
 SQL> INSERT INTO FRUIT(FRUIT_NAME, PRICE, LOC) VALUES('apple',5000,'korea');
 
 1 row created.
@@ -95,7 +95,7 @@ SQL> INSERT INTO FRUIT(FRUIT_NAME, PRICE, LOC) VALUES('mango',12000,'africa');
 
 1 row created.
 
-SQL> --릱릱 릱 릱릱? 릱릱?
+SQL> --  ,  
 SQL> SELECT FRUIT_NAME, PRICE, LOC FROM FRUIT;
 
 FRUIT_NAME                          PRICE LOC                                   
@@ -105,16 +105,16 @@ graph                               20000 france
 kiwi                                 8000 aust                                  
 mango                               12000 africa                                
 
-SQL> --젨 젨?젨젨 젨젨, 젨젨 젨젨?
-SQL> --DML 契契 UPDATE ?契契
-SQL> --릱?릱 릱 릱릱 릱릱?
+SQL> --                ,            
+SQL> --DML ÐÐÐÐ UPDATE Ð ÐÐÐÐ
+SQL> --     
 SQL> CREATE  TABLE  FRUIT2
   2  AS
   3  SELECT FRUIT_NAME, PRICE, LOC FROM FRUIT;
 
 Table created.
 
-SQL> --릱릱 릱 릱릱 릱릱 FRUIT ?릱릱?
+SQL> --    FRUIT   
 SQL> UPDATE  FRUIT SET PRICE=1000;
 
 4 rows updated.
@@ -141,7 +141,7 @@ graph                               20000 france
 kiwi                                 8000 aust                                  
 mango                               12000 africa                                
 
-SQL> --契?契契 契? 契 契契 契?契?
+SQL> --ÐÐÐ ÐÐÐÐ ÐÐÐ, ÐÐ ÐÐÐÐ ÐÐÐ ÐÐÐ 
 SQL> --PPP PPP PPP PP
 SQL> UPDATE  FRUIT  SET PRICE=1000 WHERE FRUIT_NAME='kiwi';
 
@@ -170,7 +170,7 @@ graph                               20000 france
 kiwi                                 1000 aust                                  
 mango                               12000 africa                                
 
-SQL> --薛薛 薛?薛
+SQL> --àààà ààà àà
 SQL> --
 SQL> delete fruit;
 
