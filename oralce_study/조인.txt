@@ -1,389 +1,686 @@
-SQL> --íŠ¸ëžœìž­ì…˜ì€ ddl ì— ì˜í•´ ì»¤ë°‹ë¼ ë²„ë¦°ë‹¤
-SQL> select table_name from user_tables;
+SQL> --Áßº¹µÈ µ¥ÀÌÅÍ¸¦ Á¤±ÔÈ­¿¡ ÀÇÇØ º°µµÀÇ Å×ÀÌºí·Î ºÐ¸®½ÃÄÖ´Ù¸é ,
+SQL> --ÀÌ¹ø¿£ ¹°¸®ÀûÀ¸·Î ºÐ¸®µÇ¾îÁø ¿©·¯°³ÀÇ Å×ÀÌºíÀ» ¸¶Ä¡ ÇÏ³ªÀÇ ¿ø·¡
+SQL> --Å×ÀÌºíÃ³·³ ÇÕÃÄ¼­ º¸¿©ÁÖ´Â select ±â¹ýÀÎ joinÀ» ½Ç½ÀÇÑ´Ù
+SQL> select * from topcategory
+  2  ;
 
-TABLE_NAME                                                                                                                                                                                              
-------------------------------------------------------------                                                                                                                                            
-FRUIT                                                                                                                                                                                                   
-FRUIT2                                                                                                                                                                                                  
-DEPT                                                                                                                                                                                                    
-EMP                                                                                                                                                                                                     
-EMP2                                                                                                                                                                                                    
-MEMBER2                                                                                                                                                                                                 
-MEMBER3                                                                                                                                                                                                 
-MEMBER4                                                                                                                                                                                                 
-MEMBER5                                                                                                                                                                                                 
-NATION                                                                                                                                                                                                  
-MEMBER                                                                                                                                                                                                  
-TOPCATEGORY                                                                                                                                                                                             
-SUBCATEGORY                                                                                                                                                                                             
+TOPCATEGORY_IDX TOPNAME                                                         
+--------------- ----------------------------------------                        
+              1 top                                                             
+              2 down                                                            
+              3 accessory                                                       
 
-13 rows selected.
+SQL> select * from subcategory;
 
-SQL> create table test(
-  2   name varchar2(20)
-  3  );
+SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+              1 gadigan                                                1        
+              2 neat                                                   1        
+              3 jumper                                                 1        
+              4 jean                                                   2        
+              5 skirt                                                  2        
+              6 ring                                                   3        
+              7 necklace                                               3        
 
-Table created.
+7 rows selected.
 
-SQL> insert into test(name) values('tiger');
-
-1 row created.
-
-SQL> create table test2(
-  2  phone varchar2(13)
-  3  );
-
-Table created.
-
-SQL> select * from test;
-
-NAME                                                                                                                                                                                                    
-----------------------------------------                                                                                                                                                                
-tiger                                                                                                                                                                                                   
-
-SQL> rollback;
-
-Rollback complete.
-
-SQL> select * from test;
-
-NAME                                                                                                                                                                                                    
-----------------------------------------                                                                                                                                                                
-tiger                                                                                                                                                                                                   
-
-SQL> --ìµœì†Œê¸‰ì—¬ë¥¼ ë°›ëŠ” ì‚¬ì›ì˜ ì´ë¦„, ë¶€ì„œëª…, ê¸‰ì—¬ë¥¼ ì¶œë ¥
-SQL> ED
+SQL> ed
 Wrote file afiedt.buf
 
-  1  SELECT  ENAME,  DNAME, SAL
-  2  FROM  DEPT D, EMP E
-  3  WEHRE D.DEPTNO = E.DEPTNO
-  4  AND SAL = (
-  5  	SELECT MIN(SAL) FROM EMP
-  6* )
+  1  select *
+  2* from topcategory,  subcategory
 SQL> /
-WEHRE D.DEPTNO = E.DEPTNO
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+SUBNAME                                  TOPCATEGORY_IDX                        
+---------------------------------------- ---------------                        
+              1 top                                                    1        
+gadigan                                                1                        
+                                                                                
+              1 top                                                    2        
+neat                                                   1                        
+                                                                                
+              1 top                                                    3        
+jumper                                                 1                        
+                                                                                
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+SUBNAME                                  TOPCATEGORY_IDX                        
+---------------------------------------- ---------------                        
+              1 top                                                    4        
+jean                                                   2                        
+                                                                                
+              1 top                                                    5        
+skirt                                                  2                        
+                                                                                
+              1 top                                                    6        
+ring                                                   3                        
+                                                                                
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+SUBNAME                                  TOPCATEGORY_IDX                        
+---------------------------------------- ---------------                        
+              1 top                                                    7        
+necklace                                               3                        
+                                                                                
+              2 down                                                   1        
+gadigan                                                1                        
+                                                                                
+              2 down                                                   2        
+neat                                                   1                        
+                                                                                
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+SUBNAME                                  TOPCATEGORY_IDX                        
+---------------------------------------- ---------------                        
+              2 down                                                   3        
+jumper                                                 1                        
+                                                                                
+              2 down                                                   4        
+jean                                                   2                        
+                                                                                
+              2 down                                                   5        
+skirt                                                  2                        
+                                                                                
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+SUBNAME                                  TOPCATEGORY_IDX                        
+---------------------------------------- ---------------                        
+              2 down                                                   6        
+ring                                                   3                        
+                                                                                
+              2 down                                                   7        
+necklace                                               3                        
+                                                                                
+              3 accessory                                              1        
+gadigan                                                1                        
+                                                                                
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+SUBNAME                                  TOPCATEGORY_IDX                        
+---------------------------------------- ---------------                        
+              3 accessory                                              2        
+neat                                                   1                        
+                                                                                
+              3 accessory                                              3        
+jumper                                                 1                        
+                                                                                
+              3 accessory                                              4        
+jean                                                   2                        
+                                                                                
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX        
+--------------- ---------------------------------------- ---------------        
+SUBNAME                                  TOPCATEGORY_IDX                        
+---------------------------------------- ---------------                        
+              3 accessory                                              5        
+skirt                                                  2                        
+                                                                                
+              3 accessory                                              6        
+ring                                                   3                        
+                                                                                
+              3 accessory                                              7        
+necklace                                               3                        
+                                                                                
+
+21 rows selected.
+
+SQL> set linesize 150
+SQL> /
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX                     
+--------------- ---------------------------------------- --------------- ---------------------------------------- ---------------                     
+              1 top                                                    1 gadigan                                                1                     
+              1 top                                                    2 neat                                                   1                     
+              1 top                                                    3 jumper                                                 1                     
+              1 top                                                    4 jean                                                   2                     
+              1 top                                                    5 skirt                                                  2                     
+              1 top                                                    6 ring                                                   3                     
+              1 top                                                    7 necklace                                               3                     
+              2 down                                                   1 gadigan                                                1                     
+              2 down                                                   2 neat                                                   1                     
+              2 down                                                   3 jumper                                                 1                     
+              2 down                                                   4 jean                                                   2                     
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX                     
+--------------- ---------------------------------------- --------------- ---------------------------------------- ---------------                     
+              2 down                                                   5 skirt                                                  2                     
+              2 down                                                   6 ring                                                   3                     
+              2 down                                                   7 necklace                                               3                     
+              3 accessory                                              1 gadigan                                                1                     
+              3 accessory                                              2 neat                                                   1                     
+              3 accessory                                              3 jumper                                                 1                     
+              3 accessory                                              4 jean                                                   2                     
+              3 accessory                                              5 skirt                                                  2                     
+              3 accessory                                              6 ring                                                   3                     
+              3 accessory                                              7 necklace                                               3                     
+
+21 rows selected.
+
+SQL> set pagesize 100
+SQL> /
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX                     
+--------------- ---------------------------------------- --------------- ---------------------------------------- ---------------                     
+              1 top                                                    1 gadigan                                                1                     
+              1 top                                                    2 neat                                                   1                     
+              1 top                                                    3 jumper                                                 1                     
+              1 top                                                    4 jean                                                   2                     
+              1 top                                                    5 skirt                                                  2                     
+              1 top                                                    6 ring                                                   3                     
+              1 top                                                    7 necklace                                               3                     
+              2 down                                                   1 gadigan                                                1                     
+              2 down                                                   2 neat                                                   1                     
+              2 down                                                   3 jumper                                                 1                     
+              2 down                                                   4 jean                                                   2                     
+              2 down                                                   5 skirt                                                  2                     
+              2 down                                                   6 ring                                                   3                     
+              2 down                                                   7 necklace                                               3                     
+              3 accessory                                              1 gadigan                                                1                     
+              3 accessory                                              2 neat                                                   1                     
+              3 accessory                                              3 jumper                                                 1                     
+              3 accessory                                              4 jean                                                   2                     
+              3 accessory                                              5 skirt                                                  2                     
+              3 accessory                                              6 ring                                                   3                     
+              3 accessory                                              7 necklace                                               3                     
+
+21 rows selected.
+
+SQL> set linesize 100
+SQL> /
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX                            
+--------------- ---------------------------------------- ---------------                            
+SUBNAME                                  TOPCATEGORY_IDX                                            
+---------------------------------------- ---------------                                            
+              1 top                                                    1                            
+gadigan                                                1                                            
+                                                                                                    
+              1 top                                                    2                            
+neat                                                   1                                            
+                                                                                                    
+              1 top                                                    3                            
+jumper                                                 1                                            
+                                                                                                    
+              1 top                                                    4                            
+jean                                                   2                                            
+                                                                                                    
+              1 top                                                    5                            
+skirt                                                  2                                            
+                                                                                                    
+              1 top                                                    6                            
+ring                                                   3                                            
+                                                                                                    
+              1 top                                                    7                            
+necklace                                               3                                            
+                                                                                                    
+              2 down                                                   1                            
+gadigan                                                1                                            
+                                                                                                    
+              2 down                                                   2                            
+neat                                                   1                                            
+                                                                                                    
+              2 down                                                   3                            
+jumper                                                 1                                            
+                                                                                                    
+              2 down                                                   4                            
+jean                                                   2                                            
+                                                                                                    
+              2 down                                                   5                            
+skirt                                                  2                                            
+                                                                                                    
+              2 down                                                   6                            
+ring                                                   3                                            
+                                                                                                    
+              2 down                                                   7                            
+necklace                                               3                                            
+                                                                                                    
+              3 accessory                                              1                            
+gadigan                                                1                                            
+                                                                                                    
+              3 accessory                                              2                            
+neat                                                   1                                            
+                                                                                                    
+              3 accessory                                              3                            
+jumper                                                 1                                            
+                                                                                                    
+              3 accessory                                              4                            
+jean                                                   2                                            
+                                                                                                    
+              3 accessory                                              5                            
+skirt                                                  2                                            
+                                                                                                    
+              3 accessory                                              6                            
+ring                                                   3                                            
+                                                                                                    
+              3 accessory                                              7                            
+necklace                                               3                                            
+                                                                                                    
+
+21 rows selected.
+
+SQL> set linesize 130
+SQL> /
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX 
+--------------- ---------------------------------------- --------------- ---------------------------------------- --------------- 
+              1 top                                                    1 gadigan                                                1 
+              1 top                                                    2 neat                                                   1 
+              1 top                                                    3 jumper                                                 1 
+              1 top                                                    4 jean                                                   2 
+              1 top                                                    5 skirt                                                  2 
+              1 top                                                    6 ring                                                   3 
+              1 top                                                    7 necklace                                               3 
+              2 down                                                   1 gadigan                                                1 
+              2 down                                                   2 neat                                                   1 
+              2 down                                                   3 jumper                                                 1 
+              2 down                                                   4 jean                                                   2 
+              2 down                                                   5 skirt                                                  2 
+              2 down                                                   6 ring                                                   3 
+              2 down                                                   7 necklace                                               3 
+              3 accessory                                              1 gadigan                                                1 
+              3 accessory                                              2 neat                                                   1 
+              3 accessory                                              3 jumper                                                 1 
+              3 accessory                                              4 jean                                                   2 
+              3 accessory                                              5 skirt                                                  2 
+              3 accessory                                              6 ring                                                   3 
+              3 accessory                                              7 necklace                                               3 
+
+21 rows selected.
+
+SQL> select * from subcategory;
+
+SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX                                                          
+--------------- ---------------------------------------- ---------------                                                          
+              1 gadigan                                                1                                                          
+              2 neat                                                   1                                                          
+              3 jumper                                                 1                                                          
+              4 jean                                                   2                                                          
+              5 skirt                                                  2                                                          
+              6 ring                                                   3                                                          
+              7 necklace                                               3                                                          
+
+7 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* select * from subcategory
+SQL> select *
+  2  from topcategory, subcategory
+  3  where topcategory.topcategory_idx= subcategory.topcategory_idx;
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX 
+--------------- ---------------------------------------- --------------- ---------------------------------------- --------------- 
+              1 top                                                    1 gadigan                                                1 
+              1 top                                                    2 neat                                                   1 
+              1 top                                                    3 jumper                                                 1 
+              2 down                                                   4 jean                                                   2 
+              2 down                                                   5 skirt                                                  2 
+              3 accessory                                              6 ring                                                   3 
+              3 accessory                                              7 necklace                                               3 
+
+7 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select *
+  2  from topcategory, subcategory
+  3  where topcategory.topcategory_idx= subcategory.topcategory_idx
+  4* and topcategory.topcategory_idx=3
+SQL> /
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX 
+--------------- ---------------------------------------- --------------- ---------------------------------------- --------------- 
+              3 accessory                                              6 ring                                                   3 
+              3 accessory                                              7 necklace                                               3 
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select *
+  2  from topcategory  t , subcategory s
+  3  where t.topcategory_idx= s.topcategory_idx
+  4* and t.topcategory_idx=3
+SQL> /
+
+TOPCATEGORY_IDX TOPNAME                                  SUBCATEGORY_IDX SUBNAME                                  TOPCATEGORY_IDX 
+--------------- ---------------------------------------- --------------- ---------------------------------------- --------------- 
+              3 accessory                                              6 ring                                                   3 
+              3 accessory                                              7 necklace                                               3 
+
+SQL> select * from dept;
+
+    DEPTNO DNAME                        LOC                                                                                       
+---------- ---------------------------- --------------------------                                                                
+        10 ACCOUNTING                   NEW YORK                                                                                  
+        20 RESEARCH                     DALLAS                                                                                    
+        30 SALES                        CHICAGO                                                                                   
+        40 OPERATIONS                   BOSTON                                                                                    
+
+SQL> select * from emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO                           
+---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------                           
+      7369 SMITH                CLERK                    7902 80/12/17        800                    20                           
+      7499 ALLEN                SALESMAN                 7698 81/02/20       1600        300         30                           
+      7521 WARD                 SALESMAN                 7698 81/02/22       1250        500         30                           
+      7566 JONES                MANAGER                  7839 81/04/02       2975                    20                           
+      7654 MARTIN               SALESMAN                 7698 81/09/28       1250       1400         30                           
+      7698 BLAKE                MANAGER                  7839 81/05/01       2850                    30                           
+      7782 CLARK                MANAGER                  7839 81/06/09       2450                    10                           
+      7788 SCOTT                ANALYST                  7566 87/04/19       3000                    20                           
+      7839 KING                 PRESIDENT                     81/11/17       5000                    10                           
+      7844 TURNER               SALESMAN                 7698 81/09/08       1500          0         30                           
+      7876 ADAMS                CLERK                    7788 87/05/23       1100                    20                           
+      7900 JAMES                CLERK                    7698 81/12/03        950                    30                           
+      7902 FORD                 ANALYST                  7566 81/12/03       3000                    20                           
+      7934 MILLER               CLERK                    7782 82/01/23       1300                    10                           
+
+14 rows selected.
+
+SQL> --Á¤±ÔÈ­¿¡ ÀÇÇØ dept, emp ´Â ºÐ¸®µÇ¾î ÀÕ´Ù.
+SQL> --Á¶ÀÎÀ» ÅëÇØ ÇÏ³ªÃ³·³ ÇÕÃÄº¸ÀÚ
+SQL> --¹°¸®Àû ÇÕÄ§ÀÌ ¾Æ´Ñ ¸Þ¸ð¸®»óÀÇ °áÇÕ
+SQL> select
+  2  from dept d, emp e
+  3  ;
+from dept d, emp e
 *
-ERROR at line 3:
-ORA-00933: SQL command not properly ended 
+ERROR at line 2:
+ORA-00936: missing expression 
 
 
-SQL> ED
-Wrote file afiedt.buf
+SQL> select *
+  2  from dept d, emp e;
 
-  1  SELECT  ENAME,  DNAME, SAL
-  2  FROM  DEPT D, EMP E
-  3  WHERE D.DEPTNO = E.DEPTNO
-  4  AND SAL = (
-  5  	SELECT MIN(SAL) FROM EMP
-  6* )
-SQL> /
+    DEPTNO DNAME                        LOC                             EMPNO ENAME                JOB                       MGR  
+---------- ---------------------------- -------------------------- ---------- -------------------- ------------------ ----------  
+HIREDATE        SAL       COMM     DEPTNO                                                                                         
+-------- ---------- ---------- ----------                                                                                         
+        10 ACCOUNTING                   NEW YORK                         7369 SMITH                CLERK                    7902  
+80/12/17        800                    20                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7499 ALLEN                SALESMAN                 7698  
+81/02/20       1600        300         30                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7521 WARD                 SALESMAN                 7698  
+81/02/22       1250        500         30                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7566 JONES                MANAGER                  7839  
+81/04/02       2975                    20                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7654 MARTIN               SALESMAN                 7698  
+81/09/28       1250       1400         30                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7698 BLAKE                MANAGER                  7839  
+81/05/01       2850                    30                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7782 CLARK                MANAGER                  7839  
+81/06/09       2450                    10                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7788 SCOTT                ANALYST                  7566  
+87/04/19       3000                    20                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7839 KING                 PRESIDENT                      
+81/11/17       5000                    10                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7844 TURNER               SALESMAN                 7698  
+81/09/08       1500          0         30                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7876 ADAMS                CLERK                    7788  
+87/05/23       1100                    20                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7900 JAMES                CLERK                    7698  
+81/12/03        950                    30                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7902 FORD                 ANALYST                  7566  
+81/12/03       3000                    20                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7934 MILLER               CLERK                    7782  
+82/01/23       1300                    10                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7369 SMITH                CLERK                    7902  
+80/12/17        800                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7499 ALLEN                SALESMAN                 7698  
+81/02/20       1600        300         30                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7521 WARD                 SALESMAN                 7698  
+81/02/22       1250        500         30                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7566 JONES                MANAGER                  7839  
+81/04/02       2975                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7654 MARTIN               SALESMAN                 7698  
+81/09/28       1250       1400         30                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7698 BLAKE                MANAGER                  7839  
+81/05/01       2850                    30                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7782 CLARK                MANAGER                  7839  
+81/06/09       2450                    10                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7788 SCOTT                ANALYST                  7566  
+87/04/19       3000                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7839 KING                 PRESIDENT                      
+81/11/17       5000                    10                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7844 TURNER               SALESMAN                 7698  
+81/09/08       1500          0         30                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7876 ADAMS                CLERK                    7788  
+87/05/23       1100                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7900 JAMES                CLERK                    7698  
+81/12/03        950                    30                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7902 FORD                 ANALYST                  7566  
+81/12/03       3000                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7934 MILLER               CLERK                    7782  
+82/01/23       1300                    10                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7369 SMITH                CLERK                    7902  
+80/12/17        800                    20                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7499 ALLEN                SALESMAN                 7698  
+81/02/20       1600        300         30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7521 WARD                 SALESMAN                 7698  
+81/02/22       1250        500         30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7566 JONES                MANAGER                  7839  
+81/04/02       2975                    20                                                                                         
 
-ENAME                DNAME                               SAL                                                                                                                                            
--------------------- ---------------------------- ----------                                                                                                                                            
-SMITH                RESEARCH                            800                                                                                                                                            
+    DEPTNO DNAME                        LOC                             EMPNO ENAME                JOB                       MGR  
+---------- ---------------------------- -------------------------- ---------- -------------------- ------------------ ----------  
+HIREDATE        SAL       COMM     DEPTNO                                                                                         
+-------- ---------- ---------- ----------                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7654 MARTIN               SALESMAN                 7698  
+81/09/28       1250       1400         30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7698 BLAKE                MANAGER                  7839  
+81/05/01       2850                    30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7782 CLARK                MANAGER                  7839  
+81/06/09       2450                    10                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7788 SCOTT                ANALYST                  7566  
+87/04/19       3000                    20                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7839 KING                 PRESIDENT                      
+81/11/17       5000                    10                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7844 TURNER               SALESMAN                 7698  
+81/09/08       1500          0         30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7876 ADAMS                CLERK                    7788  
+87/05/23       1100                    20                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7900 JAMES                CLERK                    7698  
+81/12/03        950                    30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7902 FORD                 ANALYST                  7566  
+81/12/03       3000                    20                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7934 MILLER               CLERK                    7782  
+82/01/23       1300                    10                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7369 SMITH                CLERK                    7902  
+80/12/17        800                    20                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7499 ALLEN                SALESMAN                 7698  
+81/02/20       1600        300         30                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7521 WARD                 SALESMAN                 7698  
+81/02/22       1250        500         30                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7566 JONES                MANAGER                  7839  
+81/04/02       2975                    20                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7654 MARTIN               SALESMAN                 7698  
+81/09/28       1250       1400         30                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7698 BLAKE                MANAGER                  7839  
+81/05/01       2850                    30                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7782 CLARK                MANAGER                  7839  
+81/06/09       2450                    10                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7788 SCOTT                ANALYST                  7566  
+87/04/19       3000                    20                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7839 KING                 PRESIDENT                      
+81/11/17       5000                    10                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7844 TURNER               SALESMAN                 7698  
+81/09/08       1500          0         30                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7876 ADAMS                CLERK                    7788  
+87/05/23       1100                    20                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7900 JAMES                CLERK                    7698  
+81/12/03        950                    30                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7902 FORD                 ANALYST                  7566  
+81/12/03       3000                    20                                                                                         
+                                                                                                                                  
+        40 OPERATIONS                   BOSTON                           7934 MILLER               CLERK                    7782  
+82/01/23       1300                    10                                                                                         
+                                                                                                                                  
 
-SQL> ED
-Wrote file afiedt.buf
+56 rows selected.
 
-  1  SELECT  ENAME,  DNAME, SAL
-  2  FROM  DEPT D, EMP E
-  3  WHERE D.DEPTNO = E.DEPTNO
-  4  AND SAL = (
-  5  	SELECT MIN(SAL) FROM EMP
-  6* )
-SQL> --ADAMSë‚˜ JAMESê°€ ê·¼ë¬´í•˜ëŠ” ë¶€ì„œì™€ ê°™ì€ ë¶€ì„œì—ì„œ ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ì˜ ì´ë¦„, ë¶€ì„œë²ˆí˜¸
-SQL> --ë¶€ì„œëª…ì„ ì¶œë ¥
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT ENAME, E.DEPTNO, DNAME
-  2  FROM  DEPT D, EMP E
-  3  WHERE D.DEPTNO = E.DEPTNO  
-  4  AND  E.DEPTNO = (
-  5  	SELECT DEPTNO FROM EMP
-  6  	WHERE ENAME='ADAMS' OR ENAME='JAMES'
-  7* )
-SQL> /
-	SELECT DEPTNO FROM EMP
-	*
-ERROR at line 5:
-ORA-01427: single-row subquery returns more than one row 
+SQL> select *
+  2  from dept e, emp e
+  3  where e.deptno = e.deptno;
+select *
+       *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
 
 
-SQL> ED
-Wrote file afiedt.buf
+SQL> select *
+  2  from dept d, emp e
+  3  where d.deptno = e.deptno;
 
-  1  SELECT ENAME, E.DEPTNO, DNAME
-  2  FROM  DEPT D, EMP E
-  3  WHERE D.DEPTNO = E.DEPTNO  
-  4  AND  E.DEPTNO IN (
-  5  	SELECT DEPTNO FROM EMP
-  6  	WHERE ENAME='ADAMS' OR ENAME='JAMES'
-  7* )
-SQL> /
-
-ENAME                    DEPTNO DNAME                                                                                                                                                                   
--------------------- ---------- ----------------------------                                                                                                                                            
-SCOTT                        20 RESEARCH                                                                                                                                                                
-SMITH                        20 RESEARCH                                                                                                                                                                
-ADAMS                        20 RESEARCH                                                                                                                                                                
-FORD                         20 RESEARCH                                                                                                                                                                
-JONES                        20 RESEARCH                                                                                                                                                                
-MARTIN                       30 SALES                                                                                                                                                                   
-BLAKE                        30 SALES                                                                                                                                                                   
-JAMES                        30 SALES                                                                                                                                                                   
-ALLEN                        30 SALES                                                                                                                                                                   
-TURNER                       30 SALES                                                                                                                                                                   
-WARD                         30 SALES                                                                                                                                                                   
-
-11 rows selected.
-
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT ENAME, E.DEPTNO, DNAME
-  2  FROM  DEPT D, EMP E
-  3  WHERE D.DEPTNO = E.DEPTNO  
-  4  AND  E.DEPTNO IN (
-  5  	SELECT DEPTNO FROM EMP
-  6  	WHERE ENAME IN ('ADAMS' , 'JAMES')
-  7* )
-SQL> /
-
-ENAME                    DEPTNO DNAME                                                                                                                                                                   
--------------------- ---------- ----------------------------                                                                                                                                            
-SCOTT                        20 RESEARCH                                                                                                                                                                
-SMITH                        20 RESEARCH                                                                                                                                                                
-ADAMS                        20 RESEARCH                                                                                                                                                                
-FORD                         20 RESEARCH                                                                                                                                                                
-JONES                        20 RESEARCH                                                                                                                                                                
-MARTIN                       30 SALES                                                                                                                                                                   
-BLAKE                        30 SALES                                                                                                                                                                   
-JAMES                        30 SALES                                                                                                                                                                   
-ALLEN                        30 SALES                                                                                                                                                                   
-TURNER                       30 SALES                                                                                                                                                                   
-WARD                         30 SALES                                                                                                                                                                   
-
-11 rows selected.
-
-SQL> --ê¸‰ì—¬ì˜ í•©ì—ì„œ ê¸‰ì—¬í‰ê· ì„ ëº€ ê¸‰ì—¬ë³´ë‹¤ ì ì€ ê¸‰ì—¬ë¥¼ ë°›ëŠ” ì‚¬ì›ì˜ ì´ë¦„, ë¶€ì„œëª…,ë¶€ì„œë²ˆí˜¸
-SQL> --ë¥¼ ì¶œë ¥
-SQL> SELECT * FROM DEPT;
-
-    DEPTNO DNAME                        LOC                                                                                                                                                             
----------- ---------------------------- --------------------------                                                                                                                                      
-        10 ACCOUNTING                   NEW YORK                                                                                                                                                        
-        20 RESEARCH                     DALLAS                                                                                                                                                          
-        30 SALES                        CHICAGO                                                                                                                                                         
-        40 OPERATIONS                   BOSTON                                                                                                                                                          
-
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT ENAME, DNAME, E.DEPTNO
-  2  FROM DEPT D, EMP E
-  3  WHERE D.DEPTNO =E.DEPTNO
-  4  AND  SAL < (	
-  5  	SELECT SUM(SAL)-AVG(SAL) FROM EMP
-  6* )
-SQL> /
-
-ENAME                DNAME                            DEPTNO                                                                                                                                            
--------------------- ---------------------------- ----------                                                                                                                                            
-SMITH                RESEARCH                             20                                                                                                                                            
-ALLEN                SALES                                30                                                                                                                                            
-WARD                 SALES                                30                                                                                                                                            
-JONES                RESEARCH                             20                                                                                                                                            
-MARTIN               SALES                                30                                                                                                                                            
-BLAKE                SALES                                30                                                                                                                                            
-CLARK                ACCOUNTING                           10                                                                                                                                            
-SCOTT                RESEARCH                             20                                                                                                                                            
-KING                 ACCOUNTING                           10                                                                                                                                            
-TURNER               SALES                                30                                                                                                                                            
-ADAMS                RESEARCH                             20                                                                                                                                            
-JAMES                SALES                                30                                                                                                                                            
-FORD                 RESEARCH                             20                                                                                                                                            
-MILLER               ACCOUNTING                           10                                                                                                                                            
+    DEPTNO DNAME                        LOC                             EMPNO ENAME                JOB                       MGR  
+---------- ---------------------------- -------------------------- ---------- -------------------- ------------------ ----------  
+HIREDATE        SAL       COMM     DEPTNO                                                                                         
+-------- ---------- ---------- ----------                                                                                         
+        10 ACCOUNTING                   NEW YORK                         7782 CLARK                MANAGER                  7839  
+81/06/09       2450                    10                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7839 KING                 PRESIDENT                      
+81/11/17       5000                    10                                                                                         
+                                                                                                                                  
+        10 ACCOUNTING                   NEW YORK                         7934 MILLER               CLERK                    7782  
+82/01/23       1300                    10                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7566 JONES                MANAGER                  7839  
+81/04/02       2975                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7902 FORD                 ANALYST                  7566  
+81/12/03       3000                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7876 ADAMS                CLERK                    7788  
+87/05/23       1100                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7369 SMITH                CLERK                    7902  
+80/12/17        800                    20                                                                                         
+                                                                                                                                  
+        20 RESEARCH                     DALLAS                           7788 SCOTT                ANALYST                  7566  
+87/04/19       3000                    20                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7521 WARD                 SALESMAN                 7698  
+81/02/22       1250        500         30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7844 TURNER               SALESMAN                 7698  
+81/09/08       1500          0         30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7499 ALLEN                SALESMAN                 7698  
+81/02/20       1600        300         30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7900 JAMES                CLERK                    7698  
+81/12/03        950                    30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7698 BLAKE                MANAGER                  7839  
+81/05/01       2850                    30                                                                                         
+                                                                                                                                  
+        30 SALES                        CHICAGO                          7654 MARTIN               SALESMAN                 7698  
+81/09/28       1250       1400         30                                                                                         
+                                                                                                                                  
 
 14 rows selected.
 
-SQL> --ì—…ë¬´ë³„ ì‚¬ì›ìˆ˜ì™€ ê·¸ ì—…ë¬´ë¥¼ ì¶œë ¥
-SQL> CLERK                       4
-SP2-0734: unknown command beginning "CLERK     ..." - rest of line ignored.
-SQL> SALESMAN                 4
-SP2-0734: unknown command beginning "SALESMAN  ..." - rest of line ignored.
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT JOB 
-  2* FROM EMP
+SQL> set linesize 250
 SQL> /
 
-JOB                                                                                                                                                                                                     
-------------------                                                                                                                                                                                      
-CLERK                                                                                                                                                                                                   
-SALESMAN                                                                                                                                                                                                
-SALESMAN                                                                                                                                                                                                
-MANAGER                                                                                                                                                                                                 
-SALESMAN                                                                                                                                                                                                
-MANAGER                                                                                                                                                                                                 
-MANAGER                                                                                                                                                                                                 
-ANALYST                                                                                                                                                                                                 
-PRESIDENT                                                                                                                                                                                               
-SALESMAN                                                                                                                                                                                                
-CLERK                                                                                                                                                                                                   
-CLERK                                                                                                                                                                                                   
-ANALYST                                                                                                                                                                                                 
-CLERK                                                                                                                                                                                                   
+    DEPTNO DNAME                        LOC                             EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO                                                                                
+---------- ---------------------------- -------------------------- ---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------                                                                                
+        10 ACCOUNTING                   NEW YORK                         7782 CLARK                MANAGER                  7839 81/06/09       2450                    10                                                                                
+        10 ACCOUNTING                   NEW YORK                         7839 KING                 PRESIDENT                     81/11/17       5000                    10                                                                                
+        10 ACCOUNTING                   NEW YORK                         7934 MILLER               CLERK                    7782 82/01/23       1300                    10                                                                                
+        20 RESEARCH                     DALLAS                           7566 JONES                MANAGER                  7839 81/04/02       2975                    20                                                                                
+        20 RESEARCH                     DALLAS                           7902 FORD                 ANALYST                  7566 81/12/03       3000                    20                                                                                
+        20 RESEARCH                     DALLAS                           7876 ADAMS                CLERK                    7788 87/05/23       1100                    20                                                                                
+        20 RESEARCH                     DALLAS                           7369 SMITH                CLERK                    7902 80/12/17        800                    20                                                                                
+        20 RESEARCH                     DALLAS                           7788 SCOTT                ANALYST                  7566 87/04/19       3000                    20                                                                                
+        30 SALES                        CHICAGO                          7521 WARD                 SALESMAN                 7698 81/02/22       1250        500         30                                                                                
+        30 SALES                        CHICAGO                          7844 TURNER               SALESMAN                 7698 81/09/08       1500          0         30                                                                                
+        30 SALES                        CHICAGO                          7499 ALLEN                SALESMAN                 7698 81/02/20       1600        300         30                                                                                
+        30 SALES                        CHICAGO                          7900 JAMES                CLERK                    7698 81/12/03        950                    30                                                                                
+        30 SALES                        CHICAGO                          7698 BLAKE                MANAGER                  7839 81/05/01       2850                    30                                                                                
+        30 SALES                        CHICAGO                          7654 MARTIN               SALESMAN                 7698 81/09/28       1250       1400         30                                                                                
 
 14 rows selected.
 
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT JOB 
-  2  FROM EMP
-  3* GROUP BY JOB
-SQL> /
-
-JOB                                                                                                                                                                                                     
-------------------                                                                                                                                                                                      
-CLERK                                                                                                                                                                                                   
-SALESMAN                                                                                                                                                                                                
-PRESIDENT                                                                                                                                                                                               
-MANAGER                                                                                                                                                                                                 
-ANALYST                                                                                                                                                                                                 
-
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT JOB, ENAME
-  2  FROM EMP
-  3* GROUP BY JOB, ENAME
-SQL> /
-
-JOB                ENAME                                                                                                                                                                                
------------------- --------------------                                                                                                                                                                 
-SALESMAN           WARD                                                                                                                                                                                 
-MANAGER            CLARK                                                                                                                                                                                
-ANALYST            FORD                                                                                                                                                                                 
-CLERK              MILLER                                                                                                                                                                               
-CLERK              SMITH                                                                                                                                                                                
-ANALYST            SCOTT                                                                                                                                                                                
-SALESMAN           TURNER                                                                                                                                                                               
-MANAGER            BLAKE                                                                                                                                                                                
-PRESIDENT          KING                                                                                                                                                                                 
-CLERK              ADAMS                                                                                                                                                                                
-MANAGER            JONES                                                                                                                                                                                
-SALESMAN           MARTIN                                                                                                                                                                               
-CLERK              JAMES                                                                                                                                                                                
-SALESMAN           ALLEN                                                                                                                                                                                
-
-14 rows selected.
-
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT JOB, COUNT(*)
-  2  FROM EMP
-  3* GROUP BY JOB
 SQL> 
-SQL> /
+SQL> 
+SQL> 
+SQL> --10¹ø ºÎ¼­¿¡ ±Ù¹«ÇÏ´Â »ç¿øÀÇ ÀÌ¸§, ±Þ¿© ºÎ¼­À§Ä¡¸¦ Ãâ·Â
+SQL> 
+SQL> 
+SQL> --ºÎ¼­À§Ä¡ ¶§¹®¿¡ Á¶ÀÎÀ¸·Î Ã³¸®ÇØ¾ß ÇÔ
+SQL> select ename, sal, loc
+  2  from emp e, dept d
+  3  where e.deptno=d.deptno
+  4  and e.deptno=10;
 
-JOB                  COUNT(*)                                                                                                                                                                           
------------------- ----------                                                                                                                                                                           
-CLERK                       4                                                                                                                                                                           
-SALESMAN                    4                                                                                                                                                                           
-PRESIDENT                   1                                                                                                                                                                           
-MANAGER                     3                                                                                                                                                                           
-ANALYST                     2                                                                                                                                                                           
+ENAME                       SAL LOC                                                                                                                                                                                                                       
+-------------------- ---------- --------------------------                                                                                                                                                                                                
+CLARK                      2450 NEW YORK                                                                                                                                                                                                                  
+KING                       5000 NEW YORK                                                                                                                                                                                                                  
+MILLER                     1300 NEW YORK                                                                                                                                                                                                                  
 
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT JOB, COUNT(*)
-  2  FROM EMP
-  3  GROUP BY JOB
-  4* HAVING  COUNT(*) > 2
-SQL> /
-
-JOB                  COUNT(*)                                                                                                                                                                           
------------------- ----------                                                                                                                                                                           
-CLERK                       4                                                                                                                                                                           
-SALESMAN                    4                                                                                                                                                                           
-MANAGER                     3                                                                                                                                                                           
-
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT JOB, COUNT(*)
-  2  FROM EMP
-  3  GROUP BY JOB
-  4* HAVING  COUNT(*) > 2
-SQL> --JOB ì´ë¦„ì´ Cë¡œ ì‹œìž‘í•˜ëŠ” ì—…ë¬´ì™€ ê·¸ ì‚¬ì›ìˆ˜ë¥¼ ì¶œë ¥
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT JOB, COUNT(*)
-  2  FROM EMP
-  3  GROUP BY JOB
-  4* HAVING  JOB LIKE 'C%'
-SQL> /
-
-JOB                  COUNT(*)                                                                                                                                                                           
------------------- ----------                                                                                                                                                                           
-CLERK                       4                                                                                                                                                                           
-
-SQL> --MILLER ì˜ ìž…ì‚¬ì¼ë³´ë‹¤ ëŠ¦ê²Œ ìž…ì‚¬í•œ ì‚¬ì›ì˜ ê¸‰ì—¬ í‰ê· ë³´ë‹¤ ì ì€ ê¸‰ì—¬ë¥¼ ë°›ëŠ” ì‚¬ì›ì˜
-SQL> --ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œìœ„ì¹˜ë¥¼ ì¶œë ¥
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT ENAME, SAL, E.DEPTNO, LOC
-  2  FROM DEPT D, EMP E
-  3  WHERE D.DEPTNO=E.DEPTNO
-  4  AND SAL < (
-  5  	SELECT AVG(SAL) FROM EMP
-  6  	WHERE HIREDATE > ( SELECT HIREDATE FROM EMP WHERE ENAME='MILLER')
-  7* )
-SQL> /
-
-ENAME                       SAL     DEPTNO LOC                                                                                                                                                          
--------------------- ---------- ---------- --------------------------                                                                                                                                   
-SMITH                       800         20 DALLAS                                                                                                                                                       
-ALLEN                      1600         30 CHICAGO                                                                                                                                                      
-WARD                       1250         30 CHICAGO                                                                                                                                                      
-MARTIN                     1250         30 CHICAGO                                                                                                                                                      
-TURNER                     1500         30 CHICAGO                                                                                                                                                      
-ADAMS                      1100         20 DALLAS                                                                                                                                                       
-JAMES                       950         30 CHICAGO                                                                                                                                                      
-MILLER                     1300         10 NEW YORK                                                                                                                                                     
-
-8 rows selected.
-
-SQL> --ëª¨ë“  ì‚¬ì›ì˜ ì»¤ë¯¸ì…˜ì˜ í•©ë³´ë‹¤ ê¸‰ì—¬ê°€ ë†’ì€ ì‚¬ì›ì˜ ì´ë¦„, ê¸‰ì—¬,ë¶€ì„œë²ˆí˜¸, ë¶€ì„œìœ„ì¹˜ë¥¼ ì¶œë ¥
-SQL> ED
-Wrote file afiedt.buf
-
-  1  SELECT ENAME, SAL, E.DEPTNO, LOC
-  2  FROM  DEPT D, EMP E
-  3  WHERE D.DEPTNO=E.DEPTNO
-  4* AND SAL> ( SELECT SUM(COMM) FROM EMP)
-SQL> /
-
-ENAME                       SAL     DEPTNO LOC                                                                                                                                                          
--------------------- ---------- ---------- --------------------------                                                                                                                                   
-JONES                      2975         20 DALLAS                                                                                                                                                       
-BLAKE                      2850         30 CHICAGO                                                                                                                                                      
-CLARK                      2450         10 NEW YORK                                                                                                                                                     
-SCOTT                      3000         20 DALLAS                                                                                                                                                       
-KING                       5000         10 NEW YORK                                                                                                                                                     
-FORD                       3000         20 DALLAS                                                                                                                                                       
-
-6 rows selected.
-
-SQL> --ìˆ™ì œ)ì†Œì† ì‚¬ì›ìˆ˜ê°€ ê°€ìž¥ ì ì€ ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ì˜ ì´ë¦„, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…, ìœ„ì¹˜
-SQL> --ìˆ™ì œ2) ë¶€ì„œìœ„ì¹˜ê°€ CHICAGO ì¸ ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” ì‚¬ì› ì¤‘ ê¸‰ì—¬ê°€ ê°€ìž¥ ë†’ì€ ì‚¬ì›ì˜
-SQL> -- ì´ë¦„ , ê¸‰ì—¬, ë¶€ì„œëª…, ë¶€ì„œìœ„ì¹˜ë¥¼ ì¶œë ¥
-SQL> SPOOL OFF
+SQL> spool off
