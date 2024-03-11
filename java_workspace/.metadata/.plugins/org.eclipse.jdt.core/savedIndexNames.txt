@@ -1,0 +1,1 @@
+INDEX VERSION 1.134+C:\Users\ljh\multicampus_workspace\multicampus\java_workspace\.metadata\.plugins\org.eclipse.jdt.core
