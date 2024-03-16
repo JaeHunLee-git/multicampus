@@ -13,13 +13,13 @@ import javax.swing.JFrame;
 public class TestWin extends JFrame {
 	JButton bt;
 	Canvas can;
-	
+
 	public TestWin() {
 		bt = new JButton("눌러봐");
 		can = new Canvas() {
 			public void paint(Graphics g) {
 				g.fillOval(0, 0, 100, 100);
-			}			
+			}
 		};
 		can.setPreferredSize(new Dimension(250, 200));
 		setLayout(new FlowLayout());
