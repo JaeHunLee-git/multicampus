@@ -1,0 +1,49 @@
+<!--
+    웹브라우저에서 서버로 전송할 데이터가, 텍스트 뿐 아니라 바이너리 파일까지 포함될 경우
+    서버와 클라이언트 간, 스트림 처리를 개발자가 처리해 주어야 하는데, 이 경우
+    개발의 효율성이 떨어지므로, 이미 누군가가 제작해 놓은 업로드 처리 컴포넌트를 이용한다
+
+    [잘 알려진 컴포넌트(라이브러리)]
+    1.cos.jar
+        - Oreilly 사에서 제작한 교재에 포함된 예제 jar 
+    
+    2.fileupload
+        - Apache 에서 제작한 업로드 컴포넌트         
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        //get방식은 header를 통해 요청 내용을 전송하는 방식이기때문에, 데이터가 노출되며
+        //데이터량에 한계가 있다..따라서 입력양식을 이용할 경우 데이터가 노출되지도 않으며
+        //파일과 같은 거대한 데이터가 포함될 수 있으므로, 반드시 post 방식으로 전송을 한다.
+        //GET/POST는 HTTP 프로토콜에서 명시한 전송 방법들을 의미
+        //GET :  서버에 있는 자원을 가져오는게 목적 
+        //Post : 서버에 데이터를 전송하는게 목적 
+        function send(){
+            let form1 = document.getElementById("form1");
+            form1.method="post";
+            form1.action="/upload/upload.jsp"; //이 요청을 받게 될 서버측 url (url이란 자원의 주소를 의미)
+            form1.submit();//여기서 전송이 발생
+        }
+    </script>
+</head>
+<body>
+    <!-- UI 컴포넌트를 이용하여 전송할때는 반드시 form태그로 양식화 하여 
+            전송해야 한다. 
+            form태그는 개발자가 아무것도 명시하지 않으면, 디폴트가 text 포맷 형식만을 
+            전송할 수 있다..따라서 바이너리 파일이라는 데이터형식과 text포맷이 복합되어진
+            형식으로 전송하려면, multipart/form-data  라는 형식을 명시해야 한다..
+        -->
+    <form id="form1" enctype="multipart/form-data">
+        <input type="text" name="title" placeholder="제목을 입력하세요">
+        <input type="file" name="photo">
+        <button type="button" onclick="send()">서버로 전송</button>
+    </form>
+
+</body>
+</html>
