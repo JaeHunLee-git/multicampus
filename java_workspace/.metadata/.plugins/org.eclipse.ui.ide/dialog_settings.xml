@@ -9,4 +9,12 @@
 			<item value="C:\Users\ljh\multicampus_workspace\multicampus\java_workspace"/>
 		</list>
 	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="316"/>
+		<item key="DIALOG_Y_ORIGIN" value="157"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
 </section>
