@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>sessionapp</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 서블릿 mapping 하자  
+		이유? 웹어플리케이션에서는 서블릿 클래스가 WEB-INF 라는 보안된 디렉토리에 들어있으므로, 
+		클라이언트인 웹브라우저에서 직접 클래스명을 명시하여 접근할 수 없기 때문에, 간접적으로 접근할수
+		있도록 하는 방법 
+	-->
+	<servlet>
+		<servlet-name>sessionServlet</servlet-name>
+		<servlet-class>com.sds.sessionapp.test.SessionTest</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>sessionServlet</servlet-name>
+		<url-pattern>/session/test</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 회원가입 요청 서블릿 매핑  -->
+	<servlet>
+		<servlet-name>registMember</servlet-name>
+		<servlet-class>com.sds.sessionapp.member.MemberRegist</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>registMember</servlet-name>
+		<url-pattern>/member/regist</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 로그인 요청 서블릿 매핑  -->
+	<servlet>
+		<servlet-name>loginServlet</servlet-name>
+		<servlet-class>com.sds.sessionapp.member.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>loginServlet</servlet-name>
+		<url-pattern>/member/auth</url-pattern>
+	</servlet-mapping>
+		
+</web-app>
+
+
+
+
+
