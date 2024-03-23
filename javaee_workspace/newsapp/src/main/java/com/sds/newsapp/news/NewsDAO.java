@@ -81,8 +81,16 @@ public class NewsDAO {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
 			
-			String sql="select * from news order by news_idx desc";
-			pstmt=con.prepareStatement(sql);
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("select n.news_idx as news_idx, title, writer, regdate, hit, count(c.comments_idx) as cnt ");
+			sb.append(" from news n left outer join comments c");
+			sb.append(" on n.news_idx = c.news_idx");
+			sb.append(" group by n.news_idx, title, writer, regdate, hit"); //뉴스 기사를 중심으로 그룹화시킨다..
+			
+			System.out.println(sb.toString());
+			
+			pstmt=con.prepareStatement(sb.toString());
 			rs=pstmt.executeQuery();
 			/*rs 는  finally 반드시 닫아야 한다..
 			 *하지만, rs를 가져간 객체에서(list.jsp)에서 닫힌 rs를 사용할 수 없는 모순이 발생하므로, 
@@ -104,9 +112,10 @@ public class NewsDAO {
 				news.setNews_idx(rs.getInt("news_idx"));
 				news.setTitle(rs.getString("title"));
 				news.setWriter(rs.getString("writer"));
-				news.setContent(rs.getString("content"));
+				//news.setContent(rs.getString("content")); //목록보기에서는 내용은 제외
 				news.setRegdate(rs.getString("regdate"));
 				news.setHit(rs.getInt("hit"));
+				news.setCnt(rs.getInt("cnt")); //alias 준 컬럼명
 				
 				list.add(news); //리스트에 DTO 인스턴스 1개 담기
 			}
