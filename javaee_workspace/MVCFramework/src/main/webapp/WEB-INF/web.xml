@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>MVCFramework</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 유지보수성을 높이기 위해, 모든 요청을 오직 하나의 서블릿이 받게 되며, 
+		이 서블릿 클래스의 대한 매핑을 작성
+	-->
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>com.sds.mvcframerwork.controller.DispatcherServlet</servlet-class>
+		<!-- 서블릿의 인스턴스가 생성된 직 후, init() 생명주기 메서드 호출 시, 아래의 ini-param 
+			에 명시된 String 데이터를 서블릿에게 전달할 수 있다
+		 -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config.properties</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
+
+
+
+
+
+
+
