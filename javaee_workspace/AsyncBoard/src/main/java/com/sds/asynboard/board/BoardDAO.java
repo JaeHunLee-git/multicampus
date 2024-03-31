@@ -11,7 +11,7 @@ import com.sds.asynboard.common.PoolManager;
 
 //이 클래스는, 오직  board 테이블에 대한 CRUD를 수행하기 위한 객체이다 
 public class BoardDAO {
-	PoolManager pool=new PoolManager(); //수영장 관리 객체 생성
+	PoolManager pool=PoolManager.getInstance(); //수영장 관리 객체 생성
 	
 	//모든 글 가져오기 
 	public List selectAll() {

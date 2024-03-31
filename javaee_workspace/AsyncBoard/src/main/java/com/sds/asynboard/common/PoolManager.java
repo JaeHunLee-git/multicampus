@@ -15,7 +15,11 @@ public class PoolManager {
 	InitialContext context; //검색 객체
 	DataSource ds; //커넥션 풀 구현체 
 	
-	public PoolManager() {
+	//생성자를 묶어놓았으므로 PoolManager 의 인스턴스를 제공할 의무 또한 현재 클래스가 부담해야 한다
+	private static PoolManager instance;
+	
+	//싱글턴으로 정의하려면 생성자에 대한 접근을 제한한다
+	private PoolManager() {
 		try {
 			context = new InitialContext();//검색 객체 생성 
 			//검색 시작(server.xml 에 명시된 jndi 찾으러 출발)
@@ -25,6 +29,17 @@ public class PoolManager {
 			e.printStackTrace();
 		}		
 	}
+	
+	//인스턴스 변수인 instance 변수에 대해 접근이 불가능하므로.. 아래에서 제공되는 getter를 통해 
+	//인스턴스를 가져갈 수 있도록 메서드를 정의
+	public static PoolManager getInstance() {
+		//instance 변수가  null일때만 인스턴스를 생성해주면, 오직 1번만 인스턴스를 만들게 됨 
+		if(instance ==null) {
+			instance = new PoolManager();
+		}
+		return instance;
+	}
+	
 	
 	//풀에 모여있는 커넥션 중 하나를 꺼내기 
 	public Connection getConnection() {
