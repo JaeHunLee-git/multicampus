@@ -1,0 +1,16 @@
+# key와  value의 쌍으로 요청을 처리하는 컨트롤러 매핑해 놓은 파일
+
+
+#요청을 처리할 하위 컨트롤러 매핑
+/test.do=com.sds.mvcproject.controller.TestController
+/board/list.do=com.sds.mvcproject.controller.ListController
+/board/regist.do=com.sds.mvcproject.controller.RegistController
+/board/detail.do=com.sds.mvcproject.controller.DetailController
+/board/delete.do=com.sds.mvcproject.controller.DeleteController
+/board/edit.do=com.sds.mvcproject.controller.EditController
+
+#뷰 매핑 
+/view/notice/list=/notice/list.jsp
+/view/notice/detail=/notice/content.jsp
+/view/notice/regist=/board/list.do
+/view/notice/delete=/board/list.do
