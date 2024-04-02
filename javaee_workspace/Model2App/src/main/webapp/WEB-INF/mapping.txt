@@ -1,0 +1,31 @@
+
+#■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#컨트롤러 매핑
+#■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+/test.do=com.sds.model2app.controller.TestController
+/board/regist.do=com.sds.model2app.controller.RegistController
+/board/list.do=com.sds.model2app.controller.ListController
+/board/detail.do=com.sds.model2app.controller.DetailController
+/board/edit.do=com.sds.model2app.controller.EditController
+/board/delete.do=com.sds.model2app.controller.DeleteController
+
+
+
+#■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#뷰매핑
+#■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+/view/test=/board/result.jsp
+
+#글쓴 후 새로운 목록을 보아야 하므로 반드시 컨트롤들을 거쳐야 한다 (요청을 끊고 새로 접속 즉 redirect)
+/view/board/regist=/board/list.do
+/view/board/list=/board/list.jsp
+/view/board/detail=/board/content.jsp
+/view/board/update=/board/content.jsp
+/view/board/delete=/board/list.do
+
+#에러 페이지 매핑 
+/view/board/error=/board/error.jsp
+
+
+
+
