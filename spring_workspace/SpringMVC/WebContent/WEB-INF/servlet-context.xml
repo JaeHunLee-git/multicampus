@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 개발자는 자바 코드에 가급적이면 new를 하지않고 이 빈 설정 파일을 이용한다.. -->
+	
+	<!-- 접두어와 접미어를 조합하여, 뷰페이지명을 관리해주는 객체인 ViewResolver를 등록하자 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- jsp의 풀경로를 조합할 수 있는 능력 -->
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 프레임웍이 제대로 세팅되었는지 테스트해볼 수 있는 하위 컨트롤러 등록 -->
+	<bean class="com.sds.springmvc.controller.TestController" id="testController"/>
+	<bean class="com.sds.springmvc.controller.ListController" id="listController"/>
+	<bean class="com.sds.springmvc.controller.RegistController" id="registController"/>
+	<bean class="com.sds.springmvc.controller.DetailController" id="detailController"/>
+		
+	<!-- 어떤 url에 어떤 하위컨트롤러가 동작할지 등록 , 즉 매핑 방법을 설정해야 함 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/test">testController</prop>
+				<prop key="/board/list">listController</prop>
+				<prop key="/board/regist">registController</prop>
+				<prop key="/board/detail">detailController</prop>
+			</props>
+		</property>
+	</bean>		
+
+</beans>

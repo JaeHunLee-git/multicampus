@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- 메모리에 올려져서 스프링에 의해 관리될 객체들 등록 -->
+	<bean class="com.sds.springapp.di.FriPan" id="friPan"/>
+	
+	<bean class="com.sds.springapp.di.Induction" id="induction"/>
+	
+	<!-- 요리사 객체에 주입시켜줘 -->
+	<bean class="com.sds.springapp.di.Cook" id="cook">
+		<!-- 
+			요리사가 보유한 멤버변수인 pan에, FriPan을 주입 
+			스프링은 주입 시, 변수를 직접 접근하지 않고, setter메서드나
+			생성자 메서드를 통해 데이터를 주입한다..아래의 코드에서 
+			property name="pan" 사실 setPan() 세터를 호출
+		-->
+		<property name="pan"  ref="induction"></property>
+	</bean>
+	
+	<!-- aop 관련 빈즈 -->
+	<bean class="com.sds.springapp.aop.Bell" id="bell"/>
+	
+	<bean class="com.sds.springapp.aop.Student" id="student"/>
+	
+	<!--  
+		AOP란 관점(Aspect) 지향(Oriented) 프로그래밍(Programming)을 의미한다
+		어플리케이션에서 전반적이고 공통적으로 사용되는 로직은, 굳이 has a 관계로 엮지 말고 ,
+		공통 코드를 하나의 관점으로 정의해놓고, 공통로직이 필요한 시점에 알아서 자동으로 작동되게끔 
+		처리하는 프로그래밍 기법 , 이때 공통로직을 횡단적 관점
+	-->
+	
+	<aop:config>
+		<!-- 벨 객체를 하나의 관점으로 정의하자 -->
+		<aop:aspect ref="bell">
+			<aop:pointcut expression="execution(public * com.sds.springapp.aop.Student.*(..))" id="bellPointcut"/>	
+			<aop:before method="sound" pointcut-ref="bellPointcut"/>			
+		</aop:aspect>
+	</aop:config>					
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
