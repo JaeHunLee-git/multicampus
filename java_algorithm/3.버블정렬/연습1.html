@@ -1,0 +1,60 @@
+<script>
+    let arr=[8, 2, 7, 3];    
+
+    console.log("정렬 전 ", arr);
+
+    //1회 수행 
+    /*
+    if(arr[0] > arr[0+1] ){ //다음 수가 더 작다면, 자리 바꿈
+        //스왑  
+        let temp=arr[0]; //자리 뺏길 녀석은 사라지므로, 임시 변수에 담아놓자
+        arr[0] = arr[0+1];
+        arr[0+1] = temp;
+    }
+
+    if(arr[1] > arr[1+1] ){ //다음 수가 더 작다면, 자리 바꿈
+        //스왑  
+        let temp=arr[1]; //자리 뺏길 녀석은 사라지므로, 임시 변수에 담아놓자
+        arr[1] = arr[1+1];
+        arr[1+1] = temp;
+    }
+
+    if(arr[1+1] > arr[1+2] ){ //다음 수가 더 작다면, 자리 바꿈
+        //스왑  
+        let temp=arr[1+1]; //자리 뺏길 녀석은 사라지므로, 임시 변수에 담아놓자
+        arr[1+1] = arr[1+2];
+        arr[1+2] = temp;
+    }
+    console.log("1회전 결과 ", arr);
+    */
+
+    /*
+    for(let a=0;  a<arr.length;a++){
+        for(let i=0; i<arr.length-a;i++){
+            if(arr[i] > arr[i+1] ){ //다음 수가 더 작다면, 자리 바꿈
+                //스왑  
+                let temp=arr[i]; //자리 뺏길 녀석은 사라지므로, 임시 변수에 담아놓자
+                arr[i] = arr[i+1];
+                arr[i+1] = temp;
+            }        
+        }
+        console.log(a, "회전 결과 ", arr);
+    }
+    */
+
+   function bubbleSort(n){
+        if(n>=arr.length)return; //바깥쪽 포문을 대신하므로, 배열에 도달하면 멈추자
+        for(let i=0; i<arr.length-n;i++){
+            if(arr[i] < arr[i+1] ){ //다음 수가 더 작다면, 자리 바꿈
+                //스왑  
+                let temp=arr[i]; //자리 뺏길 녀석은 사라지므로, 임시 변수에 담아놓자
+                arr[i] = arr[i+1];
+                arr[i+1] = temp;
+            }        
+        }
+        console.log(n, "회전 결과 ", arr);
+        bubbleSort(n+1);
+   }
+
+   bubbleSort(0);
+</script>
