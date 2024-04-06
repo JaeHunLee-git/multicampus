@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!--  
+		스프링의 설정  XML은 개발이 커질 수록 복잡해지는 단점이 있다.
+		해결책?  java5 버전부터 등장한 @ 어노케이션(Annotation) 을 섞어서 설정 파일을 간소화시킴  
+		
+		스프링 3.X 대부터 하위 컨트롤러의 매핑 방식은 개발자가 따로 지정하지 않으면 디폴트로 DefaultAnnotionHandlerMapping
+		객체가 적용된다.	
+	-->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+	
+	<!-- View 객체를 이용하여  실제 jsp을 풀 경로를 조합해주는 뷰해결사 등록 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 메모리에 올리고 싶은 대상 객체가 어디에 잇는지 해당 패키지를 명시 -->
+	
+	<!-- 컨트롤러를 찾아서 @Controller 어노테이션이 붙은 클래스들을 메모리에 생성하기 -->
+	<context:component-scan base-package="com.sds.spring.controller"/>
+	
+	<!-- 모델들이 모여있는 패키지를 대상으로 스캔을 시도하고, 그 패키지내의 객체들에 스프링이 이해하는 어노테이션이
+		들어있을 경우 ,해당 객체를 스프링 이 자동으로 인스턴스를 생성하여, 컨테이너(ApplicationContext 객체)에서 관리한다
+	 -->	
+	<context:component-scan base-package="com.sds.spring.model"/>
+	
+	<bean class="com.sds.spring.hibernate.HibernateManager" 	factory-method="getInstance"/>
+	<bean class="com.sds.spring.mybatis.MybatisManager" 		factory-method="getInstance"/>
+	
+</beans>
+
+
+
+
+
+
