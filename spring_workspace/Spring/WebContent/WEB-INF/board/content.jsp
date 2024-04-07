@@ -30,7 +30,7 @@ function del(){
 $(function(){
 	$('#content').summernote({
 		height:200, 
-		placeholder:"내용입력.."
+		placeholder:"내용입력"
 	});
 	
 	$("#bt_edit").click(()=>{
