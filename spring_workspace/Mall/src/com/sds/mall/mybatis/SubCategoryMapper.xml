@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SubCategory">
+
+	
+	<!-- 부모에 소속된 하위 카테고리 목록 가져오기 -->
+	<select id="selectAllByTopIdx" parameterType="int" resultType="SubCategory">
+		select * from subcategory where topcategory_idx=#{topcategory_idx}
+	</select>
+
+</mapper>

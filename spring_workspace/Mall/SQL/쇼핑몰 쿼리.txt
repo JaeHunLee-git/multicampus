@@ -1,0 +1,44 @@
+create  table  topcategory(
+   topcategory_idx  int primary key auto_increment 
+ , topname  varchar(30)
+) default character set utf8;
+
+create  table  subcategory(
+   subcategory_idx  int  primary key auto_increment 
+ , subname varchar(30)
+ , topcategory_idx  int 
+ , constraint fk_topcategory_subcategory  foreign key (topcategory_idx) references topcategory (topcategory_idx)
+) default character set utf8;
+
+create table  product (
+   product_idx  int  primary key auto_increment 
+ , subname varchar(30)
+ , subcategory_idx  int 
+ , constraint fk_subcategory_product  foreign key (subcategory_idx) references subcategory (subcategory_idx)
+) default character set utf8;
+
+insert into topcategory(topname) values('상의');
+insert into topcategory(topname) values('하의');
+insert into topcategory(topname) values('액세서리');
+insert into topcategory(topname) values('신발');
+
+insert into subcategory(subname, topcategory_idx) values('가디건',1);
+insert into subcategory(subname, topcategory_idx) values('티셔츠',1);
+insert into subcategory(subname, topcategory_idx) values('점퍼',1);
+insert into subcategory(subname, topcategory_idx) values('패딩',1);
+
+insert into subcategory(subname, topcategory_idx) values('청바지',2);
+insert into subcategory(subname, topcategory_idx) values('반바지',2);
+insert into subcategory(subname, topcategory_idx) values('면바지',2);
+
+insert into subcategory(subname, topcategory_idx) values('목걸이',3);
+insert into subcategory(subname, topcategory_idx) values('반지',3);
+insert into subcategory(subname, topcategory_idx) values('팔찌',3);
+insert into subcategory(subname, topcategory_idx) values('시계',3);
+
+insert into subcategory(subname, topcategory_idx) values('운동화',4);
+insert into subcategory(subname, topcategory_idx) values('구두',4);
+insert into subcategory(subname, topcategory_idx) values('슬리퍼',4);
+
+
+
