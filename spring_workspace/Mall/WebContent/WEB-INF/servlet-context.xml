@@ -85,7 +85,17 @@
 			<constructor-arg ref="sqlSessionFactoryBean"/>
 		</bean>			
 			
+		<!-- 파일업로드를 위한 빈 설정  -->
+		<bean id="multipartResolver" 
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
+			p:maxUploadSize="1048576"/>
 		
+		
+		<!-- String 도 클래스 이므로, 빈으로 등록할 수 있다.  -->
+		<bean id="savePath" class="java.lang.String">
+			<constructor-arg value="/resources/product_img/"/>
+		</bean>		
+					
 </beans>
 
 

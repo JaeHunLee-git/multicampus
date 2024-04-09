@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+	
+	<insert id="insert" parameterType="Product">
+		insert into product(product_name, brand, price, filename, detail, subcategory_idx)
+		values(#{product_name}, #{brand}, #{price}, #{filename}, #{detail}, #{subCategory.subcategory_idx})
+		
+		<!-- 위의 insert 실행 직 후, 이 insert 에 의해 발생된 pk 값을 얻어오기 
+			oracle : select seq_product.currval as product_id from dual
+		-->
+		<selectKey 
+			keyColumn="product_idx" 
+			resultType="int" 
+			keyProperty="product_idx"
+			order="AFTER">
+			select last_insert_id() as product_idx 
+		</selectKey>
+	</insert>
+
+</mapper>

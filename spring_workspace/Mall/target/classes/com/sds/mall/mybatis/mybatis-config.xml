@@ -6,11 +6,17 @@
 	<typeAliases>
 		<typeAlias type="com.sds.mall.domain.TopCategory" 	alias="TopCategory"/>		
 		<typeAlias type="com.sds.mall.domain.SubCategory" 	alias="SubCategory"/>		
+		<typeAlias type="com.sds.mall.domain.Product" 			alias="Product"/>		
+		<typeAlias type="com.sds.mall.domain.Color" 			alias="Color"/>		
+		<typeAlias type="com.sds.mall.domain.Psize" 				alias="Psize"/>		
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="com/sds/mall/mybatis/TopCategoryMapper.xml" />
 		<mapper resource="com/sds/mall/mybatis/SubCategoryMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/ProductMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/ColorMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/PsizeMapper.xml" />
 	</mappers>
 	
 </configuration>

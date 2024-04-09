@@ -10,11 +10,30 @@ create  table  subcategory(
  , constraint fk_topcategory_subcategory  foreign key (topcategory_idx) references topcategory (topcategory_idx)
 ) default character set utf8;
 
+
 create table  product (
    product_idx  int  primary key auto_increment 
- , subname varchar(30)
+ , product_name varchar(30)
+ , brand varchar(20)
+ , price  int  default  0
+ , detail text 
+ , filename  varchar(17)
  , subcategory_idx  int 
  , constraint fk_subcategory_product  foreign key (subcategory_idx) references subcategory (subcategory_idx)
+) default character set utf8;
+
+create table color(
+	  color_idx  int  primary key auto_increment 
+	, color_name  varchar(15)
+	, product_idx  int 
+	, constraint  fk_product_color  foreign key (product_idx) references product (product_idx)
+) default character set utf8;
+
+create table psize(
+	   psize_idx  int  primary key auto_increment 
+	 , size_name varchar(3)
+	 , product_idx int
+	 , constraint  fk_product_psize  foreign key (product_idx) references product (product_idx)
 ) default character set utf8;
 
 insert into topcategory(topname) values('상의');
