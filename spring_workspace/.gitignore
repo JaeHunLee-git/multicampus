@@ -1,4 +1,4 @@
 /.metadata/
 /.recommenders/
-./Mall/WebContent/resources/admin
-./Mall/WebContent/resources/shop
+Mall/WebContent/resources/admin/
+Mall/WebContent/resources/shop/
