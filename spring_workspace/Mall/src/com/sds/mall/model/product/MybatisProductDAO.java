@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sds.mall.domain.Product;
+import com.sds.mall.exception.ProductException;
 
 //Mybatis 기술을 이용한  CRUD 를 담당하는 ProductDAO 의 구현체, 자식객체
 @Repository
@@ -16,10 +17,9 @@ public class MybatisProductDAO implements ProductDAO{
 	//스프링이 제어하기 때문에, 개발자는 오직 SqlSessionTemplate 넘겨받아 사용하기만 하면 됨
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	@Override
+	//모든 레코드 가져오기
 	public List selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList("Product.selectAll");
 	}
 
 	@Override
@@ -28,10 +28,15 @@ public class MybatisProductDAO implements ProductDAO{
 		return null;
 	}
 
-	@Override
-	public void insert(Product product) {
-		sqlSessionTemplate.insert("Product.insert", product);
+	//상품 등록
+	public void insert(Product product) throws ProductException{ //서비스에 전달 
+		int result = sqlSessionTemplate.insert("Product.insert", product);
 		
+		//result=0; //예외 테스트 목적 상 0 
+		
+		if(result <1) { // insert 처리 안됨.
+			throw new ProductException("상품이 등록되지 않았습니다");
+		}
 	}
 
 	@Override

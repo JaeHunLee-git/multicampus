@@ -25,7 +25,7 @@ public class SubCategoryController {
 	//아래의 메서드의 반환값이 InternalResourceViewResolver와 같은 jsp 파일명으로 해석이 되지 않으려면
 	//현지 이 메서드의 반환값이 데이터라는 표시를 해줘야 한다..
 	@ResponseBody // ViewSolver가 jsp로 조합하는 것을 방지하고  return에 명시된 문자열을 전송
-	@GetMapping("/admin/subcategory/list")
+	@GetMapping("/subcategory/list")
 	public List getSubListByTopIdx(int topcategory_idx, Model model) {
 		//3단계: 모델에게 일 시키기 
 		List subList = subCategoryService.selectAllByTopIdx(topcategory_idx);

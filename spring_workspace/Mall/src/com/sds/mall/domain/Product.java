@@ -24,3 +24,10 @@ public class Product {
 	//부모를 참조 
 	private SubCategory subCategory;
 }
+
+
+
+
+
+
+

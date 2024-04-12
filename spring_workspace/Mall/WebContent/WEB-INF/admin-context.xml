@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!--
+		지정한 패키지를 검색하여,  스프링이 이해하는 컴포넌트 어노테이션이 붙은 클래스들을 인스턴스화 시킴 
+		@Controller (하위 컨트롤러), @Repository(DAO), @Service(서비스)
+		정형적이지 않은 즉 분류가 되지 않는 객체를 등록하고 싶을때 @Component 라고 하면 됨
+	-->
+	<context:component-scan base-package="com.sds.mall.admin.controller"/>
+	
+	<!-- MVC 기반의 컨트롤러 측의 많은 기능을 지원하기 위한 태그 등록
+		주의할 점: 이 태그를 먼저 등록해야 mvc 기반의 기능들을 사용할 수 있다 
+		예를 들어 아래의 <mvc:resources/> 등등..
+	 -->
+	<mvc:annotation-driven/>
+	
+	<!-- 스프링 MVC 에서는 모든 요청을 하나의 진입점인 DispatcherServlet이 받기 때문에, 이 서블릿이 우리의 정적 자원들의
+		위치를 알기 위해서는 아래의 resources 태그가 등록되어야 한다.. 
+	 -->			
+	 <mvc:resources location="/resources/" mapping="/static/**"/>
+	 
+	 
+							
+</beans>
+
+
+
+
+
+
+

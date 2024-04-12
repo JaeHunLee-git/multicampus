@@ -1,5 +1,10 @@
+<%@page import="com.sds.mall.domain.TopCategory"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
-
+<%
+	//컨트롤러가 저장한 topList 가져오기 
+	List<TopCategory> topList =(List)request.getAttribute("topList");
+%>
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
@@ -37,8 +42,11 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="/static/shop/index.html">Home</a></li>
-                            <li><a href="#">Womenâs</a></li>
-                            <li><a href="#">Menâs</a></li>
+                            
+                            <%for(TopCategory topCategory : topList){%>
+                            	<li><a href="#"><%=topCategory.getTopname() %></a></li>
+                            <%} %>
+                            
                             <li><a href="/static/shop/shop.html">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">

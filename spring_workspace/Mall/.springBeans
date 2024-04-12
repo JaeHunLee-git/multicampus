@@ -7,9 +7,11 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>WebContent/WEB-INF/servlet-context.xml</config>
+		<config>WebContent/WEB-INF/admin-context.xml</config>
+		<config>WebContent/WEB-INF/root-context.xml</config>
 	</configs>
 	<autoconfigs>
+		<config>WebContent/WEB-INF/shop-context.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
