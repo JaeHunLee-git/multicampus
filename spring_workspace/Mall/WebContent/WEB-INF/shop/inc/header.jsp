@@ -44,10 +44,9 @@
                             <li class="active"><a href="/static/shop/index.html">Home</a></li>
                             
                             <%for(TopCategory topCategory : topList){%>
-                            	<li><a href="#"><%=topCategory.getTopname() %></a></li>
+                            	<li><a href="/product/list?topcategory_idx=<%=topCategory.getTopcategory_idx()%>"><%=topCategory.getTopname() %></a></li>
                             <%} %>
                             
-                            <li><a href="/static/shop/shop.html">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="/static/shop/product-details.html">Product Details</a></li>

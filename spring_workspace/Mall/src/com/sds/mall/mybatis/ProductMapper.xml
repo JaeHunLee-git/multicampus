@@ -27,7 +27,7 @@
 		resultMap은 레코드 수만큼 호출됨. ex) 상품의 수가 15개 라면 이 resultMap도 15번 매핑이 일어난다
 	-->
 	<resultMap type="Product" id="ProductMap">
-		<id 			column="product_idx" 		property="product_idx"/> <!-- pk 컬럼만 id 태그로 감 -->
+		<id 				column="product_idx" 		property="product_idx"/> <!-- pk 컬럼만 id 태그로 감 -->
 		<result 		column="product_name" 	property="product_name"/>
 		<result 		column="brand" 				property="brand"/>
 		<result 		column="price" 					property="price"/>
@@ -39,13 +39,45 @@
 			javaType="SubCategory" 
 			select="SubCategory.select"/>
 	</resultMap>
-	
+	<!-- 모든 상품 가져오기 -->	
 	<select id="selectAll" resultMap="ProductMap">
 		select  product_idx, product_name, brand, price,  filename, subcategory_idx 
 		from product		
 	</select>
 	
+	<!-- 선택된 상위 카테고리에 소속된 상품 가져오기  -->
+	<select id="selectAllByTopIdx" parameterType="int" resultMap="ProductMap">
+		select * from product
+		where 
+		subcategory_idx in (
+			select subcategory_idx from subcategory 
+			where topcategory_idx=#{topcategory_idx}
+		)
+	</select>
+	
+	
+	<!-- 선택된 하위 카테고리에 소속된 상품 가져오기  -->
+	<select id="selectAllBySubIdx" parameterType="int" resultMap="ProductMap">
+		select * from product 
+		where subcategory_idx=#{subcategory_idx}		
+	</select>
+	
+	<!-- 상품 1건 가져오기 -->
+	<select id="select" parameterType="int" resultMap="ProductMap">
+		select * from product where product_idx=#{product_idx}	
+	</select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
 
 
 

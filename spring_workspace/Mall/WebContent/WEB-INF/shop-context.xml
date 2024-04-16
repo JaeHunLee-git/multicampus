@@ -6,18 +6,53 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	
 	<context:component-scan base-package="com.sds.mall.client.controller"/>
 	<mvc:annotation-driven/>
 	<mvc:resources location="/resources/" mapping="/static/**"/>
-							
+	
+								
+	<!-- 쇼핑몰의 하위 컨트롤러들이 동작할때, 관여시킬 aop 설정 -->
+	<bean id="topCategoryAspect" class="com.sds.mall.aop.TopCategoryAspect" />
+	<aop:config>
+		<!-- 누구를 Aspect로 등록했는지 명시 -->
+		<aop:aspect ref="topCategoryAspect">
+			<!-- 
+				어느 지점에서 관연할건데?
+				aspect가 관여할 여러 부호가 되는 지점을 join point 라 하며, 이 join point 중, 선택된  join point를 
+				point-cut  
+				스프링은 AOP를 자체적으로 구현하지 않고 기존에 이미 존재햇던 기술인 ApectJ 라는 자바기반의 AOP 라이브러리를 이용
+				따라서  아래의 execution() 들어와야 할 표현식은 AspectJ 를 참고하면 된다..
+			-->
+			<aop:pointcut expression="execution(public * com.sds.mall.client.controller..*(..))" id="topCategoryPointCut"/>
+			
+			<!-- 어느 시점에, Aspect의 어떤 메서드가 관여할지..결정 -->
+			<aop:around method="getTopCategoryList" pointcut-ref="topCategoryPointCut"/>
+		
+		</aop:aspect>
+	</aop:config>	
+	
+	
+	
+	
+											
 </beans>
+
+
+
+
+
+
+
+
 
 
 

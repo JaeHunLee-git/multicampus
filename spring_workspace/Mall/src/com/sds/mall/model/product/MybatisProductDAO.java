@@ -21,11 +21,20 @@ public class MybatisProductDAO implements ProductDAO{
 	public List selectAll() {
 		return sqlSessionTemplate.selectList("Product.selectAll");
 	}
-
+	
+	@Override
+	public Product select(int product_idx) {
+		return sqlSessionTemplate.selectOne("Product.select", product_idx);
+	}
+	
+	@Override
+	public List selectAllByTopIdx(int topcategory_idx) {
+		return sqlSessionTemplate.selectList("Product.selectAllByTopIdx", topcategory_idx);
+	}
+	
 	@Override
 	public List selectAllBySubIdx(int subcategory_idx) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList("Product.selectAllBySubIdx", subcategory_idx);
 	}
 
 	//상품 등록
