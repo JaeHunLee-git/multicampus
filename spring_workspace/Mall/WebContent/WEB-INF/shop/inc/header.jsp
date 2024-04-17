@@ -23,8 +23,8 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
+            <a href="/member/loginform">로그인</a>
+            <a href="/member/registform">회원가입</a>
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -63,8 +63,8 @@
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
+				            <a href="/member/loginform">로그인</a>
+				            <a href="/member/registform">회원가입</a>
                         </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>

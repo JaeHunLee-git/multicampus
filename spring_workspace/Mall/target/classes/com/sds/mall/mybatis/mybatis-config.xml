@@ -7,8 +7,11 @@
 		<typeAlias type="com.sds.mall.domain.TopCategory" 	alias="TopCategory"/>		
 		<typeAlias type="com.sds.mall.domain.SubCategory" 	alias="SubCategory"/>		
 		<typeAlias type="com.sds.mall.domain.Product" 			alias="Product"/>		
-		<typeAlias type="com.sds.mall.domain.Color" 			alias="Color"/>		
+		<typeAlias type="com.sds.mall.domain.Color" 				alias="Color"/>		
 		<typeAlias type="com.sds.mall.domain.Psize" 				alias="Psize"/>		
+		<typeAlias type="com.sds.mall.domain.Member" 			alias="Member"/>		
+		<typeAlias type="com.sds.mall.domain.MemberDetail" 	alias="MemberDetail"/>		
+		<typeAlias type="com.sds.mall.domain.SnS" 					alias="SnS"/>		
 	</typeAliases>
 	
 	<mappers>
@@ -17,6 +20,9 @@
 		<mapper resource="com/sds/mall/mybatis/ProductMapper.xml" />
 		<mapper resource="com/sds/mall/mybatis/ColorMapper.xml" />
 		<mapper resource="com/sds/mall/mybatis/PsizeMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/MemberMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/MemberDetailMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/SnSMapper.xml" />
 	</mappers>
 	
 </configuration>
