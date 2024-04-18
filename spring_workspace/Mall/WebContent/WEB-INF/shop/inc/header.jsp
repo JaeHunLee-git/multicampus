@@ -1,9 +1,13 @@
+<%@page import="com.sds.mall.domain.Member"%>
 <%@page import="com.sds.mall.domain.TopCategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
 	//컨트롤러가 저장한 topList 가져오기 
 	List<TopCategory> topList =(List)request.getAttribute("topList");
+
+	//로그인 한 회원의 경우  session에 Member가 담겨져 있으므로, Member DTO를 꺼내어 사용해보자 
+	Member member = (Member)session.getAttribute("member");
 %>
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
@@ -14,12 +18,12 @@
             <li><a href="#"><span class="icon_heart_alt"></span>
                 <div class="tip">2</div>
             </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
+            <li><a href="/order/cart/list"><span class="icon_bag_alt"></span>
                 <div class="tip">2</div>
             </a></li>
         </ul>
         <div class="offcanvas__logo">
-            <a href="/static/shop/index.html"><img src="/static/shop/img/logo.png" alt=""></a>
+            <a href="/"><img src="/static/shop/img/logo.png" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
@@ -35,13 +39,13 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="/static/shop/index.html"><img src="/static/shop/img/logo.png" alt=""></a>
+                        <a href="/"><img src="/static/shop/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="/static/shop/index.html">Home</a></li>
+                            <li class="active"><a href="/">Home</a></li>
                             
                             <%for(TopCategory topCategory : topList){%>
                             	<li><a href="/product/list?topcategory_idx=<%=topCategory.getTopcategory_idx()%>"><%=topCategory.getTopname() %></a></li>
@@ -63,15 +67,23 @@
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
-				            <a href="/member/loginform">로그인</a>
-				            <a href="/member/registform">회원가입</a>
+                        	
+                        	<%if(member !=null){ //세션에 member 담겨져 있다면 %>
+	                        	<span> <%=member.getNickname() %>님 </span>
+					            <a href="/member/logout">로그아웃</a>
+					            <a href="/member/mypage/main">MyPage</a>
+				            <%}else{ %>
+					            <a href="/member/loginform">로그인</a>
+					            <a href="/member/registform">회원가입</a>
+				            <%} %>
+				            
                         </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
                             <li><a href="#"><span class="icon_heart_alt"></span>
                                 <div class="tip">2</div>
                             </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
+                            <li><a href="/order/cart/list"><span class="icon_bag_alt"></span>
                                 <div class="tip">2</div>
                             </a></li>
                         </ul>

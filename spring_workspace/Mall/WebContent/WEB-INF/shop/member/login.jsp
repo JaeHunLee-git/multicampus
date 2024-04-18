@@ -115,8 +115,17 @@
 				"memberDetail.password":$("input[name='password']").val() 				
 			},
 			success:function(result, status, xhr){
-				console.log(result);
+				
+				//console.log(result);
+				if(result=="ok"){
+					//alert("로그인 성공");
+					location.href="/";
+				}else{//fail
+					alert("로그인 정보가 올바르지 않습니다");
+				}
+				
 			}
+	
 		});
 	}
 	

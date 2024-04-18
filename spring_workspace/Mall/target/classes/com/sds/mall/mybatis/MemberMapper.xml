@@ -47,8 +47,10 @@
 		and  uid=#{uid} and password=#{memberDetail.password}	
 	</select>
 	
-	
-	
+	<!-- 회원 1명 정보 가져오기  -->
+	<select id="select" parameterType="int" resultMap="MemberMap">
+		select * from member where member_idx=#{member_idx}
+	</select>	
 	
 </mapper>
 

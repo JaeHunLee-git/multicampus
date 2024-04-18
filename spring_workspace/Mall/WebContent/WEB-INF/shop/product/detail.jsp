@@ -77,6 +77,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
+                	<form id="form1">
                     <div class="product__details__text">
                         <h3><%=product.getProduct_name() %> <span>Brand: <%=product.getBrand() %></span></h3>
                         <div class="rating">
@@ -94,10 +95,10 @@
                             <div class="quantity">
                                 <span>Quantity:</span>
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="text" name="ea" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <a href="javascript:addCart(<%=product.getProduct_idx() %>)" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -160,6 +161,7 @@
                             </ul>
                         </div>
                     </div>
+                    </form>
                 </div>
                 <div class="col-lg-12">
                     <div class="product__details__tab">
@@ -327,5 +329,32 @@
 	<!-- Js Plugins -->
 	<%@ include file="../inc/footer_link.jsp" %>
 </body>
-
 </html>
+<script type="text/javascript">
+	function regist(product_idx){
+		
+		$.ajax({
+			url:"/order/cart/regist", 
+			type:"post", 
+			data:{
+				"product.product_idx" : product_idx, 
+				"ea" : $("input[name='ea']").val()
+			}, 
+			success:function(result, status, xhr){ //서버에서 요청 처리를 성공했을때 호출되는 익명함수
+				alert("장바구니에 담았습니다");
+			}, 
+			error:function(xhr, status, err){ //서버에서 요청 처리를 실패했을때 호출되는 익명함수
+				alert("장바구니 담기 실패 ㅜㅜ");
+			}
+		});
+		
+	}
+	
+	function addCart(product_idx){
+		if(confirm(product_idx+" 상품을 장바구니에 담을까요?")){
+			regist(product_idx);
+		}		
+	}
+
+</script>
+

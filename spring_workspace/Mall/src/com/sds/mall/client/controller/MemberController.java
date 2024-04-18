@@ -1,5 +1,7 @@
 package com.sds.mall.client.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -59,9 +61,12 @@ public class MemberController {
 	//로그인 요청 처리 
 	@PostMapping("/member/login")
 	@ResponseBody
-	public String login(Member member) {
+	public String login(Member member, HttpSession session) {
 		//3단계: 일 시키기 
-		memberService.login(member);
+		Member dto = memberService.login(member);
+		//dto 는 회원 로그인 성공한 者의 정보이다 
+		//dto가 죽기 전에, 이 요청과 관련된 세션에 담아놓으면, 이 세션이 끝날때까지는 계속 꺼내먹을 수 있다 
+		session.setAttribute("member", dto);
 		
 		return "ok";
 	}
