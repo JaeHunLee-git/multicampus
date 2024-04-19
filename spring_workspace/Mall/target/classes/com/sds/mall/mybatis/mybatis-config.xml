@@ -11,8 +11,12 @@
 		<typeAlias type="com.sds.mall.domain.Psize" 				alias="Psize"/>		
 		<typeAlias type="com.sds.mall.domain.Member" 			alias="Member"/>		
 		<typeAlias type="com.sds.mall.domain.MemberDetail" 	alias="MemberDetail"/>		
-		<typeAlias type="com.sds.mall.domain.SnS" 				alias="SnS"/>		
+		<typeAlias type="com.sds.mall.domain.SnS" 					alias="SnS"/>		
 		<typeAlias type="com.sds.mall.domain.Cart" 				alias="Cart"/>		
+		<typeAlias type="com.sds.mall.domain.Receiver" 			alias="Receiver"/>		
+		<typeAlias type="com.sds.mall.domain.Paymethod" 		alias="Paymethod"/>		
+		<typeAlias type="com.sds.mall.domain.OrderSummary"	alias="OrderSummary"/>		
+		<typeAlias type="com.sds.mall.domain.OrderDetail"		alias="OrderDetail"/>		
 	</typeAliases>
 	
 	<mappers>
@@ -25,6 +29,10 @@
 		<mapper resource="com/sds/mall/mybatis/MemberDetailMapper.xml" />
 		<mapper resource="com/sds/mall/mybatis/SnSMapper.xml" />
 		<mapper resource="com/sds/mall/mybatis/CartMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/ReceiverMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/PaymethodMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/OrderSummaryMapper.xml" />
+		<mapper resource="com/sds/mall/mybatis/OrderDetailMapper.xml" />
 	</mappers>
 	
 </configuration>

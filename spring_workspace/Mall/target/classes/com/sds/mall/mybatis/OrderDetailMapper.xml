@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderDetail">
+	
+	<!-- 주문 상세 등록  -->
+	<insert id="insert" parameterType="OrderDetail">
+		insert into orderdetail(product_idx, ea, product_name, price, ordersummary_idx)
+		values(#{product.product_idx}, #{ea}, #{product_name}, #{price}, #{orderSummary.ordersummary_idx})
+	</insert>
+	
+</mapper>

@@ -71,6 +71,15 @@ public class MemberController {
 		return "ok";
 	}
 	
+	//로그아웃 요청 처리 
+	@GetMapping("/member/logout")
+	public String logout(HttpSession session) {
+		//세션을 더이상 사용하지 못하게 하면 됨 
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
 	
 	@ExceptionHandler(MemberException.class)
 	@ResponseBody //비동기 요청에 대한 에러 처리 이므로, 응답 정보 또한 순수 데이터를 에러 응답을 보내자

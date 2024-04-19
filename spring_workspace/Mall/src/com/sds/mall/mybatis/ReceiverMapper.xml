@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Receiver">
+	
+	<resultMap type="Receiver" id="ReceiverMap">
+		<id 					column="receiver_idx" 	property="receiver_idx"/>
+		<result 			column="addr" 				property="addr"/>
+		<association 	column="member_idx" 	property="member" javaType="Member"
+			select="Member.select"/>
+	</resultMap>
+	
+	<select id="selectAllByMember" parameterType="Member" resultMap="ReceiverMap">
+		select receiver_idx, member_idx, addr 
+		from receiver 
+		where member_idx=#{member_idx}
+	</select>
+</mapper>

@@ -41,10 +41,26 @@
 	</aop:config>	
 	
 	
+	<!-- 로그인 인증과 관련된 AOP -->
+	<bean id="loginAspect" class="com.sds.mall.aop.LoginAspect" />
+	<aop:config>
+		<aop:aspect ref="loginAspect">
+			<aop:pointcut expression="execution(public * com.sds.mall.client.controller..*(..))" id="loginPontCut"/>
+			<aop:around method="sessionCheck" pointcut-ref="loginPontCut"/>			
+		</aop:aspect>		
+	</aop:config>
 	
+	<bean class="com.sds.mall.aop.GlobalExceptionHandler" id="globalExceptionHandler"/>		
 	
 											
 </beans>
+
+
+
+
+
+
+
 
 
 

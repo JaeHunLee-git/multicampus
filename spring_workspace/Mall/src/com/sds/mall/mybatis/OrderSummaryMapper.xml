@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderSummary">
+	
+	<!-- 주문입력  -->
+	<insert id="insert" parameterType="OrderSummary">
+		insert into ordersummary(total_buy, total_pay, member_idx, paymethod_idx, receiver_idx)
+		values(#{total_buy}, #{total_pay}, #{member.member_idx}, #{paymethod.paymethod_idx}, #{receiver.receiver_idx})
+		
+		<selectKey 
+			keyColumn="ordersummary_idx" 
+			keyProperty="ordersummary_idx"
+			resultType="int"
+			order="AFTER">
+			select last_insert_id() as ordersummary_idx
+		</selectKey>
+	</insert>
+	
+</mapper>
