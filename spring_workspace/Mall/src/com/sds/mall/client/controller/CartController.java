@@ -57,7 +57,7 @@ public class CartController {
 		
 		for(int i=0; i<product_idx.length;i++) {
 			Cart cart = new Cart(); 
-			//갯수, 누가, 어떤제품을..?
+			//갯수, 누가, 어떤제품을..
 			cart.setEa(ea[i]);//몇개를
 			cart.setMember(member); //누가
 			
