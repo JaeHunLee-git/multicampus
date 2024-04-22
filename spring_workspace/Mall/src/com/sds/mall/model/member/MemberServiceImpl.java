@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sds.mall.domain.Member;
 import com.sds.mall.domain.MemberDetail;
+import com.sds.mall.domain.SnS;
 import com.sds.mall.exception.MemberException;
 
 @Service
@@ -20,6 +21,9 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberDetailDAO memberDetailDAO;
 	
+	@Autowired
+	private SnSDAO snsDAO;
+	
 	//두개의 DAO들에게 일을 시키고, 만일 단 하나라도 RuntimeException이 전달되어 온다면, 트랜잭션을 rollback 처리를
 	//스프링이 자동으로 처리
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -29,13 +33,15 @@ public class MemberServiceImpl implements MemberService{
 		//member 안에 들어있는 memberDetail을 접근한다
 		MemberDetail memberDetail = member.getMemberDetail();
 		
-		//그  memberDetail 보유한 member안에 member_idx 값을 넣어준다
-		Member dto = new Member();
-		dto.setMember_idx(member.getMember_idx());
-		memberDetail.setMember(dto); //상세정보에 새롭게 생성된 DTO 주입
-		
-		
-		memberDetailDAO.insert(member.getMemberDetail());
+		if(memberDetail !=null) { //회원 상세정보가 있는 회원만...(홈페이지 가입 회원..)
+			//그  memberDetail 보유한 member안에 member_idx 값을 넣어준다
+			Member dto = new Member();
+			dto.setMember_idx(member.getMember_idx());
+			memberDetail.setMember(dto); //상세정보에 새롭게 생성된 DTO 주입
+			
+			
+			memberDetailDAO.insert(member.getMemberDetail());
+		}
 	}
 	
 	@Override
@@ -54,7 +60,12 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	@Override
+	public Member isSnSMember(Member member) {
+		return memberDAO.isSnSMember(member);
+	}
+	
 	@Override
 	public Member select(int member_idx) {
 		// TODO Auto-generated method stub
@@ -72,5 +83,8 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		
 	}
-	
+	@Override
+	public SnS selectByName(String sns_name) {
+		return snsDAO.selectByName(sns_name);
+	}
 }

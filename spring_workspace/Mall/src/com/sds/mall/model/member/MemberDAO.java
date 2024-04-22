@@ -11,6 +11,7 @@ public interface  MemberDAO{
 	public List selectAll(); //회원목록
 	public List selectAllBySnsIdx(int sns_idx); //1~4
 	public Member select(int member_idx);//회원정보 1건 가져오기
+	public Member isSnSMember(Member member);//SNS 로그인 회원가입 여부 확인
 	public void update(Member member); //회원정보 수정 
 	public void delete(Member meMemberDAOmber); //회원 삭제
 }

@@ -20,7 +20,7 @@ public class LoginAspect {
 		String[] secureURI= {
 			"/order/cart/list",	
 			"/member/mypage/main",	
-			"/order/cart/regist",	
+			"/order/cart/regist"				
 		};
 		//매개변수로 전달된 uri가 위의 배열내에 포함되어 잇다면 count++; 
 		//따라서 count 가 최종적으로 0보다 크다면 , 포함되어 있다는 것임 즉 회원인증 서비스가 필요한 경우임..

@@ -7,4 +7,9 @@
 		select * from sns where sns_idx=#{sns_idx}
 	</select>
 	
+	<!-- 현재 사용중인 SnS 의 고유값 얻어오기 -->
+	<select id="selectByName" parameterType="String" resultType="SnS">
+		select * from sns where sns_name=#{sns_name}
+	</select>
+	
 </mapper>

@@ -67,9 +67,9 @@
 					            </div>
 					            <div class="form-group row">
 					                <div class="offset-sm-2 col-sm-10">
-					                    <button>Google 로그인</button>
-					                    <button>Naver 로그인</button>
-					                    <button>Kakao 로그인</button>
+					                    <button type="button" id="bt_google">Google 로그인</button>
+					                    <button type="button" id="bt_naver">Naver 로그인</button>
+					                    <button type="button" id="bt_kakao">Kakao 로그인</button>
 					                </div>
 					            </div>
 					        </div>
@@ -129,10 +129,40 @@
 		});
 	}
 	
+	//인증화면 보여주기 
+	function gotoAuthForm(sns){
+		//비동기 방식으로 sns 마다 지정된 url을 정보 얻어오기 
+		$.ajax({
+			url:"/rest/member/authform/"+sns,
+			type:"get",
+			success:function(result, status, xhr){
+				alert("인증 주소는 "+result);
+				
+				location.href=result;
+			}
+		});
+	}
+	
 	$(function(){
 		$("#bt_login").click(function(){
 			login();
 		});
+		
+		//구글 버튼 누르면 
+		$("#bt_google").click(function(){
+			gotoAuthForm("google");
+		});
+		
+		//네이버 버튼 누르면 
+		$("#bt_naver").click(function(){
+			gotoAuthForm("naver");
+		});
+		
+		//카카오 버튼 누르면
+		$("#bt_kakao").click(function(){
+			gotoAuthForm("kakao");
+		});
+		
 	});
 </script>
 

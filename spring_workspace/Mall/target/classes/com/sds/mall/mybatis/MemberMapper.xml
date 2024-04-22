@@ -52,5 +52,20 @@
 		select * from member where member_idx=#{member_idx}
 	</select>	
 	
+	<!-- SNS 를 이용한 회원로그인 시, 미리 가입여부 확인하기 -->
+	<select id="isSnSMember" parameterType="Member" resultMap="MemberMap">
+		select * from member 
+		where uid=#{uid}  and email=#{email}
+	</select>	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
 
