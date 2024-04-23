@@ -1,0 +1,11 @@
+package com.sds.testapp.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+/*RestController는 REST 방식의 개발에 최적화된 컨트롤러이다. 
+ * 
+ * */
+@RestController
+public class RestNoticeController {
+
+}
