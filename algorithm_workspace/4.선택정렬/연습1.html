@@ -1,0 +1,39 @@
+<script src="../js/lib.js"></script>
+<script>
+    /*
+        최소값이나, 최대값이 올 자리를 선택하고, 그 선택된 자리와 , 나머지 정렬되지 않은
+        요소들간 비교를 통하여, 오름차순의 더 작은 값이 선택된 자리를 차지하게 하는 업무를
+        반복해서 처리하는 정렬
+    */
+    let arr = createArray(1, 16, 7);
+    console.log("정렬 전 ", arr);
+
+    /*
+    for(let a=0; a<arr.length;a++){ //바깥쪽 반복문은 선택 자리를 결정한다
+        for(let i=a; i<arr.length;i++){
+            if( arr[i] > arr[a] ){ //선택된 자리값보다 다른 요소들이 더 작다면 스왑
+                let temp = arr[a]; 
+                arr[a] = arr[i]; 
+                arr[i] = temp;
+            }
+        }
+    }
+    */
+
+    function selectionSort(n) {
+        if (n >= arr.length) return;
+        for (let i = n; i < arr.length; i++) {
+            if (arr[i] < arr[n]) { //선택된 자리값보다 다른 요소들이 더 작다면 스왑
+                let temp = arr[n];
+                arr[n] = arr[i];
+                arr[i] = temp;
+            }
+        }
+        selectionSort(n + 1);
+    }
+    selectionSort(0);
+    console.log("정렬 후 ", arr);
+</script>
+
+
+

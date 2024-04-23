@@ -1,0 +1,22 @@
+<script>
+    let arr=[
+        [1,2,3,4,5,6],
+        [1,2,3,4,5,6],
+        [1,2,3,4,5,6]
+    ];
+    
+    //측정 구간 시작 
+    console.time("myLogic");//구간의 이름
+    function test(n){
+        if(n >=arr.length)return;
+        for(let i=0;i<arr[n].length;i++){
+            document.write(arr[n][i]);
+        }
+        document.write("<br>");
+        test(n+1);
+    }
+    test(0);
+    console.timeEnd("myLogic");
+    //측정 구간 끝
+
+</script>
