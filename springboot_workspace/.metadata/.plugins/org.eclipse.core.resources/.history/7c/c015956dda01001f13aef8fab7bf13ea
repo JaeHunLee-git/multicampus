@@ -1,0 +1,14 @@
+package com.sds.testapp.model.board;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sds.testapp.domain.Board;
+
+public interface BoardService {
+	public List selectAll(Map map);
+	public Board select(int board_idx);
+	public int insert(Board board); 
+	public int update(Board board);
+	public int delete(Board board);
+}

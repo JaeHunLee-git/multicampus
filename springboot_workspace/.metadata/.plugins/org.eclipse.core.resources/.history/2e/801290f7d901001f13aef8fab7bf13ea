@@ -1,0 +1,13 @@
+package com.sds.testapp.model.board;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+
+//@Mapper 어노테이션을 지정하면, 아래의 인터페이스 객체는
+//Mybatis 의 id 와 연결됨
+@Mapper
+public interface MybatisBoardDAO {
+	public List selectAll(Map map);
+}
