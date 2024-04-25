@@ -1,0 +1,29 @@
+<script>
+    //아래는 1부터 5범위내로 구성된 길이가 10인 배열이다. 
+    //오름차순으로 정렬해보자 
+    let arr = [2, 5, 1, 3, 4, 3, 5, 2, 1, 1];
+
+
+    console.log("정렬 전 ", arr);
+
+    let bucket = [0, 0, 0, 0, 0, 0];
+
+    //arr 배열의 숫자가 몇개씩인지 파악하기 
+    for(let i=0;i<arr.length;i++){
+        bucket[arr[i]]++;
+    }
+    console.log("카운트 결과 ", bucket);
+    
+    let index=0;
+
+    for(let i=1;i<bucket.length;i++){
+        //i는 들어갈 값,  bucket[i] 는 반복횟수 결정
+        for(let j=1; j<=bucket[i] ;j++){
+            arr[index++] = i;
+        }
+    }
+
+    console.log("정렬 후 ", arr);
+
+
+</script>
