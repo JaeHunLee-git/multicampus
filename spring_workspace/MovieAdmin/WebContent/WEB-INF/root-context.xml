@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!--어떠한 ViewResolver 를 쓸지 -->
+	<bean id="viewResolver" 
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/"
+		p:suffix=".jsp"/>
+
+	
+	<context:component-scan base-package="com.sds.movieadmin.model"/>
+	
+	<!-- 데이터소스(어떤 DB를 사용할지를 결정) -->
+	<jee:jndi-lookup 
+		id="dataSource"
+		jndi-name="jndi/movie"
+		resource-ref="true"/>
+
+	<!-- 
+		스프링 주도하는 데이터베이스 연동 기술을 사용하려면, spring -jdbc 가 필요
+		트랜잭션 매니져(사용기술에 따른 트랜잭션 매니져 선택) 
+		JDBC - DataSourceTransactionManager 
+		Mybatis - DataSourceTransactionManager
+		Hibernate - HibernateTransactionManager
+	-->
+	<bean id="transactionManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"/>
+			
+	<!-- 
+		 Mybatis의 SqlSessionTemplate 을 모아서 관리하는 객체인 SqlSessonFactoryBean 등록	
+		 Spring MVC 에서는 Mybatis 자체도 + Mybatis - Spring	
+	 -->
+	 <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean"
+	 	p:dataSource-ref="dataSource"
+	 	p:configLocation="classpath:/com/sds/movieadmin/mybatis/mybatis-config.xml"/>
+	 
+	 <!--DAO 들에게 주입시키기 위해, SqlSessionTemplate 을 빈으로 등록-->
+	 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg ref="sqlSessionFactoryBean"/>
+	 </bean>
+	 
+</beans>
+
+
+
+
+
+
+
+
+
+
