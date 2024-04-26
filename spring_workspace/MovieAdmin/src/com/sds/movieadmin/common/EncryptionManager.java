@@ -1,4 +1,4 @@
-package com.sds.movieadmin.controller;
+package com.sds.movieadmin.common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -47,6 +47,6 @@ public class EncryptionManager {
 		return hash.toString();
 	}
 	public static void main(String[] args) {
-		System.out.println(getConvertedData("minzino"));
+		System.out.println(getConvertedData("apple"));
 	}
 }

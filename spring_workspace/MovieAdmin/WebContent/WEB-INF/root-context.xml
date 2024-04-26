@@ -19,6 +19,9 @@
 	
 	<context:component-scan base-package="com.sds.movieadmin.model"/>
 	
+	<!-- 암호화 객체 빈 등록 -->
+	<bean id="encryptionManager" class="com.sds.movieadmin.common.EncryptionManager"/>
+	
 	<!-- 데이터소스(어떤 DB를 사용할지를 결정) -->
 	<jee:jndi-lookup 
 		id="dataSource"
