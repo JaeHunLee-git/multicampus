@@ -1,10 +1,10 @@
-<%@page import="com.sds.mall.domain.TopCategory"%>
+<%@page import="com.sds.movieadmin.domain.MovieType"%>
+<%@page import="com.sds.movieadmin.domain.Nation"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%
-	
-	//제너릭으로 선언하여, 아래쪽 코드에서 형변환의 불편함이 없도록 하자 
-	List<TopCategory> topList = (List)request.getAttribute("topList");
+	List<Nation> nationList = (List)request.getAttribute("nationList");
+	List<MovieType> movieTypeList = (List)request.getAttribute("movieTypeList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,24 +76,39 @@
 					<!-- 카드안의 행 begin -->
 					<div class="row">
 						<!-- 카드안의 열 begin -->	
-						<div class="col-md-6" data-select2-id="30">
+						<div class="col-md-5" data-select2-id="30">
 							<div class="form-group" data-select2-id="29">
 								
-								<select name="top" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-									<option value="0">상위 카테고리 선택 ▼</option>
-									<%for(TopCategory topCategory : topList){ %>
-									<option value="<%=topCategory.getTopcategory_idx()%>"><%=topCategory.getTopname() %></option>
+								<select name="repNationCd" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+									<option value="">국가 선택 ▼</option>
+									<%for(Nation nation : nationList){ %>
+									<option value="<%=nation.getFullCd()%>"><%=nation.getKorNm() %></option>
+									<%}%>
+								</select>
+							</div>
+						</div>
+						<!-- 카드안의 열 end -->
+						<!-- 카드안의 열 begin -->	
+						<div class="col-md-5" data-select2-id="30">
+							<div class="form-group" data-select2-id="29">
+								
+								<select name="movieTypeCdArr" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+									<option value="">영화 유형 선택 ▼</option>
+									<%for(MovieType movieType : movieTypeList){ %>
+									<option value="<%=movieType.getFullCd()%>"><%=movieType.getKorNm() %></option>
 									<%} %>
 								</select>
 							</div>
 						</div>
 						<!-- 카드안의 열 end -->
 						<!-- 카드안의 열 begin -->	
-						<div class="col-md-6" data-select2-id="30">
+						<div class="col-md-2" data-select2-id="30">
 							<div class="form-group" data-select2-id="29">
 								
-								<select id="sub" name="subCategory.subcategory_idx" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-								</select>
+								<button type="button" class="btn btn-primary" id="bt_search">
+									<span></span>검색
+								</button>
+																
 							</div>
 						</div>
 						<!-- 카드안의 열 end -->
@@ -104,43 +119,19 @@
 					
 					<!-- 입력 폼이 나올 row 시작  -->
 					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="상품명" name="product_name">
-							</div>
-						</div>
 						
 						<div class="col-md-12">
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="브랜드" name="brand">
-							</div>
-						</div>
-						
-						<div class="col-md-12">
-							<div class="form-group">
-								<input type="number" class="form-control" placeholder="가격" name="price">
-							</div>
-						</div>
-						
-						<div class="col-md-6">
-							<div class="form-group">
-								<select name="color_name" multiple class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-									<option value="Black">Black</option>
-									<option value="White">White</option>
-									<option value="Gray">Gray</option>
-									<option value="Orange">Orange</option>
+							
+								<select id="movie_name" name="movieCd"  class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
 								</select>
+								
 							</div>
 						</div>
-						
-						<div class="col-md-6">
+					
+						<div class="col-md-12">
 							<div class="form-group">
-								<select name="size_name" multiple class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-									<option value="95">95</option>
-									<option value="100">100</option>
-									<option value="105">105</option>
-									<option value="110">110</option>
-								</select>
+								<input type="text" class="form-control" placeholder="이미지 URL" name="url">
 							</div>
 						</div>
 						
@@ -150,11 +141,6 @@
 							</div>
 						</div>
 						
-						<div class="col-md-12">
-							<div class="form-group">
-								<textarea id="content" class="form-control" name="detail"></textarea>
-							</div>
-						</div>
 					</div>
 						
 					<div class="row">						
@@ -205,59 +191,69 @@
 </body>
 </html>
 <script type="text/javascript">
-	function getSubCategoryList(topcategory_idx){
-		//서버에 하위 카테고리 목록을 요청하되, 비동기 방식으로 요청하자
-		//select * from subcategory where topcategory_idx=3
-		$.ajax({
-			url:"/admin/subcategory/list?topcategory_idx="+topcategory_idx, 
-			type:"GET", 
-			success:function(result, status, xhr){
-				console.log("서버의 응답 정보는 " ,  result);
-				
-				//하위컨트롤러 sub라는 아이디를 갖느 select 박스에 채우자
-				let op="<option value=\"0\">하위 카테고리 선택 ▼</option>";
-				
-				//서버에서 전송받은 json 배열을 이용하여 아래의 option을 채우자
-				for(let i=0; i<result.length;i++){
-					let json = result[i];
-					op += "<option value=\""+json.subcategory_idx+"\">"+json.subname+"</option>";
-				}
-				$("#sub").html(op); //innerHTML
-				
-			}			
-		});		
-	} 
+	function movieRender(movieList){
+		let tag="<option>영화 선택 ▼</option>";
+		
+		for(let i=0;i<movieList.length;i++){
+			let movie = movieList[i]; //영화 한편 꺼내기
+			tag +="<option value='"+movie.movieCd+"'>"+movie.movieNm+"</option>";
+		}
+		
+		$("#bt_search span").toggleClass("spinner-border spinner-border-sm"); //제거
+		
+		$("#movie_name").prop("disabled", false);
+		
+		$("#movie_name").html(tag);
+	}
 	
-	//상품 입력 정보 전송 
+	//비동기로 ,선택한 국가 및 영화유형 정보에 맞는 영화목록 가져오기 
+	function searchMovie(){
+		$.ajax({
+			url:"/search/movie",
+			type:"get",
+			data:$("form").serialize() ,
+			success: function(result, status, xhr){
+				//영화 select 박스에 동적으로 채우기 
+				movieRender(result);			
+			},
+			error:function(xhr, status, err){
+				
+			}
+		});	
+	}
+	
+	//비동기 등록 요청 
 	function regist(){
-		$("form").attr({
-			action:"/admin/product/regist",
-			method:"post",
-			/*텍스트 데이터와 바이너리 데이터가 섞여 있는 복합 데이터를 전송하는 경우 반드시 enctype을 multipart/form-data*/
-			enctype:"multipart/form-data"
-		});
-		$("form").submit(); //전송
+		$.ajax({
+			url:"/movie",
+			type:"post",
+			data:$("#form").serialize(),
+			success:function(result, status, xhr){
+				alert("등록 성공");
+			},
+			error:function(xhr, status, err){
+				alert("등록 실패");
+			}
+		
+		});			
 	}
 	
 	$(function(){
+		$("#movie_name").prop("disabled", true);
 		
-		$("#content").summernote({
-			height:200, 
-			placehodel:"상품 상세 설명 입력"
-		});
-		
-		//상위 카테고리의 아이템을 변경하면... 서브 카테고리 목록 가져오기 
-		$("select[name='top']").change(function(){
+		$("#bt_search").click(function(){
 			
-			console.log($(this).val());
+			//검색토글
+			$("#bt_search span").toggleClass("spinner-border spinner-border-sm");
 			
-			getSubCategoryList($(this).val());			
+			$("#movie_name").prop("disabled", true); //비활성화
+			
+			searchMovie();
 		});
 		
 		$("#bt_regist").click(function(){
 			regist();
 		});
-		
 	});
 </script>
 

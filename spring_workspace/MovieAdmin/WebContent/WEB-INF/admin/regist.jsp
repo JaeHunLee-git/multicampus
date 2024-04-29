@@ -19,6 +19,7 @@
 		    </div>
 		    <!-- /.card-header -->
 		    <!-- form start -->
+		    
 		    <form class="form-horizontal">
 		        <div class="card-body">
 		            <div class="form-group row">
@@ -50,6 +51,7 @@
 		        </div>
 		        <!-- /.card-footer -->
 		    </form>
+		
 		</div>		
 	
 	<!-- /.content-wrapper -->

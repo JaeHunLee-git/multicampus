@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%
+// 세션이 존재하지 않는 경우, 이 페이지로의 접근은 올바른 엑세스가 아님..따라서 뒤로 돌림
+%>
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">

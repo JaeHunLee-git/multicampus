@@ -1,0 +1,5 @@
+create  table  movie(
+    movie_idx  int primary key auto_increment 
+  , moviecd  varchar(8)
+  , url  varchar(200)
+);

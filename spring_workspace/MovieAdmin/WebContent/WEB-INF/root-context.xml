@@ -52,6 +52,16 @@
 	 	<constructor-arg ref="sqlSessionFactoryBean"/>
 	 </bean>
 	 
+	 
+	<!-- 영화진흥위원회 API Key -->
+	<bean id="key" class="java.lang.String">
+		<constructor-arg value="6621a466612aa701c749b417034901a3"/>
+	</bean>		
+	
+	<bean id="kobisOpenAPIRestService" class="kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService">
+		<constructor-arg ref="key"/>
+	</bean>
+	 
 </beans>
 
 

@@ -4,20 +4,45 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- Spring MVC 여러 기능을 지원 받을지-->
 	<mvc:annotation-driven/> 
 	<mvc:resources location="/resources/" mapping="/static/**"/>
 
 	<!--어떠한 HandlerMapping 을 쓸지 : 자동적으로 적용됨 -->
+	
 	<!-- 자동으로 인스턴스 생성할 검색 대상 패키지 -->
 	<context:component-scan base-package="com.sds.movieadmin.controller"/>
 	
+	<!-- 글로벌 예외 처리 객체 등록  -->
+	<bean id="globalExceptionHandler" class="com.sds.movieadmin.aop.GlobalExceptionHandler" />
+	
+	<!-- Aspect로 사용할 LoginAspect 등록 -->
+	<!-- <bean id="loginAspect" class="com.sds.movieadmin.aop.LoginAspect"/> -->
+	
+	<!-- aop 설정 -->
+	<!-- 	
+	<aop:config>
+		<aop:aspect ref="loginAspect">
+			<aop:pointcut id="loginPointcut" expression="execution(public * com.sds.movieadmin.controller..*(..))" />
+			<aop:around pointcut-ref="loginPointcut" method="loginCheck"/>			
+		</aop:aspect>	
+	</aop:config>
+ 	-->		
+	
+	
 	
 </beans>
+
+
+
+
+
 
 
 

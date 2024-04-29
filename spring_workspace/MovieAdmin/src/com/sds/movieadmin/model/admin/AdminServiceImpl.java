@@ -26,9 +26,20 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public Admin loginCheck(Admin admin) {
-	
-		return null;
+	public Admin loginCheck(Admin admin) throws AdminException{
+		admin.setAdmin_pwd(encryptionManager.getConvertedData(admin.getAdmin_pwd())); 
+		
+		Admin dto = adminDAO.loginCheck(admin);
+		
+		return dto;
 	}
 	
 }
+
+
+
+
+
+
+
+
