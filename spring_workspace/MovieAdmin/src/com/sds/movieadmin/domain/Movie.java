@@ -2,6 +2,8 @@ package com.sds.movieadmin.domain;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 //open api 에서 가져온 영화 1건을 담게될 DTO
@@ -37,6 +39,8 @@ public class Movie {
 	
 	//이미지 웹상의 경로
 	private String url;
+	
+	MultipartFile file; //html 컴포넌트와 반드시 일치해야 자동으로 바이너리 파일이 매핑 됨..
 	
 }
 

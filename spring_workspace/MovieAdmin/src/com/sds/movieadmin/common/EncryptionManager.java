@@ -3,6 +3,9 @@ package com.sds.movieadmin.common;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class EncryptionManager {
 	
 	public static String getConvertedData(String password){

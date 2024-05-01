@@ -18,9 +18,7 @@
 
 	
 	<context:component-scan base-package="com.sds.movieadmin.model"/>
-	
-	<!-- 암호화 객체 빈 등록 -->
-	<bean id="encryptionManager" class="com.sds.movieadmin.common.EncryptionManager"/>
+	<context:component-scan base-package="com.sds.movieadmin.common"/>
 	
 	<!-- 데이터소스(어떤 DB를 사용할지를 결정) -->
 	<jee:jndi-lookup 
@@ -61,6 +59,12 @@
 	<bean id="kobisOpenAPIRestService" class="kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService">
 		<constructor-arg ref="key"/>
 	</bean>
+	 
+	
+	<bean id="savePath" class="java.lang.String">
+		<constructor-arg value="/resources/upload/excel/"/>
+	</bean>
+		 
 	 
 </beans>
 

@@ -2,10 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Movie">
 
+	<!-- 페이징 처리방식의 교체로 인하여, 레코드를 수를 별도로 조회 (더이상 List가 모든 레코드를 담고 있지 않기 때문..)-->
+	<select id="selectCount" resultType="int">
+		select count(*) from movie
+	</select>
+
+	<!-- 영화진흥위원회 정보가 아닌, 우리 db에 저장된 영화목록 가져오기 -->
+	<select id="selectAll" parameterType="java.util.Map" resultType="Movie">
+		select * from movie limit #{startIndex}, #{rowCount}
+	</select>
+
 	
 	<insert id="insert" parameterType="Movie">
 		insert into movie(moviecd, url) values(#{movieCd}, #{url})
 	</insert>
 	
+	<!-- 모든 레코드 삭제 -->
+	<delete id="deleteAll">
+		delete from movie
+	</delete>
 
 </mapper>

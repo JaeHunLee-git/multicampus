@@ -76,7 +76,7 @@
 					<!-- 카드안의 행 begin -->
 					<div class="row">
 						<!-- 카드안의 열 begin -->	
-						<div class="col-md-5" data-select2-id="30">
+						<div class="col-md-3" data-select2-id="30">
 							<div class="form-group" data-select2-id="29">
 								
 								<select name="repNationCd" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
@@ -89,7 +89,7 @@
 						</div>
 						<!-- 카드안의 열 end -->
 						<!-- 카드안의 열 begin -->	
-						<div class="col-md-5" data-select2-id="30">
+						<div class="col-md-3" data-select2-id="30">
 							<div class="form-group" data-select2-id="29">
 								
 								<select name="movieTypeCdArr" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
@@ -101,6 +101,13 @@
 							</div>
 						</div>
 						<!-- 카드안의 열 end -->
+						<div class="col-md-4" data-select2-id="30">
+							<div class="form-group" data-select2-id="29">
+								<input type="text" class="form-control" placeholder="영화명.." name="movieNm">
+							</div>
+						</div>
+						
+						
 						<!-- 카드안의 열 begin -->	
 						<div class="col-md-2" data-select2-id="30">
 							<div class="form-group" data-select2-id="29">
@@ -120,12 +127,22 @@
 					<!-- 입력 폼이 나올 row 시작  -->
 					<div class="row">
 						
-						<div class="col-md-12">
+						<div class="col-md-8">
 							<div class="form-group">
-							
 								<select id="movie_name" name="movieCd"  class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
 								</select>
-								
+							</div>
+						</div>
+						
+						<div class="col-md-2">
+							<div class="form-group">
+								<input type="text" class="form-control" id="movieCd" placeholder="영화코드">
+							</div>
+						</div>
+						
+						<div class="col-md-2">
+							<div class="form-group">
+								<input type="text" class="form-control" id="movieNm" placeholder="영화명">
 							</div>
 						</div>
 					
@@ -145,11 +162,15 @@
 						
 					<div class="row">						
 						<div class="col-sm-1">
-							<button class="btn btn-primary form-control" id="bt_regist">등록</button>
+							<button type="button" class="btn btn-primary form-control" id="bt_regist">등록</button>
 						</div>
 						<div class="col-sm-1">
-							<button class="btn btn-primary form-control" id="bt_list">목록</button>
+							<button type="button" class="btn btn-primary form-control" id="bt_list">목록</button>
 						</div>
+						<div class="col-sm-1">
+							<button type="button" class="btn btn-primary form-control" id="bt_excel">엑셀등록</button>
+						</div>
+						
 					</div>
 					<!-- 입력 폼이 나올 row 끝  -->
 					
@@ -191,6 +212,8 @@
 </body>
 </html>
 <script type="text/javascript">
+	let win;
+	
 	function movieRender(movieList){
 		let tag="<option>영화 선택 ▼</option>";
 		
@@ -227,9 +250,10 @@
 		$.ajax({
 			url:"/movie",
 			type:"post",
-			data:$("#form").serialize(),
+			data:$("form").serialize(),
 			success:function(result, status, xhr){
 				alert("등록 성공");
+				win.close();
 			},
 			error:function(xhr, status, err){
 				alert("등록 실패");
@@ -238,8 +262,26 @@
 		});			
 	}
 	
+	
+	//팝업 창 띄우기 
+	function openWin(){
+		//자바스크립트의 객체 중, 가장 상위의 최상위 객체인 window 객체를 이용하여 팝업 창을 띄운다
+		//팝업의 이름이 있어야, 중복 새창이 뜨지 않음
+		win=window.open("/movie/excel/registform", "pop", "width=350, height=200");
+	}
+	
 	$(function(){
 		$("#movie_name").prop("disabled", true);
+		
+		//영화정보가 출력되는 select박스에 change 이벤트 연결 
+		$("#movie_name").change(function(){
+			//select 박스의 값을 변경할때,영화명과 영화코드가 text박스에 노출 
+			$("#movieCd").val($(this).val());
+			
+			//select 박스의 선택된 option의 text 구하기 
+			let text = $(this).find("option:selected").text();
+			$("#movieNm").val(text);
+		});
 		
 		$("#bt_search").click(function(){
 			
@@ -254,6 +296,11 @@
 		$("#bt_regist").click(function(){
 			regist();
 		});
+		
+		$("#bt_excel").click(function(){
+			openWin(); //업로드 창 띄우기
+		});
+		
 	});
 </script>
 

@@ -1,6 +1,7 @@
 package com.sds.movieadmin.model.movie;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -11,16 +12,23 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sds.movieadmin.domain.Director;
 import com.sds.movieadmin.domain.Movie;
 import com.sds.movieadmin.domain.MovieType;
 import com.sds.movieadmin.domain.Nation;
 
 import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
+import kr.or.kobis.kobisopenapi.consumer.soap.movie.MovieAPIServiceImplService;
+import kr.or.kobis.kobisopenapi.consumer.soap.movie.MovieInfoResult;
+import kr.or.kobis.kobisopenapi.consumer.soap.movie.OpenAPIFault;
 
 //api 호출하여 각종 정보를 가져오는 전담 서비스 (영화, 나라정보, 유형, 영화조회..)
 @Service
 public class MovieApiService {
 
+	@Autowired
+	private String key;
+		
 	@Autowired
 	private KobisOpenAPIRestService kobisOpenAPIRestService;	
 	
@@ -113,8 +121,42 @@ public class MovieApiService {
 	
 	/*---------------------------------------------------------
 	영화 1건 조회
+	오픈 API 에서 가져온 영화 정보를 Movie DTO 변환하여 반환하자(즉 영화정보를 더 채워서 반환하자)
 	---------------------------------------------------------*/
-	public Movie getMovie() {
-		return null;
+	public Movie getMovie(Movie movie) { // DAO가 반환한 List 안에 부족한 영화정보를 가진 Movie DTO(movieCd,url)
+		MovieInfoResult movieInfoResult = null;
+		
+		try {
+			movieInfoResult = new MovieAPIServiceImplService().getMovieAPIServiceImplPort().searchMovieInfo(key, movie.getMovieCd());
+			
+			
+			movie.setMovieNm(movieInfoResult.getMovieInfo().getMovieNm());//영화이름
+			movie.setPrdtYear(movieInfoResult.getMovieInfo().getPrdtYear());//제작일
+			movie.setOpenDt(movieInfoResult.getMovieInfo().getOpenDt());//개봉일
+			
+			List<Director> directorList=new ArrayList<Director>();//감독을 채워넣을 List
+			for(int i=0;i<movieInfoResult.getMovieInfo().getDirectors().getDirector().size();i++) {
+				String dname=movieInfoResult.getMovieInfo().getDirectors().getDirector().get(i).getPeopleNm();
+				Director director = new Director();//감독 객체 생성 
+				director.setPeopleNm(dname);
+				directorList.add(director);
+			}
+			movie.setDirectors(directorList);//Movie DTO에 감독 List을 대입 
+			
+		} catch (OpenAPIFault e) {
+			e.printStackTrace();
+		}
+		
+		//영화 1건 조회하기 
+		return movie;
 	}
 }
+
+
+
+
+
+
+
+
+
