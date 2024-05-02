@@ -28,6 +28,32 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	//mysql driver 
+	implementation 'mysql:mysql-connector-java:5.1.49'
+	
+	//spring jdbc(스프링 부트에서 데이터 베이스 연동을 위해 사용 필수 jar)
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.2.4'
+	
+	//mybatis spring 버전 좀 높은거... @Mapper가 지원 
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	
+	//로컬 유저 라이브러리 추가 
+	implementation files('lib/kobis-opcl-rest-v1.0.jar', 'lib/kobis-opcl-soap-v1.0.jar')	
+	
+	//json simple (String  을 JSON으로 파싱할때) 
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	
+	//Gson (JSON을 자바 객체로 변환)
+	implementation 'com.google.code.gson:gson:2.9.1'
+	
+	// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+	
+	implementation 'javax.xml.ws:jaxws-api:2.3.1'
+	implementation 'com.sun.xml.ws:jaxws-rt:2.3.3'
+	implementation 'com.sun.xml.messaging.saaj:saaj-impl:1.5.3'
+	implementation 'com.sun.xml.bind:jaxb-impl:2.3.3'	
 }
 
 tasks.named('test') {
