@@ -20,12 +20,10 @@
                                 
                                 <li><a href="/site/categories.html">고객센터 <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="/site/categories.html">Categories</a></li>
-                                        <li><a href="/site/anime-details.html">Anime Details</a></li>
-                                        <li><a href="/site/anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="/site/blog-details.html">Blog Details</a></li>
-                                        <li><a href="/site/signup.html">Sign Up</a></li>
-                                        <li><a href="/site/login.html">Login</a></li>
+                                        <li><a href="/cs/notice/list">공지사항</a></li>
+                                        <li><a href="/site/categories.html">영화목록</a></li>
+                                        <li><a href="/member/joinform">Sign Up</a></li>
+                                        <li><a href="/member/loginform">Login</a></li>
                                     </ul>
                                 </li>
                                 
@@ -38,8 +36,13 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                        
+                        <!-- 로그인 한 경우엔 사용자 이름이 뜨게.. -->
+                        <a href="#" class="search-switch" th:text="${nickname+'님'}">지노 님</a>
+                        
+                        <!-- 그렇지 않은 경우 아이콘 뜨게.. -->
                         <a href="/member/loginform"><span class="icon_profile"></span></a>
+                        
                     </div>
                 </div>
             </div>
