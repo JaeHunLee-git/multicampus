@@ -23,6 +23,10 @@ public class Pager {
 		this.currentPage=currentPage;
 		this.firstPage = this.currentPage - (this.currentPage-1)%this.blockSize;
 		this.lastPage = this.firstPage + (this.blockSize-1);
+		//총 가진 페이지 수가 lastPage 작을 경우 totalPage가 lastPage가 되면 됨 
+		if(totalPage <=lastPage) {
+			lastPage = totalPage;
+		}
 		this.startIndex = (this.currentPage-1)*this.pageSize;
 		this.num = this.totalRecord - this.startIndex;
 	}

@@ -24,6 +24,8 @@ import com.sds.movieapp.domain.Member;
 import com.sds.movieapp.domain.Role;
 import com.sds.movieapp.exception.MemberException;
 import com.sds.movieapp.model.member.MemberService;
+import com.sds.movieapp.sns.KaKaoLogin;
+import com.sds.movieapp.sns.KaKaoOAuthToken;
 import com.sds.movieapp.sns.NaverLogin;
 import com.sds.movieapp.sns.NaverOAuthToken;
 
@@ -36,6 +38,9 @@ public class MemberController {
 	
 	@Autowired
 	private NaverLogin naverLogin;
+	
+	@Autowired
+	private KaKaoLogin kakaoLogin;
 	
 	@Autowired
 	private MemberService memberService;
@@ -180,6 +185,72 @@ public class MemberController {
 		
 		return null;
 	}
+	
+	/*----------------------------------------------------------------
+	 카카오 콜백 요청 처리 
+	 *---------------------------------------------------------------- */
+	@GetMapping("/member/sns/kakao/callback")
+	public ModelAndView kakaoCallback(HttpServletRequest request) {
+		
+		String code  = request.getParameter("code");
+		
+		log.info("카카오가 보내 임시 코드는 "+code);
+		
+		/*-----------------------------------------------
+		 토큰 요청을 위한 헤더와 바디 구성 후 post 요청
+		 -----------------------------------------------*/
+		
+		//몸만들기 (가지고 갈 파라미터들 탑재)
+		MultiValueMap<String, String> params  = new LinkedMultiValueMap<String, String>();
+		params.add("code", code);
+		params.add("client_id", kakaoLogin.getClient_id());
+		params.add("redirect_uri", kakaoLogin.getRedirect_uri());
+		params.add("grant_type", kakaoLogin.getGrant_type());
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/x-www-form-urlencoded");
+		
+		//머리와 몸 합치기 
+		HttpEntity entity = new HttpEntity(params, headers);
+		
+		//비동기 요청을 위한 객체 생성 
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> responseEntity=restTemplate.exchange(kakaoLogin.getToken_request_url(), HttpMethod.POST, entity, String.class);
+		
+		String body = responseEntity.getBody();
+		log.info("카카오가 보낸 토큰을 포함한 응답정보는 "+body);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		KaKaoOAuthToken oAuthToken=null;
+		try {
+			oAuthToken = objectMapper.readValue(body, KaKaoOAuthToken.class); //String 을 자바 객체로 변환
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		/*-----------------------------------------------
+		 토큰을 취득했으므로, 사용자 정보를 요청하자 비동기 GET 
+		 -----------------------------------------------*/
+		HttpHeaders headers2 = new HttpHeaders();
+		headers2.add("Authorization", "Bearer "+oAuthToken.getAccess_token());
+		
+		HttpEntity entity2 = new HttpEntity(headers2); //몸이 없을때는 머리만 넣는다 
+		
+		//비동기 요청 출발 
+		RestTemplate restTemplate2 = new RestTemplate();
+		ResponseEntity<String> responseEntity2 = restTemplate2.exchange(kakaoLogin.getUserinfo_url() , HttpMethod.GET, entity2, String.class);
+		String body2 = responseEntity2.getBody();
+		
+		log.info("카카오가 보낸 사용자 정보는 "+body2);
+		
+		
+	
+		return null;
+	}
+	
 	
 	
 	@ExceptionHandler(MemberException.class)

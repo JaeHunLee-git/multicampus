@@ -58,6 +58,9 @@ dependencies {
 	//스프링 시큐리티 추가 spring boot starter security
 	implementation 'org.springframework.boot:spring-boot-starter-security:3.2.5'
 	
+	//몽고 DB 추가 
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.5'
+		
 }
 
 tasks.named('test') {

@@ -32,7 +32,13 @@ public class SecurityConfig {
 					(auth) -> auth
 					.requestMatchers("/site/**","/").permitAll() 
 					.requestMatchers("/member/loginform", "/member/login","/member/joinform","/member/join").permitAll() 
-					.requestMatchers("/cs/notice/list").hasRole("USER") //권한명은 개발자가 회원가입 시 지정하면 됨..
+					//롤은 권한의 집합을 의미하며, hasRole()  메서드는 롤을 사용하게 되고, 내부적으로 ROLE_  접두어가 붙음
+					//.requestMatchers("/cs/notice/list").hasRole("USER") //권한명은 개발자가 회원가입 시 지정하면 됨..
+					//.requestMatchers("/cs/notice/**").hasAuthority("USER")
+					.requestMatchers("/cs/notice/**").permitAll()
+					.requestMatchers("/rest/member/authform/**").permitAll()
+					.requestMatchers("/member/sns/naver/callback").permitAll()
+					.requestMatchers("/member/sns/kakao/callback").permitAll()
 					.anyRequest().authenticated()
 			);
 	
