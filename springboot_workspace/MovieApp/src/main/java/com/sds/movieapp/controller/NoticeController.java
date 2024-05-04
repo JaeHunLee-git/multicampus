@@ -29,7 +29,8 @@ public class NoticeController {
 	@Autowired
 	private Pager pager;
 	
-	
+	//Model이란 컨트롤러에서 Receipt 객체 dto를 receipt라는 이름으로
+	//뷰로 전달하는 변수 (dto자체를 사용할 수 없기 때문에 view에게 값을 전달하는 방식을 model로 함)
 	//게시물 목록
 	@GetMapping("/cs/notice/list")
 	public String getList(Model model, @RequestParam(value="currentPage", defaultValue="1") int currentPage) {
