@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Movie">
+<!--
+	namespace를 Movie DTO로 한 이유는 Mapper인터페이스에서 sql문을 정의한 것이 아니라
+	MovieMapper에서 sql문을 정의했기 때문에 DTO와 매핑하면 되기때문
+-->
 
 	<!-- 페이징 처리방식의 교체로 인하여, 레코드를 수를 별도로 조회 (더이상 List가 모든 레코드를 담고 있지 않기 때문..)-->
 	<select id="selectCount" resultType="int">
