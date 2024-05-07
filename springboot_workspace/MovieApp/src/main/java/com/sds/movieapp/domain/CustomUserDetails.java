@@ -6,6 +6,9 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Data;
+
+@Data
 //회원의 상세정보를 가진 객체임..단 스프링이 지원하는 기술을 구현해야함
 public class CustomUserDetails implements UserDetails{
 	

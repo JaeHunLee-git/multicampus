@@ -1,11 +1,15 @@
 package com.sds.movieapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sds.movieapp.domain.CustomUserDetails;
+import com.sds.movieapp.domain.Member;
 import com.sds.movieapp.domain.Movie;
 import com.sds.movieapp.model.movie.MovieService;
 
@@ -25,7 +29,7 @@ public class MovieController {
 		System.out.println("영화명 "+movie.getMovieNm());
 		
 		model.addAttribute("movie", movie);
-		
+
 		return "movie/detail";
 	}
 	

@@ -36,13 +36,12 @@ public class MainController {
 		map.put("rowCount", 3); //몇건
 		
 		List<Movie> movieList = movieService.selectAll(map);//3단계 : 일 시키기
-		List<MovieType> movieTypeList = movieService.getMovieTypeList(); //3단계 : 일 시키기
+		
 		
 		//스프링 시큐리티를 통해 로그인 한 사용자의 이름 가져오기 
 		String nickname=SecurityContextHolder.getContext().getAuthentication().getName();//CustomUserDetails의 이름 가져오기
 		
 		model.addAttribute("movieList", movieList);
-		model.addAttribute("movieTypeList", movieTypeList);//4단계: 뷰에 보여줄 결과 저장
 		model.addAttribute("nickname", nickname);
 		
 		return "main/index";
