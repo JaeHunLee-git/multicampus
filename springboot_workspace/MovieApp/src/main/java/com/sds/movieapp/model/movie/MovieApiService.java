@@ -190,6 +190,8 @@ public class MovieApiService {
 		//영화 1건 조회하기 
 		return movie;
 	}
+
+
 }
 
 

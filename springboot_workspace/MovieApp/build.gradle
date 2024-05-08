@@ -64,7 +64,10 @@ dependencies {
 	//AOP 추가
 	implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.5'
 	 
-			
+	
+	//Komoran (한국어 형태소 분석기)
+	implementation files('lib/aho-corasick-1.1.0.jar', 'lib/commons-1.0.1.jar')	
+	implementation files('lib/core.jar', 'lib/elasticsearch-plugin-1.0-SNAPSHOT.jar')	
 }
 
 tasks.named('test') {
