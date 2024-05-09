@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sds.movieadmin.common.ExcelManager;
 import com.sds.movieadmin.common.FileManager;
 import com.sds.movieadmin.domain.Movie;
+import com.sds.movieadmin.domain.MovieDoc;
 import com.sds.movieadmin.exception.MovieException;
 import com.sds.movieadmin.exception.UploadException;
+import com.sds.movieadmin.model.mongo.MongoMovieDAO;
 
 @Service
 public class MovieServiceImpl implements MovieService{
@@ -29,6 +31,11 @@ public class MovieServiceImpl implements MovieService{
 	//영화진흥원 조회 서비스 객체 
 	@Autowired
 	private MovieApiService movieApiService;
+	
+	
+	@Autowired
+	private MongoMovieDAO mongoMovieDAO;
+	
 	
 	@Override
 	public int selectCount() {
@@ -65,11 +72,49 @@ public class MovieServiceImpl implements MovieService{
 		List<Movie> movieList = excelManager.getMovieData(excelPath);
 		
 		//3단계 : 기존의 레코드가 있다면, 지우자
-		movieDAO.deleteAll();
+		movieDAO.deleteAll(); //기존의 mysql의 모든 데이터 지우기 
+										
+		mongoMovieDAO.delete();//몽고DB 컬렉션의 document 들도 모두 지우기
 		
 		//4단계:  DAO에게 일시키기(엑셀의 영화 수만큼..)
 		for(Movie dto : movieList) { //dto에는 엑셀의 정보가 들어있다..
-			movieDAO.insert(dto); //대량 등록
+			movieDAO.insert(dto); //대량 등록 (selectKey에 의해 movie_idx가 채워져있게 됨)
+			
+			//몽고db에 넣을 데이터를 MovieDoc에 채우기
+			MovieDoc doc = new MovieDoc();
+			doc.setMovie_idx(dto.getMovie_idx());
+			
+			Movie result = movieApiService.getMovie(dto); //네트워크를 통해 영화진흥원의 정보를 가져온다..			
+			doc.setMovieNm(result.getMovieNm());
+			
+			//리스트를 꺼내서 배열로 옮겨담자 
+			String[] genres = new String[result.getGenres().size()];
+			for(int i=0;i<genres.length;i++) {
+				genres[i] = result.getGenres().get(i).getGenreNm();
+			}
+			doc.setGenres(genres);//배열 대입
+			
+			String[] directors = new String[result.getDirectors().size()];
+			for(int i=0;i<directors.length;i++) {
+				directors[i] = result.getDirectors().get(i).getPeopleNm();
+			}
+			doc.setDirectors(directors);//배열 대입
+			
+			String[] actors = new String[result.getActors().size()];
+			for(int i=0;i<actors.length;i++) {
+				actors[i] = result.getActors().get(i).getPeopleNm();
+			}
+			doc.setActors(actors);//배열 대입
+			
+			String[] nations = new String[result.getNations().size()];
+			for(int i=0;i<nations.length;i++) {
+				nations[i] = result.getNations().get(i).getNationNm();
+			}
+			doc.setNations(nations);//배열 대입
+			
+			//몽고  db insert 
+			mongoMovieDAO.insert(doc);
+			System.out.println("몽고 db 에  한건 등록");
 		}
 		
 	}

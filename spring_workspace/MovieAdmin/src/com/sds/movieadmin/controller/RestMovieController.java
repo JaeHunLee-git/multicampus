@@ -55,6 +55,7 @@ public class RestMovieController {
 	@PostMapping("/excel/movie")
 	public ResponseEntity registExcel(Movie movie) {
 		movieService.registExcel(movie);
+		
 		ResponseEntity entity = ResponseEntity.status(HttpStatus.OK).build();
 		return entity;
 	}

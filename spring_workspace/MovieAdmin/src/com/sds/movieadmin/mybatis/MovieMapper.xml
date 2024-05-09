@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Movie">
-<!--
-	namespace는 매퍼 파일을 식별하는 이름임
-	mybatis-config.xml의 alias="Movie"는 아래의 resultType에서 쓰임
--->
 
 	<!-- 페이징 처리방식의 교체로 인하여, 레코드를 수를 별도로 조회 (더이상 List가 모든 레코드를 담고 있지 않기 때문..)-->
 	<select id="selectCount" resultType="int">
@@ -19,6 +15,11 @@
 	
 	<insert id="insert" parameterType="Movie">
 		insert into movie(moviecd, url) values(#{movieCd}, #{url})
+		
+		<!-- 위 insert 문에 의해 생성된  pk 가져오기 -->
+		<selectKey keyColumn="movie_idx" keyProperty="movie_idx" resultType="int" order="AFTER">
+			select last_insert_id() as movie_idx
+		</selectKey>
 	</insert>
 	
 	<!-- 모든 레코드 삭제 -->

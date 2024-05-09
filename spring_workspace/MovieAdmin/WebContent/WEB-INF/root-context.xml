@@ -5,10 +5,19 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/jee 
+		http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/data/mongo 
+		http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
 	<!--어떠한 ViewResolver 를 쓸지 -->
 	<bean id="viewResolver" 
@@ -65,6 +74,20 @@
 		<constructor-arg value="/resources/upload/excel/"/>
 	</bean>
 		 
+	
+	<!-- 몽고 dB관련 설정 -->
+	<bean id="mongoClient" class="com.mongodb.MongoClient">
+		<constructor-arg name="uri" value="mongodb://test:1234@localhost:27017/?authSource=movie"/>
+	</bean>		 
+	 
+	 <bean id="mongoDbFactory" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+	 	<constructor-arg ref="mongoClient"/>
+	 	<constructor-arg name="databaseName" value="movie"/>
+	 </bean>
+	 
+	 <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+	 	<constructor-arg ref="mongoDbFactory"/>
+	 </bean>
 	 
 </beans>
 
