@@ -18,7 +18,7 @@ public class SubCategoryController {
 	private SubCategoryService subCategoryService;
 	
 	
-	//하위 카테고리 목록을 가져오되, 부모인 topcategory_idx 에 소속되는 목록만.. 
+	//하위 카테고리 목록을 가져오되, 부모인 topcategory_idx 에 소속되는 목록만... 
 	//단, 클라이언트가 원하는 응답 결과는 jsp가 아니다!!! 왜?? 비동기방식으로는 페이지 새로고침을 원하는 것이
 	//아니므로, 서버측에서는 응답 정보로 페이지를 보내면 아니되며, 순수 데이터 형태(xml, json, text) 로 
 	//보내줘야 클라인트가 목적에 맞게 사용할 수 있다..
