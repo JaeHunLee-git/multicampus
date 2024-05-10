@@ -68,6 +68,9 @@ dependencies {
 	//Komoran (한국어 형태소 분석기)
 	implementation files('lib/aho-corasick-1.1.0.jar', 'lib/commons-1.0.1.jar')	
 	implementation files('lib/core.jar', 'lib/elasticsearch-plugin-1.0-SNAPSHOT.jar')	
+	
+	//Apache Mahout (머신러닝 알고리즘)
+	implementation 'org.apache.mahout:mahout-core:0.9'
 }
 
 tasks.named('test') {

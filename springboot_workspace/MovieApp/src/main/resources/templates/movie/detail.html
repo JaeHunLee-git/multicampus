@@ -110,6 +110,9 @@
                             	<!-- 작성자 -->
                             	<input type="hidden" name="member_idx" th:value="${member.member_idx}">
                             	
+                            	<!-- 어떤영화? -->
+                            	<input type="hidden" name="movie_idx" th:value="${movie.movie_idx}">
+                            	
                             	<!-- 어떤장르 -->
                             	<input type="hidden" th:each="genre, i : ${movie.genres}" th:name="|genres[${i.index}]|" th:value="${genre.genreNm}">
                             	

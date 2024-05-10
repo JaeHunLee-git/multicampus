@@ -14,6 +14,7 @@ import com.sds.movieapp.domain.CustomUserDetails;
 import com.sds.movieapp.domain.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 //모든 컨트롤러에서 사용자명을 저장할 수 있도록 aop로 구현 
@@ -52,6 +53,9 @@ public class AuthAspect {
 			
 			request.setAttribute("nickname", member.getNickname());//우측 상단의 사용자명을 위한 처리 
 			request.setAttribute("member", member);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("member", member);
 		} 
 		
 		obj = joinPoint.proceed();
