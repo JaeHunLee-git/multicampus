@@ -7,12 +7,13 @@ REST (표현적 상태 전송) - Representational State Transfer
  - Restful : 로이필딩이 제안한 URL 표기 방법을 준수한 표현을 가리킴
 
 [게시판에 대한 자원(상태) 표현]
-게시물 목록 요청 : /board          GET
+게시물 목록 요청 : /search/board          GET
 게시물 한건 등록 : /board          POST 
 게시물 한건 요청 : /board/23     GET
 게시물 수정 요청 : /board          PUT (대부분의 웹브라우저가 비활성화)
 게시물 삭제 요청 : /board/40     DELETE (대부분의 웹브라우저가 비활성화)
 
+localhost:7979/board/7
 
 create  table  board(
    board_idx  int  primary key auto_increment 
@@ -32,6 +33,24 @@ create  table  board(
   
 full binary tree
 perfect binary tree 
+
+
+
+
+
+
+
+
+
+
+
+
+localhost:7979/board
+
+
+
+
+
 
 
 
