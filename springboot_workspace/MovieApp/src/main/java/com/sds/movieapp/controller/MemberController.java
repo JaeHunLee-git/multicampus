@@ -24,12 +24,15 @@ import com.sds.movieapp.domain.Member;
 import com.sds.movieapp.domain.Role;
 import com.sds.movieapp.exception.MemberException;
 import com.sds.movieapp.model.member.MemberService;
+import com.sds.movieapp.model.member.RoleService;
+import com.sds.movieapp.model.member.SnsService;
 import com.sds.movieapp.sns.KaKaoLogin;
 import com.sds.movieapp.sns.KaKaoOAuthToken;
 import com.sds.movieapp.sns.NaverLogin;
 import com.sds.movieapp.sns.NaverOAuthToken;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -44,6 +47,12 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private SnsService snsService;
 	
 	
 	//로그인 폼 요청 처리 
@@ -90,7 +99,8 @@ public class MemberController {
 	//결과 처리 후, 로그인 요청한 사용자가 보게될 화면을 보여줘야 하므로, return  값은 html이 되어야 한다..
 	//따라서 ModelAndView or String 와야 함
 	@GetMapping("/member/sns/naver/callback")
-	public ModelAndView naverCallback(HttpServletRequest request) {
+	public ModelAndView naverCallback(HttpServletRequest request, HttpSession session) {
+
 		
 		String code = request.getParameter("code");
 
@@ -178,12 +188,32 @@ public class MemberController {
 		String email =(String)response.get("email");
 		String name =(String)response.get("name");
 		
-		//중복된 회원이 없다면, 가입을 시킨다...(즉 최초 한번은 가입을 회원 정보를 보관해놓자..)
+		log.debug("id = "+id);
+		log.debug("email = "+email);
+		log.debug("name = "+name);
 		
+		//신규 회원 가입자 인경우, 회원 정보에 sns 유형, 권한 정보도 입력해야 하므로 Member DTO에 이 정보들도 구성해야 함		
+		Member member = new Member();
+		member.setUid(id);
+		member.setNickname(name);
+		member.setEmail(email);
+		member.setSns(snsService.selectByName("naver")); 
+		member.setRole(roleService.selectByName("USER"));//일반 회원 가입이므로...
+	
+		//중복된 회원이 없다면, 가입을 시킨다...(즉 최초 한번은 가입을 회원 정보를 보관해놓자..)
+		Member dto = memberService.selectByUid(id);
+		
+		if(dto == null) { //중복된 회원이 없을때만 가입
+			memberService.regist(member);
+		}
 		
 		//세션을 할당하여, 메인으로 보낸다..
+		session.setAttribute("member", dto);
 		
-		return null;
+		//로그인 성공 후, 홈페이지의 추천 영화로..(메인은 무거우니깐..)
+		ModelAndView mav = new ModelAndView("redirect:/movie/recommend/list");
+		
+		return mav;
 	}
 	
 	/*----------------------------------------------------------------
