@@ -30,32 +30,44 @@ public class SecurityConfig {
 		//필터링 할 uri 명시..
 		httpSecurity
 			.authorizeHttpRequests(
-					(auth) -> auth
-					.requestMatchers("/site/**","/").permitAll() 
-					.requestMatchers("/member/loginform", "/member/login","/member/joinform","/member/join").permitAll() 
-					//롤은 권한의 집합을 의미하며, hasRole()  메서드는 롤을 사용하게 되고, 내부적으로 ROLE_  접두어가 붙음
-					//.requestMatchers("/cs/notice/list").hasRole("USER") //권한명은 개발자가 회원가입 시 지정하면 됨..
-					//.requestMatchers("/cs/notice/**").hasAuthority("USER")
-					.requestMatchers("/cs/notice/**").permitAll()
-					.requestMatchers("/rest/member/authform/**").permitAll()
-					.requestMatchers("/member/sns/naver/callback").permitAll()
-					.requestMatchers("/member/sns/kakao/callback").permitAll()
-					
-					//영화관련 
-					.requestMatchers("/movie/comments").hasAuthority("USER")
-					.requestMatchers("/movie/recommend/list").hasAuthority("USER")
-					
-					.anyRequest().authenticated()
+				(auth) -> auth
+				.requestMatchers("/site/**","/").permitAll() 
+				.requestMatchers("/member/loginform", "/member/login","/member/joinform","/member/join").permitAll() 
+				//롤은 권한의 집합을 의미하며, hasRole()  메서드는 롤을 사용하게 되고, 내부적으로 ROLE_  접두어가 붙음
+				//.requestMatchers("/cs/notice/list").hasRole("USER") //권한명은 개발자가 회원가입 시 지정하면 됨..
+				//.requestMatchers("/cs/notice/**").hasAuthority("USER")
+				.requestMatchers("/cs/notice/**").permitAll()
+				.requestMatchers("/rest/member/authform/**").permitAll()
+				.requestMatchers("/member/sns/naver/callback").permitAll()
+				.requestMatchers("/member/sns/kakao/callback").permitAll()
+				
+				//영화관련 
+				.requestMatchers("/movie/detail").hasAnyAuthority("USER")
+				.requestMatchers("/movie/comments").hasAnyAuthority("USER")
+				.requestMatchers("/movie/recommend/list").hasAnyAuthority("USER")
+				
+				.anyRequest().authenticated()
 			);
 	
+		//로그인에 대한 설정
 		httpSecurity
 			.formLogin((auth)->
 				auth.loginPage("/member/loginform")
 				.successHandler(loginEventHandler()) //개발자가 정의한 핸들러 등록...
 				.loginProcessingUrl("/member/login")
-					.usernameParameter("uid")
-					.passwordParameter("password")
+				.usernameParameter("uid")
+				.passwordParameter("password")
 			);
+		
+		//로그아웃 설정 
+		httpSecurity
+		.logout(logout -> logout
+			.logoutUrl("/member/logout") //로그아웃 요청 페이지경로
+			.logoutSuccessUrl("/") //로그아웃 처리 후, 보여질 링크 
+			.invalidateHttpSession(true) //세션 무효화 
+			.clearAuthentication(true) //권한 없애기 
+			.deleteCookies("JSESSIONID")
+		);
 		
 		//토큰 비활성화 
 		httpSecurity.csrf((auth)->auth.disable());

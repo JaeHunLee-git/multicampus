@@ -34,6 +34,7 @@ public class LoginEventHandler extends SavedRequestAwareAuthenticationSuccessHan
 		
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
+	
 }
 
 
