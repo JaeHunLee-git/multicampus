@@ -1,0 +1,44 @@
+create table member(
+   member_idx  int  primary key  auto_increment 
+ , id  varchar(30)
+ , pass varchar(64)
+ , name varchar(30)
+ , email varchar(30)
+ , regdate  timestamp  default  now()
+) default  character set utf8;
+
+create  table  bio(
+    bio_idx  int  primary key  auto_increment 
+  , blood  varchar(7)
+  , height  float  default 0 
+  , weight  float  default 0 
+  , member_idx  int 
+  , constraint  fk_member_bio  foreign key (member_idx)
+       references  member(member_idx)
+) default character set utf8;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

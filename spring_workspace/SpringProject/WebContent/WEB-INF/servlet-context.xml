@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 이 매핑 파일은 DispatcherServlet이 보유한 ApplicationContext가 읽어들여, 이 xml에 명시된
+		bean들을 인스턴스화 시켜서 관리한다 , 이때 ApplicationContext를 스프링 컨테이너라 한다..
+	 -->
+	 
+	<!-- 뷰매핑 : 접두어와 접미어를 조합하여  URL을 만들어주는 해결사(Resolver) -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+		 
+	<!-- MybatisManager 등록 -->
+	<bean class="com.sds.springproject.mybatis.MybatisManager" id="mybatisManager"/>
+	
+	<!-- MybatisMemberDAO 등록 -->
+	<bean class="com.sds.springproject.model.member.MybatisMemberDAO" id="mybatisMemberDAO">
+		<!-- <property name="manager" ref="mybatisManager"/> -->
+	</bean>
+	
+	<bean class="com.sds.springproject.model.bio.MybatisBioDAO" id="mybatisBioDAO">
+		<!-- <property name="manager" ref="mybatisManager"/> -->
+	</bean>
+	
+	<!-- 서비스 등록 -->
+	<bean class="com.sds.springproject.model.member.MemberServiceImpl" id="memberServiceImpl">
+		<property name="manager" 			ref="mybatisManager"/>
+		<property name="memberDAO" 	ref="mybatisMemberDAO"/>
+		<property name="bioDAO" 			ref="mybatisBioDAO"/>
+	</bean>
+	
+	<!-- 하위 컨트롤러 등록 -->
+	<bean class="com.sds.springproject.controller.RegistController" id="registController">
+		<property name="memberService" ref="memberServiceImpl"/>
+	</bean>
+	<bean class="com.sds.springproject.controller.ListController" id="listController"></bean>
+	 
+	<!--하위 컨트롤러 매핑  
+		스프링이 지원하는 매핑 방식에는 여러가지가 있다..
+		BeanNameUrlHandlerMapping 
+		DefualtAnnotaionHandlerMapping 
+		등등...
+		SimpleURLHandlerMapping  :  key 값이 uri 를 결정하고,  value값이 해당 하위컨트롤러를 결정
+	-->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/member/regist">registController</prop>
+				<prop key="/member/list">listController</prop>
+			</props>
+		</property>
+	</bean>	
+	
+</beans>
+
+
+
+
+
