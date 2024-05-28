@@ -1,6 +1,6 @@
 SQL> show user
 USER is ""
-SQL> --show user�� ����� �ƹ��͵� �����Ƿ�, �� �����غ���
+SQL> --show user
 SQL> connect system/1234
 Connected.
 SQL> show user
