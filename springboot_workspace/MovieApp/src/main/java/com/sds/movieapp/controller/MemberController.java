@@ -191,7 +191,7 @@ public class MemberController {
 		
 		String id =(String)response.get("id");
 		String email =(String)response.get("email");
-		String name =(String)response.get("name");
+		String name =(String)response.get("nickname");
 		
 		log.debug("id = "+id);
 		log.debug("email = "+email);
@@ -211,6 +211,7 @@ public class MemberController {
 		
 		if(dto == null) { //중복된 회원이 없을때만 가입
 			memberService.regist(member);
+			dto =  member;
 		}
 		
 		//세션을 할당하여, 메인으로 보낸다..

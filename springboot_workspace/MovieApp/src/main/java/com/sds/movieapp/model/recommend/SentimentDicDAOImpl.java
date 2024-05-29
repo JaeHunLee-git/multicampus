@@ -1,4 +1,4 @@
-package com.sds.movieapp.model.recoommend;
+package com.sds.movieapp.model.recommend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

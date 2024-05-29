@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.sds.movieapp.domain.CommentsDoc;
 import com.sds.movieapp.domain.MovieDoc;
 import com.sds.movieapp.domain.SentimentDic;
-import com.sds.movieapp.model.recoommend.SentimentDicDAO;
+import com.sds.movieapp.model.recommend.SentimentDicDAO;
 
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;

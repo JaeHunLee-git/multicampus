@@ -1,4 +1,4 @@
-package com.sds.movieapp.model.recoommend;
+package com.sds.movieapp.model.recommend;
 
 import com.sds.movieapp.domain.SentimentDic;
 

@@ -1,4 +1,4 @@
-package com.sds.movieapp.model.recoommend;
+package com.sds.movieapp.model.recommend;
 
 import java.util.ArrayList;
 import java.util.HashMap;

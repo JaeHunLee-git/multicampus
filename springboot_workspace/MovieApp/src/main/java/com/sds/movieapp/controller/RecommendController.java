@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.sds.movieapp.domain.Member;
-import com.sds.movieapp.model.recoommend.RecommendService;
+import com.sds.movieapp.model.recommend.RecommendService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
