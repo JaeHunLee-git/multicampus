@@ -8,9 +8,19 @@
 		values(#{password}, #{phone}, #{addr}, #{member.member_idx})
 	</insert>
 	
+	<resultMap type="MemberDetail" id="MemberDetailMap">
+		<id column="member_detail_idx" 	property="member_detail_idx"/>
+		<result column="password" 				property="password"/>
+		<result column="phone" 					property="phone"/>
+		<result column="addr" 					property="addr"/>
+		<result column="addr" 					property="addr"/>
+		<association column="member_idx"  property="member" javaType="Member"
+			select="com.sds.movieapp.model.member.MemberDAO.selectByMemberIdx"/>
+			
+	</resultMap>
 	
 	<!-- member_idx 에 속한 상세정보 가져오기  -->
-	<select id="selectByMemberIdx" parameterType="int" resultType="MemberDetail">
+	<select id="selectByMemberIdx" parameterType="int" resultMap="MemberDetailMap">
 		select * from member_detail where member_idx=#{member_idx}
 	</select>
 	

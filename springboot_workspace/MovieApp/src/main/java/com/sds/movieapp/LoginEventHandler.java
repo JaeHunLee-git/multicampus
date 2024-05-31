@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 //스프링 시큐리티가 로그인 처리하는 시점을 알려주는 이벤트 메서드를 통해 개발자가 원하는 로근 처리로 커스텀 할 수 있다
 //session member 를 담고 싶다..왜 통상적인 다른 로그인 기술 들과 통합하기 위해..(OAuth는 - anonymousUser 모름..)
 public class LoginEventHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler{                                       
-
+	/*
 	//유저가 스프링 시큐리티 기반으로 로그인을 성공하는 시점...
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws ServletException, IOException {
@@ -33,8 +33,9 @@ public class LoginEventHandler extends SavedRequestAwareAuthenticationSuccessHan
 		session.setAttribute("member", member);
 		
 		super.onAuthenticationSuccess(request, response, authentication);
+		
 	}
-	
+	*/
 }
 
 

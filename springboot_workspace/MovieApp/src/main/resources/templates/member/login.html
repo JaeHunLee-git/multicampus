@@ -61,7 +61,7 @@
                 <div class="col-lg-6">
                     <div class="login__register">
                         <h3>Dont’t Have An Account?</h3>
-                        <a href="#" class="primary-btn">Register Now</a>
+                        <a href="#" class="primary-btn" id="bt_joinform">Register Now</a>
                     </div>
                 </div>
             </div>
@@ -130,7 +130,11 @@
 	$(function(){
 		$("#bt_login").click(function(){
 			loginCheck();
-		});		
+		});	
+		$("#bt_joinform").click(function(){
+			location.href="/member/joinform";
+		});	
+		
 	});
 </script>
 

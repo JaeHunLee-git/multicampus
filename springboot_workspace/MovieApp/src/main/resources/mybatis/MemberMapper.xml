@@ -22,7 +22,8 @@
 		
 		<association column="sns_idx" property="sns" javaType="Sns" select="com.sds.movieapp.model.member.SnsDAO.select"/>
 		<association column="role_idx" property="role" javaType="Role" select="com.sds.movieapp.model.member.RoleDAO.select"/>
-		<association column="member_idx" property="memberDetail" javaType="MemberDetail" select="com.sds.movieapp.model.member.MemberDetailDAO.selectByMemberIdx"/>
+		<association column="member_idx" property="memberDetail" javaType="MemberDetail" 
+			select="com.sds.movieapp.model.member.MemberDetailDAO.selectByMemberIdx"/>
 		
 	</resultMap>
 	
@@ -31,6 +32,24 @@
 		select member_idx, uid, nickname, email, sns_idx, role_idx
 		from member where uid=#{uid}
 	</select>	
+
+
+	<!-- 아래의 맵은 자식만을 위한 맵이다..서로 참조관계에 있기 때문에, 순환관계에 빠지지 않도록
+	맵을 하나 더 두고, 이 맵에서는 자식을 호출하지 않는다. -->
+	<resultMap type="Member" id="MemberMap2">
+		<id 			column="member_idx" 	property="member_idx"/>
+		<result 		column="uid" 					property="uid"/>
+		<result 		column="nickname" 		property="nickname"/>
+		<result 		column="email" 				property="email"/>
+		
+		<association column="sns_idx" property="sns" javaType="Sns" select="com.sds.movieapp.model.member.SnsDAO.select"/>
+		<association column="role_idx" property="role" javaType="Role" select="com.sds.movieapp.model.member.RoleDAO.select"/>
+		
+	</resultMap>
+	
+	<select id="selectByMemberIdx" parameterType="int" resultMap="MemberMap2">
+		select * from member where member_idx=#{member_idx}
+	</select>
 	
 </mapper>
 

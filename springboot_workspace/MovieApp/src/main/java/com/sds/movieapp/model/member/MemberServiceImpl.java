@@ -1,7 +1,7 @@
 package com.sds.movieapp.model.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +11,9 @@ import com.sds.movieapp.domain.Role;
 import com.sds.movieapp.domain.Sns;
 import com.sds.movieapp.exception.MemberException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class MemberServiceImpl implements MemberService{
 	
@@ -27,7 +30,7 @@ public class MemberServiceImpl implements MemberService{
 	private MemberDetailDAO memberDetailDAO;
 	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	@Transactional
 	public void regist(Member member) throws MemberException{
@@ -41,19 +44,26 @@ public class MemberServiceImpl implements MemberService{
 		
 		int result = memberDAO.insert(member);
 		
+		log.debug("member result is "+result);
+		
 		if(result <1) {
 			throw new MemberException("회원 등록 실패");
 		}
 		
 		//현재 기준 회원 상세정보를 입력처리해야 되는 회원은 홈페이지 회원이므로, 조건문으로 처리.. 
-		if(sns.getSns_name().equals("hompage")) {
+		if(sns.getSns_name().equals("homepage")) {
 			//회원 상세 정보 등록 
 			MemberDetail memberDetail = member.getMemberDetail();
 			memberDetail.setMember(member);
-			memberDetail.setPassword(bCryptPasswordEncoder.encode(memberDetail.getPassword())); 
+			
+			
+			memberDetail.setPassword(passwordEncoder.encode(memberDetail.getPassword())); 
 			
 			//비밀번호 암호화 처리 
 			result = memberDetailDAO.insert(memberDetail);//회원 상세 정보 등록
+			
+			log.debug("memberDetail result is "+result);
+			
 			if(result <1) {
 				throw new MemberException("회원 추가정보 등록 실패");
 			}
