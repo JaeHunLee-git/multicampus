@@ -1,0 +1,63 @@
+
+<th:block th:fragment="header">    
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1">
+                    <div class="header__logo">
+                        <a href="/">
+                            <img src="/recommend/site/img/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                
+                                <li th:each="movieType :${movieTypeList}">
+                                	<a href="#" th:text="${movieType.korNm}"></a>
+                                </li>
+								<li> 
+	                               <a href="/movie/recommend/list">추천영화</a>
+								</li>
+                                <li><a href="/recommend/site/categories.html">고객센터 <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="/cs/notice/list">공지사항</a></li>
+                                        <li><a href="/member/joinform">Sign Up</a></li>
+                                        <li><a href="/member/loginform">Login</a></li>
+                                        <li><a href="/recommend/site/categories.html">Categories</a></li>
+                                        <li><a href="/recommend/site/anime-watching.html">Anime Watching</a></li>
+                                    </ul>
+                                </li>
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="header__right">
+                    
+ 						<th:block th:if="${session.member !=null}">	
+	                    	<span >
+	                        	<a href="#" th:text="${session.member.nickname+'님'}"></a>                        		
+	                        	<a href="javascript:logout()">logout</a> 
+	                        </span>
+	                    </th:block>
+	                    
+	                        
+	                    <th:block th:unless="${session.member !=null}">
+	                    	<span>
+		                        <span>
+		                        	<a href="/member/loginform"><span class="icon_profile"></span></a>
+		                        </span>
+	                        </span>
+                        </th:block>
+                      
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+</th:block>    
