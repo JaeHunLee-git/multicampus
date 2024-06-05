@@ -1,0 +1,99 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.6'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.sds.recommendproject'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+//스프링 클라우드 설정 
+ext {
+	set('springCloudVersion', "2023.0.1")
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	
+	//Config Client 
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'	
+	
+	//유레카 클라이언트
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	
+	//데이터 베이스 연동관련 추가되는 의존성 들
+	implementation 'com.mysql:mysql-connector-j:8.4.0'
+
+	//스프링부트에서 데이터베이스 연동을 위해 boot-starter-jdbc 등록 
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.2.4'
+	
+	//스프링 mvc에서는 mybatis 와  mybatis-spring 을 둘다 다운로드 받아야 했지만 부트에서는 mybatis-spring-boot-start 만 받으면 된다
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	
+	//영화진흥원 
+	implementation files('lib/kobis-opcl-rest-v1.0.jar', 'lib/kobis-opcl-soap-v1.0.jar')
+	
+	
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation 'com.google.code.gson:gson:2.8.9'
+	
+	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	implementation 'javax.xml.ws:jaxws-api:2.3.1'
+	implementation 'com.sun.xml.ws:jaxws-rt:2.3.3'
+	implementation 'com.sun.xml.messaging.saaj:saaj-impl:1.5.3'
+	implementation 'com.sun.xml.bind:jaxb-impl:2.3.3'
+	
+	
+	//몽고DB
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.5'
+	
+	//스프링 시큐리티 
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.2.5'
+		
+	//AOP
+	implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.5'
+	
+	//Mahout
+	implementation 'org.apache.mahout:mahout-core:0.9'
+	
+	//Komoran 
+	implementation files('lib/aho-corasick-1.1.0.jar', 'lib/commons-1.0.1.jar')
+	implementation files('lib/core.jar', 'lib/elasticsearch-plugin-1.0-SNAPSHOT.jar')
+
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'	
+	
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}	
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
