@@ -119,12 +119,22 @@
 		});
 	}
 	
+	//더이상 세션을 이용한 인증 방식을 사용하지 않기 때문에, 로그인 요청을 비동기방식으로 하고 
+	//그 결과로써, JWT를 발급받아 오자
 	function loginCheck(){
-		$("#form1").attr({
-			action:"/member/login", //spring security가 낚아 챔
-			method:"post"
-		});	
-		$("#form1").submit();
+		$.ajax({
+			url:"/movieapp/member/login", //gateway 를 통해 들어가야 하므로...
+			type:"post", 
+			data:$("#form1").serialize(),
+			success:function(result, status, xhr){
+				console.log("서버가 보낸 jwt 토큰은 ", result);
+				location.href="/movieapp";
+			},
+			error:function(xhr, status, err){
+				alert("로그인 정보가 올바르지 않습니다");
+			}
+			
+		});
 	}
 	
 	$(function(){
