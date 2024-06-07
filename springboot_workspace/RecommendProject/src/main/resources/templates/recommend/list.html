@@ -215,3 +215,48 @@
 	
 </body>
 </html>
+<!--  일반 링크로는 헤더값을 제어하면서 요청을 시도하는 방법을 웹에서는 지원하지 않는다..
+	따라서, 영화추천 목록을 보기위한 토큰을 이 페이지 요청과 함께 시도하는것은 불가능하다..
+	해결책)  토큰을 가져오지 말고 그냥 이 페이지를 먼저 방문한다 
+	          onLoad 시점에, 영화목록을 비동기로 요청한다,이때 비동기ajax에서는 헤더값을 제어하는 방법을
+	          지원하기 때문에, 이 헤더값에 토큰을 추가하여, 영화추천 목록을 요청한다
+	          이때 서버 측에서는 이 토큰을 공개키로 풀어서 그 안에 들어있는 jwt의 id(subject)를 추출하고
+	          그 id를 이용하여, 데이터베이스에서 더 많은 회원정보를 가져오면 된다..
+  -->
+<script type="text/javascript">
+	function getRecommendList(){
+		$.ajax({
+			url:"/recommend/list",
+			type:"GET",
+			dataType:"json", //서버로 부터 받을 데이터형식
+			headers:{
+				"Authorization" : "Bearer "+getToken()
+			},
+			success:function(result, status, xhr){
+				//목록을 화면에 동적으로 출력(front-end 기술 쓰지 않으면 노가다...)
+				
+			},
+			error:function(xhr, status, err){
+				console.log("목록 가져오기 실패");
+			}
+		});	
+	}
+	
+	$(function(){
+		getRecommendList(); //영화추천 목록 가져오기(이 회원의...)
+	});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
