@@ -77,7 +77,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
 		CustomUserDetails customUserDetails=(CustomUserDetails)authentication.getPrincipal();
-		String username = customUserDetails.getUsername(); //uid  반환
+		String username = customUserDetails.getMember().getUid();//uid  반환
 		String role=customUserDetails.getMember().getRole().getRole_name();
 		
 		log.debug("회원정보가 존재합니다.로그인 성공");

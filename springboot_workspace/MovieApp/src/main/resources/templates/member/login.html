@@ -128,7 +128,10 @@
 			data:$("#form1").serialize(),
 			success:function(result, status, xhr){
 				console.log("서버가 보낸 jwt 토큰은 ", result);
-				location.href="/movieapp";
+				localStorage.setItem("token",result.token); //서버로 받은 제이슨 중, token에 담겨있는 json token 값만 담자
+				//location.href="/movieapp";
+				
+				alert("로그인 성공입니다");
 			},
 			error:function(xhr, status, err){
 				alert("로그인 정보가 올바르지 않습니다");

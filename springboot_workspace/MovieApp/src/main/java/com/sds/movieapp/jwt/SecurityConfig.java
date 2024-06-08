@@ -47,6 +47,10 @@ public class SecurityConfig {
 		httpSecurity
 			.authorizeHttpRequests(
 				(auth) -> auth
+				
+				/*--------------------------------------------------
+				 인증 불필요
+				--------------------------------------------------*/ 
 				.requestMatchers("/site/**").permitAll() 
 				.requestMatchers("/").permitAll() 
 				.requestMatchers("/member/loginform", "/member/login","/member/joinform","/member/join").permitAll() 
@@ -59,9 +63,11 @@ public class SecurityConfig {
 				.requestMatchers("/member/sns/kakao/callback").permitAll()
 				
 				.requestMatchers("/jwt/key").permitAll() //api 열기 
+				.requestMatchers("/movie/detail").permitAll()
 				
-				//영화관련 
-				//.requestMatchers("/movie/detail").hasAnyAuthority("USER")
+				/*--------------------------------------------------
+				 인증 필요
+				--------------------------------------------------*/ 
 				
 				.anyRequest().authenticated()
 				//.anyRequest().permitAll()

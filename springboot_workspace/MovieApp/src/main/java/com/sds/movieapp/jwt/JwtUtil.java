@@ -39,6 +39,10 @@ public class JwtUtil {
 	JWT에는 왠만해서는, 보안상 민감한 정보는 절대로 넣지말자!!
 	 ---------------------------------*/
 	public String generateToken(String id, String role, Long expireTime) throws Exception{
+		log.debug("jwt 생성에 필요한 데이터 중 id = "+id);
+		log.debug("jwt 생성에 필요한 데이터 중 role = "+role);
+		log.debug("jwt 생성에 필요한 데이터 중 expireTime = "+expireTime);
+		
 		//jwt 생성 
 		return Jwts.builder()
 		.setSubject(id) //username  채우기
