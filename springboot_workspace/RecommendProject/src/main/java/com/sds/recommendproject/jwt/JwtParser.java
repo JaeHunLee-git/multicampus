@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtParser {
 	
 	//base64로 인코딩된 문자열을 인수로 넘기면, PublicKey 객체반환
-	public PublicKey getPublicKeyString(String base64Key) throws Exception{
+	public PublicKey getPublicKeyFromString(String base64Key) throws Exception{
 		byte[] keybytes = Base64.getDecoder().decode(base64Key); //인코딩된 문자열을 다시 푼다
 		
 		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keybytes);
