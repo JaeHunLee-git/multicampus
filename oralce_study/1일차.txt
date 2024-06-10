@@ -5,7 +5,6 @@ SQL> connect system/1234
 Connected.
 SQL> show user
 USER is "SYSTEM"
-SQL> -- ������Ʈ ���� ����� �����ͺ��̽��� �����غ���
 SQL> --Ư�� ����Ŭ���� ����ϴ� �����ͺ��̽� ������ Ȯ���ڴ� dbf�����
 SQL> --�������� : ����Ŭ �����ͺ��̽� ������ ���� ��ġ�� �ƹ����̳� �θ� --�ȵ� , ������ ��ġ�� ����
 SQL> CREATE  TABLESPACE  MYSPACE
