@@ -58,12 +58,14 @@ public class SecurityConfig {
 				//.requestMatchers("/cs/notice/list").hasRole("USER") //권한명은 개발자가 회원가입 시 지정하면 됨..
 				//.requestMatchers("/cs/notice/**").hasAuthority("USER")
 				.requestMatchers("/cs/notice/**").permitAll()
-				.requestMatchers("/rest/member/authform/**").permitAll()
 				.requestMatchers("/member/sns/naver/callback").permitAll()
 				.requestMatchers("/member/sns/kakao/callback").permitAll()
 				
 				.requestMatchers("/jwt/key").permitAll() //api 열기 
 				.requestMatchers("/movie/detail").permitAll()
+				
+				.requestMatchers("/rest/member/authform/**").permitAll()
+				.requestMatchers("/rest/member/logincheck").permitAll() // 토큰 유효성 검증 요청
 				
 				/*--------------------------------------------------
 				 인증 필요

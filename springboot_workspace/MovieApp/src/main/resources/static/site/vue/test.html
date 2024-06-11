@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="/movieapp/site/js/jquery-3.3.1.min.js"></script>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>	
+</head>
+<body>
+
+	<div id="loginApp">
+		<login-view></login-view>
+	</div>	
+		
+</body>
+</html>
+<script type="text/javascript">
+//뷰 컴포넌트 정의 
+const LoginView={
+	template:`   	
+	    <a href="#" >{{msg}}</a>                        		
+	`
+	,
+	data(){
+		return {
+			msg:"과연될까?"
+		}
+	}
+}
+
+
+//뷰 어플리케이션 생성
+const loginApp = Vue.createApp({
+	components:{
+		LoginView
+	}
+});
+
+loginApp.mount("#loginApp");
+
+
+
+function getMemberInfo(){
+	$.ajax({
+		url:"/movieapp/rest/member/logincheck",
+		type:"GET",
+		dataType:"json",
+		headers:{
+			"Authorization" : "Bearer "+localStorage.getItem("token")
+		},
+		success:function(result, status, xhr){
+			console.log("서버로 부터받은 응답 정보는 ", result);
+			//직접 렌더링 하지 말고, Vue 한테 맡기자..
+		},
+		error:function(xhr, status, err){
+			console.log("회원정보가 없습니다");
+		}
+	});	
+}
+</script>
+
+
+
+
+
+
+
