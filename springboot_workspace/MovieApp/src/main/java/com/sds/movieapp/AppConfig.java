@@ -56,6 +56,7 @@ public class AppConfig { //root-context.xml 대신 함
 		return new Komoran(modelPath); //분석 정보가 들어있는 데이터의 위치 경로
 	}
 	
+	@Bean  // <bean id="jwtUtil" class="com.sds.~~.JwtUtil"></bean>
 	public JwtUtil jwtUtil() throws Exception{
 		return new JwtUtil(); //이 시점에 생성자 호출에 의해, 비밀키와 공개키도 함께 생성되 버림
 	}
@@ -63,18 +64,18 @@ public class AppConfig { //root-context.xml 대신 함
 	/*------------------------------------------------
 	어플리케이션 가동 시점 부터 공개키와 비밀키를 생성하고, 
 	특히 공개키의 경우엔 나 아닌 다른 MSA가 가져갈 수 있도록, api로 제공을 해주되, 
-	우리의 경우 파일로 공개키를 저장해놓지 않고, ServletContext(application 내장객) 객체에 담아놓자
+	MovieApp의 경우 파일로 공개키를 저장해놓지 않고, ServletContext(application 내장객) 객체에 담아놓자
 	
 	아래의 객체를 빈으로 등록해 놓으면, 어플리케이션이 가동될때를 감지하여, 자신이 보유한 
 	이벤트 메서드를 실행한다
 	------------------------------------------------*/
 	@Bean
-	public ServletContextInitializer  servletContextInitializer() {
+	public ServletContextInitializer  servletContextInitializer(JwtUtil jwtUtil) {
 		return new ServletContextInitializer() {
 			
 			@Override
 			public void onStartup(ServletContext servletContext) throws ServletException {
-				//servletContext.setAttribute("key", 공개키Base64문자열);
+				servletContext.setAttribute("key", jwtUtil.getEncodedPublicKey());
 			}
 		};
 	}

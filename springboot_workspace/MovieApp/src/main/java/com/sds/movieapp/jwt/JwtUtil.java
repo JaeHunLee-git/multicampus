@@ -1,9 +1,11 @@
 package com.sds.movieapp.jwt;
 
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,6 +35,15 @@ public class JwtUtil {
 		KeyPair keyPair = keyPairGen.generateKeyPair();
 		privateKey = keyPair.getPrivate(); //개인키 생성 
 		publicKey = keyPair.getPublic(); //공개키 생성 
+	}
+	
+	//base64로 인코딩된 문자열을 인수로 넘기면, PublicKey 객체반환
+	public PublicKey getPublicKeyFromString(String base64Key) throws Exception{
+		byte[] keybytes = Base64.getDecoder().decode(base64Key); //인코딩된 문자열을 다시 푼다
+		
+		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keybytes);
+		KeyFactory factory = KeyFactory.getInstance("RSA");
+		return factory.generatePublic(keySpec);
 	}
 	
 	/*---------------------------------
