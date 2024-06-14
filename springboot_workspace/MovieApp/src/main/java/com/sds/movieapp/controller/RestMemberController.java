@@ -59,7 +59,6 @@ public class RestMemberController {
 		//넘어온 헤더값 중, Bearer를 제외한 순수 토큰만 추출 
 		return ResponseEntity.ok(jwtValidService.getMemberFromJwt(header.replace("Bearer", "")));
 	}
-
 	
 }
 

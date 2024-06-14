@@ -29,7 +29,7 @@
                 <div class="col-lg-12 text-center">
                     <div class="normal__breadcrumb__text">
                         <h2>고객센터</h2>
-                        <p>공지사항</p>
+                        <p>자유 게시판</p>
                     </div>
                 </div>
             </div>
@@ -42,48 +42,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+
                 	<!-- 테이블 시작 -->
-					<div class="card">
-					    <div class="card-header">
-					        <h3 class="card-title">공지 게시판</h3>
-					        <button class="btn btn-info float-right" id="bt_regist">글등록</button>
-					    </div>
-					
-					    <div class="card-body table-responsive p-0">
-					        <table class="table table-hover text-nowrap">
-					            <thead>
-					                <tr>
-					                    <th>No</th>
-					                    <th>제목</th>
-					                    <th>작성자</th>
-					                    <th>등록일</th>
-					                    <th>조회수</th>
-					                </tr>
-					            </thead>
-					            <tbody>
-					            
-					                <tr th:each="notice , i : ${noticeList}">
-					                    <td th:text="${pager.num - i.index}"></td>
-					                    <td>
-					                    	<a th:href="@{/cs/notice/detail(id=${notice.id})}"  th:text="${notice.title}"></a>
-					                    </td>
-					                    <td th:text="${notice.writer}"></td>
-					                    <td th:text="${notice.regdate}"></td>
-					                    <td th:text="${notice.hit}"></td>
-					                </tr>
-					            
-					            </tbody>
-					        </table>
-					    </div>
+					<div id="noticeApp">
+						<list-view></list-view>
 					</div>
 					
+					<!-- 						
                     <div class="product__pagination">
-
                         <a th:each="i : ${#numbers.sequence(pager.firstPage , pager.lastPage)}" th:href="@{/cs/notice/list(currentPage=${i})}" th:text="${i}"  th:class="${pager.currentPage==i? 'current-page':'' }"></a>                                            
-
                         <a href="#"><i class="fa fa-angle-double-right"></i></a>
                     </div>
-                	
+                	 -->
                 	<!-- 테이블 끝 -->
                 </div>
             </div>       
@@ -109,10 +79,125 @@
 </body>
 </html>
 <script type="text/javascript">
+	//목록을 처리할 컴포넌트 정의 
+	const ListView={
+			
+		//2단계: data() 메서드가 반환한 데이터를 내부 template에 바인딩	
+		template:`
+        	
+			<div class="card">
+			    <div class="card-header">
+			        <h3 class="card-title">자유 게시판</h3>
+			        <button class="btn btn-info float-right" id="bt_regist">글등록</button>
+			    </div>
+			
+			    <div class="card-body table-responsive p-0">
+			        <table class="table table-hover text-nowrap">
+			            <thead>
+			                <tr>
+			                    <th>No</th>
+			                    <th>제목</th>
+			                    <th>작성자</th>
+			                    <th>등록일</th>
+			                    <th>조회수</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			            
+			                <tr v-for="(notice , index) in noticeList" :key="notice.id">
+			                    <td>{{num-index}}</td>
+			                    <td>
+			                    	<a href="#">{{notice.title}}</a>
+			                    </td>
+			                    <td>{{notice.writer}}</td>
+			                    <td>{{notice.regdate}}</td>
+			                    <td>{{notice.hit}}</td>
+			                </tr>
+			            
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+			
+			<div>
+				<a>[1][2][3]</a>
+			</div>
+		`,
+		//1단계) template 영역에 보여질 데이터 반환
+		data(){
+			return {
+				noticeList:null,
+				num:0 //페이지당 시작할 게시물 번호 
+			}
+		},
+		mounted(){
+			this.getData(1,10);
+		},
+		methods:{
+			
+			//서버에서 리스트 가져오기
+			getData(currentPage, pageSize){
+				//비동기방식으로 서버에 리스트를 요청...비동기방식다 보니, 데이터를 가져온 시점에 data() 영역으로 가져온 json list 를 대입하려면
+				//동기방식의 처리가 필요함, 따라서 Promise 이용하자 
+				getNoticeList(currentPage, pageSize).then(result =>{  //skip(몇번째부터).limit(몇건)
+					console.log("서버에서 가져온 데이터는 ", result);
+					this.noticeList = result.noticeList;
+					
+					//페이징 계산 처리
+					let pager  = new Pager(result.totalRecord, pageSize, currentPage);
+					
+					console.log("totalRecord = "+pager.totalRecord);
+					console.log("pageSize = "+pager.pageSize);
+					console.log("totalPage = "+pager.totalPage);
+					console.log("currentPage = "+pager.currentPage);
+					console.log("blockSize = "+pager.blockSize);
+					console.log("firstPage = "+pager.firstPage);
+					console.log("lastPage = "+pager.lastPage);
+					console.log("curPos = "+pager.curPos);
+					console.log("num = "+pager.num);
+					this.num=pager.num;
+					
+				})
+				.fail(err=>{
+					console.log(err);					
+				});
+			}
+		}
+	}
+	
+	//Vue 앱 생성 
+	const noticeApp = Vue.createApp({
+		components:{
+			ListView
+		}
+	});
+	
+	//Vue 앱과 html 렌더링 영역과의 마운트(연결) 
+	noticeApp.mount("#noticeApp");
+
+	//Promise로 동작할 비동기함수 정의 
+	function getNoticeList(currentPage, pageSize){
+		return $.ajax({
+			url:"/movieapp/rest/cs/notice?currentPage="+currentPage+"&pageSize="+pageSize,
+			type:"get"
+		})
+		.then(
+			function(result, status, xhr){
+				//여기서 vue의 컴포넌트를 접근할려고 하지말자!!
+				//왜? 이 영역은 앞으로 이 ajax 로 가져온 데이터가 then() 이후에 동작한다는 것만 정의
+				return result;
+			}, //success
+			function(xhr, status, err){
+				throw new Error(err);
+			} //error
+		);
+	}
+	
+	
 	$(function(){
 		$("#bt_regist").click(function(){
 			//글쓰기 폼 요청
-			location.href="/cs/notice/writeform";
+			location.href="/movieapp/cs/notice/writeform";
 		});		
 	});
 </script>

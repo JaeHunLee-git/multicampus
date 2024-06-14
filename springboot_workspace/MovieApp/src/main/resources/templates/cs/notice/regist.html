@@ -105,18 +105,38 @@
 </body>
 </html>
 <script type="text/javascript">
+	//글 등록시 jwt 검증을 위해 헤더값을 가지고 가자
 	function regist(){
-		$("#form1").attr({
-			action:"/cs/notice/regist",
-			method:"post"
+		$.ajax({
+			url:"/movieapp/rest/cs/notice", 
+			type:"post",
+			headers:{
+				"Authorization" : "Bearer "+getToken()
+			}, 
+			data:$("#form1").serialize(),
+			success:function(result, status ,xhr){
+				alert("등록성공");
+			},
+			error:function(xhr, status, err){
+				//console.log(xhr.responseText);
+				//console.log(status);
+				//console.log(err);
+				let json = JSON.parse(xhr.responseText);
+				alert(json.msg);
+			}
 		});
-		$("#form1").submit();
 	}
 	
 	$(function(){
 		$("#bt_regist").click(function(){
 			regist();			
+		});
+		
+		$("#bt_list").click(function(){
+			//목록 디자인 페이지를 요청 
+			location.href="/movieapp/cs/notice/list";
 		});		
+		
 	});
 </script>
 

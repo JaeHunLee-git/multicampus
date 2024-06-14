@@ -39,7 +39,7 @@ const LoginView={
 			getMemberInfo()
 			.then(result =>{
 				this.member=result;
-				alert("vue의 member 변수값은 "+this.member);
+				//alert("vue의 member 변수값은 "+this.member);
 			})
 			.fail( err => {
 				console.log(err);
@@ -85,6 +85,36 @@ function getMemberInfo(){
 		}
 	);
 }
+
+
+/*---------------------------------------------------
+페이징 처리 객체
+---------------------------------------------------------  */
+class Pager{
+	constructor(totalRecord, pageSize, currentPage){
+		this.totalRecord=totalRecord; //총 레코드 수
+		this.pageSize = pageSize; //페이지당 보여질 레코드 수   skip().limit(여기에써먹을꺼임)  
+		this.totalPage = Math.ceil(this.totalRecord/this.pageSize);
+		this.blockSize=10; //블럭당 보여질 페이지 수 
+		this.currentPage= currentPage; //현재 페이지 
+		this.firstPage= this.currentPage - ((this.currentPage-1)%this.blockSize);
+		this.lastPage=this.firstPage + (this.blockSize-1);
+		this.curPos=(this.currentPage-1)*this.pageSize;  //skip(curPos).limit(pageSize)  
+		this.num=this.totalRecord-this.curPos;//페이지당 시작 게시물 번호
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

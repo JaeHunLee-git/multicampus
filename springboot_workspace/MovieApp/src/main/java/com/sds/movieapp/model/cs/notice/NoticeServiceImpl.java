@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sds.movieapp.domain.Notice;
+import com.sds.movieapp.domain.NoticeDoc;
 import com.sds.movieapp.exception.NoticeException;
 
 @Service
@@ -25,22 +25,22 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public Notice select(Notice notice) {
+	public NoticeDoc select(NoticeDoc notice) {
 		return noticeDAO.select(notice);
 	}
 	
 	@Override
-	public void insert(Notice notice) throws NoticeException{
+	public void regist(NoticeDoc notice) throws NoticeException{
 		noticeDAO.insert(notice);		
 	}
 
 	@Override
-	public void update(Notice notice)  throws NoticeException{
+	public void update(NoticeDoc notice)  throws NoticeException{
 		noticeDAO.update(notice);
 	}
 
 	@Override
-	public void delete(Notice notice) throws NoticeException{
+	public void delete(NoticeDoc notice) throws NoticeException{
 		noticeDAO.delete(notice);
 		
 	}

@@ -39,7 +39,7 @@ public class JwtValidService {
 			
 		}catch (Exception e) {
 			log.debug("JWT 인증실패");
-			throw new JwtException("JWT 인증실패");
+			throw new JwtException("로그인이 필요한 서비스입니다");
 		}
 		
 		String uid = claims.getSubject(); //JWT의 body의 제목에 넣어 둔 uid를 꺼내자

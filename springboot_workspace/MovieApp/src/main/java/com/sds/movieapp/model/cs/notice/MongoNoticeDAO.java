@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.client.result.DeleteResult;
-import com.sds.movieapp.domain.Notice;
+import com.sds.movieapp.domain.NoticeDoc;
 import com.sds.movieapp.exception.NoticeException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class MongoNoticeDAO implements NoticeDAO{
 	public int selectCount() {
 		Query query = new Query();
 		
-		long total = mongoTemplate.count(query, Notice.class);
+		long total = mongoTemplate.count(query, NoticeDoc.class);
 		return (int)total;
 	}
 
@@ -36,21 +36,21 @@ public class MongoNoticeDAO implements NoticeDAO{
 		
 		Query query = new Query().skip(startIndex).limit(rowCount);
 		
-		return mongoTemplate.find(query, Notice.class);
+		return mongoTemplate.find(query, NoticeDoc.class);
 	}
 
 	@Override
-	public Notice select(Notice notice) {
+	public NoticeDoc select(NoticeDoc notice) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").is(notice.getId()));
-		Notice dto = mongoTemplate.findOne(query, Notice.class);
+		NoticeDoc dto = mongoTemplate.findOne(query, NoticeDoc.class);
 		
 		return dto;
 	}
 	
 	
-	public void insert(Notice notice) throws NoticeException{
-		Notice dto = mongoTemplate.insert(notice);
+	public void insert(NoticeDoc notice) throws NoticeException{
+		NoticeDoc dto = mongoTemplate.insert(notice);
 		
 		log.info("글 등록 결과는 "+dto);
 		
@@ -60,8 +60,8 @@ public class MongoNoticeDAO implements NoticeDAO{
 	}
 
 	@Override
-	public void update(Notice notice) throws NoticeException{
-		Notice dto = mongoTemplate.save(notice);
+	public void update(NoticeDoc notice) throws NoticeException{
+		NoticeDoc dto = mongoTemplate.save(notice);
 		
 		if(dto ==null) {
 			throw new NoticeException("글 수정 실패");
@@ -69,11 +69,11 @@ public class MongoNoticeDAO implements NoticeDAO{
 	}
 
 	@Override
-	public void delete(Notice notice) throws NoticeException{
+	public void delete(NoticeDoc notice) throws NoticeException{
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").is(notice.getId()));
 		
-		DeleteResult result = mongoTemplate.remove(query, Notice.class);
+		DeleteResult result = mongoTemplate.remove(query, NoticeDoc.class);
 		
 		if(result.getDeletedCount() < 1) {
 			throw new NoticeException("글 삭제 실패");
