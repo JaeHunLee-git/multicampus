@@ -1,22 +1,9 @@
 package com.sds.movieapp.controller;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.sds.movieapp.common.Pager;
 import com.sds.movieapp.domain.NoticeDoc;
-import com.sds.movieapp.exception.NoticeException;
-import com.sds.movieapp.model.cs.notice.NoticeService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,6 +23,14 @@ public class NoticeController {
 		return "cs/notice/regist";
 	}
 	
+	//글내용 보기 페이지 요청 
+	@GetMapping("/cs/notice/detailform")
+	public String getDetailForm(Model model , NoticeDoc noticeDoc) {
+		
+		model.addAttribute("noticeDoc", noticeDoc);
+		
+		return "cs/notice/content";
+	}
 }
 
 

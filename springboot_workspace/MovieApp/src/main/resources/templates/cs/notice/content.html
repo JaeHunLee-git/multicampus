@@ -43,46 +43,13 @@
             <div class="row">
                 <div class="col-lg-12">
                 
-                	<!-- 테이블 시작 -->
-					<div class="card card-info">
-					    <div class="card-header">
-					        <h3 class="card-title">글 상세내용</h3>
-					    </div>
-					
-					    <form id="form1" class="form-horizontal">
-					    	<input type="hidden" name="id" th:value="${notice.id}">
-					        <div class="card-body">
-					            <div class="form-group row">
-					                <label for="title" class="col-sm-2 col-form-label">제목</label>
-					                <div class="col-sm-10">
-					                    <input type="text" class="form-control" id="title" name="title" th:value="${notice.title}">
-					                </div>
-					            </div>
-					            
-					            <div class="form-group row">
-					                <label for="writer" class="col-sm-2 col-form-label">작성자</label>
-					                <div class="col-sm-10">
-					                    <input type="text" class="form-control" id="writer" name="writer" th:value="${notice.writer}">
-					                </div>
-					            </div>
-					            
-					            <div class="form-group row">
-					                <label for="content" class="col-sm-2 col-form-label">내용</label>
-					                <div class="col-sm-10">
-					                    <textarea class="form-control" id="content" name="content" th:text="${notice.content}"></textarea>
-					                </div>
-					            </div>
-					        </div>
-					
-					        <div class="card-footer">
-					            <button type="button" class="btn btn-info" id="bt_edit">수정</button>
-					            <button type="button" class="btn btn-info" id="bt_del">삭제</button>
-					            <button type="button" class="btn btn-info float-right" id="bt_list">목록보기</button>
-					        </div>
-					
-					    </form>
-					</div>                	
-                	<!-- 테이블 끝 -->
+                	<!-- 카드 시작 -->
+                	<input type="hidden" name="id" th:value="${noticeDoc.id}" id="id">
+                	<div id="noticeApp">
+                		<content-view></content-view>
+                	</div>
+                	<!-- 카드 끝 -->
+                
                 </div>
             </div>       
         </div>
@@ -122,6 +89,108 @@
 		});
 		$("#form1").submit();
 	}
+	
+	//상세보기 처리 뷰 컴포넌트 
+	const ContentView={
+		template:`
+        	
+			<div class="card card-info">
+			    <div class="card-header">
+			        <h3 class="card-title">글 상세내용</h3>
+			    </div>
+			
+			    <form id="form1" class="form-horizontal">
+			    	
+			        <div class="card-body">
+			            <div class="form-group row">
+			                <label for="title" class="col-sm-2 col-form-label">제목</label>
+			                <div class="col-sm-10">
+			                    <input type="text" class="form-control" id="title" name="title" v-model="title">
+			                </div>
+			            </div>
+			            
+			            <div class="form-group row">
+			                <label for="writer" class="col-sm-2 col-form-label">작성자</label>
+			                <div class="col-sm-10">
+			                    <input type="text" class="form-control" id="writer" name="writer" v-model="writer">
+			                </div>
+			            </div>
+			            
+			            <div class="form-group row">
+			                <label for="content" class="col-sm-2 col-form-label">내용</label>
+			                <div class="col-sm-10">
+			                    <textarea class="form-control" id="content" name="content" v-model="content"></textarea>
+			                </div>
+			            </div>
+			        </div>
+			
+			        <div class="card-footer">
+			            <button type="button" class="btn btn-info" id="bt_edit">수정</button>
+			            <button type="button" class="btn btn-info" id="bt_del">삭제</button>
+			            <button type="button" class="btn btn-info float-right" id="bt_list">목록보기</button>
+			        </div>
+			
+			    </form>
+			</div>                	
+		`,
+		data(){
+			return {
+				//view영역에서 사용할 데이터(모델)
+				title:null,
+				writer:null,
+				content:null
+			}
+		},
+		mounted(){
+			this.getDetail($("#id").val());
+		},
+		methods:{
+			getDetail(id){
+				//예약된 Promise 사용하기 
+				getContent(id)
+				.then(result =>{
+					console.log("서버에서 전송된 게시물은 ", result);
+					this.title = result.title;
+					this.writer = result.writer;
+					this.content = result.content;
+				})
+				.fail(err =>{
+					console.log(err);
+				});
+			}
+		}
+		
+	}
+	
+	
+	//상세보기 요청 (헤더에 토큰 가지고 요청할 예정)
+	function getContent(id){
+		//서버에서 데이터 가져온 후, 디자인에 반영 Promise 이용하자 
+		return $.ajax({
+			url :"/movieapp/rest/cs/notice/"+id, 
+			type:"get",
+			headers:{
+				"Authorization" : "Bearer "+getToken()
+			}
+		})
+		.then(
+			function(result, status, xhr){
+				return result;
+			}, 
+			function(xhr, status, err){
+				throw new Error(err);
+			}
+		);
+	}
+	
+	
+	//뷰앱 생성 
+	const noticeApp = Vue.createApp({
+		components:{
+			ContentView
+		}
+	});
+	noticeApp.mount("#noticeApp");	
 	
 	
 	$(function(){

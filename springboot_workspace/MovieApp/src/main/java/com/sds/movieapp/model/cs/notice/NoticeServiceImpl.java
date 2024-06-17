@@ -25,8 +25,10 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public NoticeDoc select(NoticeDoc notice) {
-		return noticeDAO.select(notice);
+	public NoticeDoc select(NoticeDoc notice) throws NoticeException{
+		NoticeDoc dto = noticeDAO.select(notice);
+		if(dto==null)throw new NoticeException("게시물이 없습니다");
+		return dto;
 	}
 	
 	@Override

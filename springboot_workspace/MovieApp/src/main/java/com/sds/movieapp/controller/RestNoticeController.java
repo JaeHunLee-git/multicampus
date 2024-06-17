@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,7 +74,38 @@ public class RestNoticeController {
 		return map;
 	}
 	
+	//글 상세보기 요청 처리 (Restful 하기 때문에  @Pathvariable 이용해야 함 즉 경로에 파라미터가 포함되어 있기 때문..)
+	@GetMapping("/rest/cs/notice/{id}")
+	public NoticeDoc select(	@RequestHeader(name="Authorization") String header , 
+										@PathVariable(name="id") String id) {
+		
+		//회원검증
+		String token = header.replace("Bearer ", "");
+		
+		Member member = jwtValidService.getMemberFromJwt(token);
+		if(member ==null) {
+			throw new JwtException("로그인이 필요한 서비스입니다");
+		}
+		
+		//게시물 가져오기 
+		NoticeDoc noticeDoc = new NoticeDoc();
+		noticeDoc.setId(id);
+		noticeDoc = noticeService.select(noticeDoc);
+		
+		return noticeDoc;
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
 
 
 
