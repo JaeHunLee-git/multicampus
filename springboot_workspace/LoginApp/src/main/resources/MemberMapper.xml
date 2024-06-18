@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.sds.loginapp.model.member.MemberDAO">
+	
+	<insert id="insert" parameterType="Member">
+		insert into member(id, pass , name) values(#{id}, #{pass}, #{name})
+		
+		<selectKey keyColumn="member_idx" keyProperty="member_idx" resultType="int" order="AFTER">
+			select last_insert_id() as member_idx
+		</selectKey>
+	</insert>
+	
+	<select id="select" parameterType="Member" resultType="Member">
+		select * from member where id=#{id} and pass=#{pass}
+	</select>
+	
+	<!-- 회원 가입 여부 확인  -->
+	<select id="selectById" parameterType="String" resultType="Member">
+		select * from member where id=#{id}
+	</select>	
+	
+</mapper>
