@@ -11,8 +11,6 @@ SQL> CREATE  TABLESPACE  MYSPACE
 
 Tablespace created.
 
-SQL> --������ �����ͺ��̽��� ����� ������ ���� ������
-SQL> --��, ������ ����� ���ؼ��� ������ ������ �ʿ��ϹǷ�, �翬��
 SQL> --SYSTEM �̻��� �������� �α��εǾ� �վ�� ��
 SQL> SHOW USER
 USER is "SYSTEM"
