@@ -11,7 +11,6 @@ SQL> CREATE  TABLESPACE  MYSPACE
 
 Tablespace created.
 
-SQL> --SYSTEM �̻��� �������� �α��εǾ� �վ�� ��
 SQL> SHOW USER
 USER is "SYSTEM"
 SQL> CREATE  USER  BATMAN
