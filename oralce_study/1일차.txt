@@ -20,7 +20,6 @@ SQL> CREATE  USER  BATMAN
 
 User created.
 
-SQL> --������ �����ߴٴ� ����������, ����Ŭ�� ����� ������ �� �ִ°�
 SQL> --�ƴϴ�, �ᱹ ������ �������� ���� ���ѵ� �ο��ؾ� �Ѵ�
 SQL> GRANT  CREATE  SESSION TO BATMAN;
 
