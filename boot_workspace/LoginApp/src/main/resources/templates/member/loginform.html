@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+	<h1>로그인</h1>
+	<form id="form1">
+		<input type="text" 			name="id" 			required> <br> 
+		<input type="password"		name="pass" 		required> <br>
+		<input type="text"				name="name" 		placeholder="가입시에만 작성"> <br>
+		<br> 
+		<input type="button" value="로그인" id="bt_login">
+		<input type="button" value="바로가입" id="bt_regist">
+	</form>
+	
+</body>
+</html>
+<script type="text/javascript">
+//동기 방식의 로그인 요청
+function login(){
+	$("#form1").attr({
+		action:"/member/login",
+		method:"post"
+	});
+	$("#form1").submit();
+}
+
+//비동기방식의 로그인 요청
+function loginAsync(){
+	$.ajax({
+		url:"/rest/member/login",
+		type:"post",
+		data:$("#form1").serialize(),
+		success:function(result, status, xhr){
+			alert(result);
+			location.href="/";
+		},
+		error:function(xhr, status, err){
+			let json = JSON.parse(xhr.responseText);
+			
+			alert(json.msg);
+		}
+	});
+}
+
+function registAsync(){
+	$.ajax({
+		url:"/rest/member",
+		type:"post",
+		data:$("#form1").serialize(),
+		success:function(result, status, xhr){
+			alert(result);
+		},
+		error:function(xhr, status, err){
+			let json = JSON.parse(xhr.responseText);
+			
+			alert(json.msg);
+		}
+	});
+}
+
+$(function(){
+	$("#bt_login").click(function(){
+		//login();
+		loginAsync();
+	});
+	
+	$("#bt_regist").click(function(){
+		registAsync();
+	});
+	
+});
+</script>

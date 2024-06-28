@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.sds.recommendproject.model.member.MemberDAO">
+
+	<insert id="insert" parameterType="Member">
+		insert into member(uid, nickname, email, sns_idx, role_idx) values(#{uid}, #{nickname}, #{email}, #{sns.sns_idx}, #{role.role_idx})
+		
+		<selectKey keyColumn="member_idx" keyProperty="member_idx" resultType="int" order="AFTER">
+			select last_insert_id() as member_idx
+		</selectKey>
+	</insert>
+	
+	<resultMap type="Member" id="MemberMap">
+		<id 				column="member_idx" 		property="member_idx"/>
+		<result			column="uid" 					property="uid"/>
+		<result			column="nickname" 			property="nickname"/>
+		<result			column="email" 				property="email"/>
+		<association 	column="sns_idx" 				property="sns" 	javaType="Sns" select="com.sds.recommendproject.model.member.SnsDAO.select"/>	
+		<association 	column="role_idx" 			property="role" javaType="Role" select="com.sds.recommendproject.model.member.RoleDAO.select"/>		
+		<association 	column="member_idx"		property="memberDetail" javaType="MemberDetail" select="com.sds.recommendproject.model.member.MemberDetailDAO.selectByMemberIdx"/>		
+	</resultMap>
+	
+	<select id="select" parameterType="int" resultMap="MemberMap">
+		select * from member where member_idx=#{member_idx}
+	</select>
+
+	<!-- 회원 가입 여부 확인  -->
+	<select id="selectByUid" parameterType="String" resultMap="MemberMap">
+		select * from member where uid=#{uid}
+	</select>	
+	
+</mapper>

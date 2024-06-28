@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+	<div style="background:yellow;width:200px;height:120px;border:2px solid blue;margin:auto;text-align:center">
+		<form id="form1">
+			<p>
+				<input type="text" placeholder="Your Id..." name="id">
+				<input type="password" placeholder="Your Password.." name="pass">
+			</p>
+			<p>
+				<button type="button" id="bt_login">로그인</button>
+				<button type="button" id="bt_regist">가입</button>
+			</p>
+		</form>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript">
+	function loginCheck(){
+		//비동기 로그인 요청
+		$.ajax({
+			url:"/rest/member/login",
+			type:"post",
+			data:$("#form1").serialize(),
+			success:function(result, status, xhr){
+				//alert(result);
+			},
+			error:function(xhr, status, err){
+				let json =JSON.parse(xhr.responseText);
+				alert(json.msg);
+			}
+		});
+	}
+	
+	$(function(){
+		$("#bt_login").click(function(){
+			loginCheck();
+		});
+	});
+
+</script>
+
+
+
+
+

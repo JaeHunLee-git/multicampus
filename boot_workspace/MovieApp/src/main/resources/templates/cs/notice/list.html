@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Anime Template">
+    <meta name="keywords" content="Anime, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Anime | Template</title>
+	
+	<!-- 헤더링크 -->
+	<th:block th:replace="~{fragments/header_link :: header_link}"/>
+	
+</head>
+
+<body>
+    <!-- Page Preloder -->
+	<th:block th:replace="~{fragments/preloader :: preloader}"/>
+	
+    <!-- Header Section Begin -->
+    <th:block th:replace="~{fragments/header :: header}"/>
+    <!-- Header End -->
+
+
+    <!-- Normal Breadcrumb Begin -->
+    <section class="normal-breadcrumb set-bg" data-setbg="/movieapp/site/img/normal-breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="normal__breadcrumb__text">
+                        <h2>고객센터</h2>
+                        <p>자유 게시판</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Normal Breadcrumb End -->
+
+    <!-- Login Section Begin -->
+    <section class="login spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                	<!-- 테이블 시작 -->
+					<div id="noticeApp">
+						<list-view></list-view>
+					</div>
+					
+					<!-- 						
+                    <div class="product__pagination">
+                        <a th:each="i : ${#numbers.sequence(pager.firstPage , pager.lastPage)}" th:href="@{/cs/notice/list(currentPage=${i})}" th:text="${i}"  th:class="${pager.currentPage==i? 'current-page':'' }"></a>                                            
+                        <a href="#"><i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                	 -->
+                	<!-- 테이블 끝 -->
+                </div>
+            </div>       
+        </div>
+    </section>
+    <!-- Login Section End -->
+
+	
+
+
+
+	<!-- Footer Section Begin -->
+	<th:block th:replace="~{fragments/footer :: footer}"/>
+	<!-- Footer Section End -->
+
+	<!-- Search model Begin -->
+	<th:block th:replace="~{fragments/search :: search}"/>
+	<!-- Search model end -->
+
+	<!-- Js Plugins -->
+	<th:block th:replace="~{fragments/footer_link :: footer_link}"/>
+	
+</body>
+</html>
+<script type="text/javascript">
+	//목록을 처리할 컴포넌트 정의 
+	const ListView={
+			
+		//2단계: data() 메서드가 반환한 데이터를 내부 template에 바인딩	
+		template:`
+        	
+			<div class="card">
+			    <div class="card-header">
+			        <h3 class="card-title">자유 게시판</h3>
+			        <button class="btn btn-info float-right" id="bt_regist">글등록</button>
+			    </div>
+			
+			    <div class="card-body table-responsive p-0">
+			        <table class="table table-hover text-nowrap">
+			            <thead>
+			                <tr>
+			                    <th>No</th>
+			                    <th>제목</th>
+			                    <th>작성자</th>
+			                    <th>등록일</th>
+			                    <th>조회수</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			            
+			                <tr v-for="(notice , index) in noticeList" :key="notice.id">
+			                    <td>{{num-index}}</td>
+			                    <td>
+			                    	<a href="#" @click="showDetail(notice.id)">{{notice.title}}</a>
+			                    </td>
+			                    <td>{{notice.writer}}</td>
+			                    <td>{{notice.regdate}}</td>
+			                    <td>{{notice.hit}}</td>
+			                </tr>
+			            
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+			
+			<div>
+				<template v-for="i in pageNum">
+					<a href="#" @click="getData(i , 10)">[ {{i}} ]</a>
+				</template>
+			</div>
+		`,
+		//1단계) template 영역에 보여질 데이터 반환
+		data(){
+			return {
+				noticeList:null,
+				num:0, //페이지당 시작할 게시물 번호
+				pageNum:[] //페이지를 담게 될 배열  ex) 1block (1,2,3...10)  , 2block(11,12....20)   
+			}
+		},
+		mounted(){
+			this.getData(1,10);
+		},
+		methods:{
+			//한건 가져오기 
+			showDetail(id){
+				//alert(id); // mongodb의 _id 값
+				
+				//한건의 게시물 db연동이 발생하지 않으며 그냥 디자인 페이지만 요청
+				location.href="/movieapp/cs/notice/detailform?id="+id; 
+			},
+			
+			//서버에서 리스트 가져오기
+			getData(currentPage, pageSize){
+				//비동기방식으로 서버에 리스트를 요청...비동기방식다 보니, 데이터를 가져온 시점에 data() 영역으로 가져온 json list 를 대입하려면
+				//동기방식의 처리가 필요함, 따라서 Promise 이용하자 
+				getNoticeList(currentPage, pageSize).then(result =>{  //skip(몇번째부터).limit(몇건)
+					console.log("서버에서 가져온 데이터는 ", result);
+					this.noticeList = result.noticeList;
+					
+					//페이징 계산 처리
+					let pager  = new Pager(result.totalRecord, pageSize, currentPage);
+					
+					console.log("totalRecord = "+pager.totalRecord);
+					console.log("pageSize = "+pager.pageSize);
+					console.log("totalPage = "+pager.totalPage);
+					console.log("currentPage = "+pager.currentPage);
+					console.log("blockSize = "+pager.blockSize);
+					console.log("firstPage = "+pager.firstPage);
+					console.log("lastPage = "+pager.lastPage);
+					console.log("curPos = "+pager.curPos);
+					console.log("num = "+pager.num);
+					
+					this.num=pager.num;
+					
+					//페이지를 보여줄 배열 처리 
+					this.pageNum.length=0; //배열을 비우기 splice 에 비해 가볍다(splice 는 재배치가 수반되므로..) 
+					
+					for(let i=pager.firstPage; i<=pager.lastPage;i++){
+						if(i >pager.totalPage)break;
+						this.pageNum.push(i);		
+					}
+					
+				})
+				.fail(err=>{
+					console.log(err);					
+				});
+			}
+		}
+	}
+	
+	//Vue 앱 생성 
+	const noticeApp = Vue.createApp({
+		components:{
+			ListView
+		}
+	});
+	
+	//Vue 앱과 html 렌더링 영역과의 마운트(연결) 
+	noticeApp.mount("#noticeApp");
+
+	//Promise로 동작할 비동기함수 정의 
+	function getNoticeList(currentPage, pageSize){
+		return $.ajax({
+			url:"/movieapp/rest/cs/notice?currentPage="+currentPage+"&pageSize="+pageSize,
+			type:"get"
+		})
+		.then(
+			function(result, status, xhr){
+				//여기서 vue의 컴포넌트를 접근할려고 하지말자!!
+				//왜? 이 영역은 앞으로 이 ajax 로 가져온 데이터가 then() 이후에 동작한다는 것만 정의
+				return result;
+			}, //success
+			function(xhr, status, err){
+				throw new Error(err);
+			} //error
+		);
+	}
+	
+	
+	$(function(){
+		$("#bt_regist").click(function(){
+			location.href="/movieapp/cs/notice/writeform";
+		});		
+	});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

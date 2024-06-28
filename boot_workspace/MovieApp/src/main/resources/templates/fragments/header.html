@@ -1,0 +1,56 @@
+<th:block th:fragment="header">    
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1">
+                    <div class="header__logo">
+                        <a href="/movieapp/site/index.html">
+                            <img src="/movieapp/site/img/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                
+                                <li th:each="movieType :${movieTypeList}">
+                                	<a href="#" th:text="${movieType.korNm}"></a>
+                                </li>
+                                
+                                <li>
+									<a href="/recommend/list/view">추천영화</a>                                
+                                </li>
+                                
+                                <li><a href="/movieapp/site/categories.html">고객센터 <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="/movieapp/cs/notice/list">자유게시판</a></li>
+                                        <li><a href="/movieapp/site/categories.html">영화목록</a></li>
+                                        <li><a href="/member/joinform">Sign Up</a></li>
+                                        <li><a href="/member/loginform">Login</a></li>
+                                    </ul>
+                                </li>
+                                
+                                
+                                
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="header__right">
+                        
+                        	<!-- 익명사용자가 아니라면 사용자명을 로그인한 사용자명으로 대체 -->
+                        	<div id="loginApp">
+                        		<login-view ></login-view>
+                        	</div>
+                        	
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+</th:block>   
+ 

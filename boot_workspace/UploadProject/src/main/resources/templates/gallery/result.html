@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body style="background:skyblue">
+
+	<pre>
+		업로드 결과 <br>  
+		<a href="#"  th:data-src="${gallery.filename}" onClick="showImg(this)">이미지 확인</a>  <br>
+		<img id="pic" width="200px">	
+	</pre>
+	
+</body>
+</html>
+
+<script type="text/javascript">
+function showImg(obj){
+	let filename = obj.getAttribute("data-src");
+	
+	$("#pic").attr("src", "/data/"+filename);
+	
+}
+</script>
+
+
+

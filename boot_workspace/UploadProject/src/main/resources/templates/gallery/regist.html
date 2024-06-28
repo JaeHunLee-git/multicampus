@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+	<pre>
+		<form id="form1">
+			<input type="text" placeholder="제목을 입력하세요" name="title"> <br>
+			<input type="file" name="file"> <br>
+			
+			<button type="button">업로드</button>
+		</form>
+	</pre>
+	
+</body>
+</html>
+
+<script type="text/javascript">
+	function regist(){
+		$("#form1").attr({
+			action:"/gallery/regist",
+			method:"post",
+			enctype:"multipart/form-data"
+		});
+		$("#form1").submit();
+	}
+	
+	$(function(){
+		$("button").click(function(){
+			regist();
+		});
+	});
+
+</script>
+
+
+
