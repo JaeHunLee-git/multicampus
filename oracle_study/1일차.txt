@@ -1,0 +1,132 @@
+SQL> show user
+USER is ""
+SQL> --show user
+SQL> connect system/1234
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> CREATE  TABLESPACE  MYSPACE
+  2  DATAFILE  'D:\oraclexe\app\oracle\oradata\XE\MYSPACE.DBF'
+  3  SIZE 2M;
+
+Tablespace created.
+
+SQL> SHOW USER
+USER is "SYSTEM"
+SQL> CREATE  USER  BATMAN
+  2  IDENTIFIED BY 1234
+  3  DEFAULT  TABLESPACE  MYSPACE
+  4  QUOTA  UNLIMITED  ON  MYSPACE;
+
+User created.
+
+SQL> GRANT  CREATE  SESSION TO BATMAN;
+
+Grant succeeded.
+
+SQL> SHOW USER
+USER is "SYSTEM"
+SQL> --BATMAN  �������� ��ȯ
+SQL> CONNECT BATMAN/1234
+Connected.
+SQL> --���� ������ , ������Ʈ ����� �űԷ� DB ���� �� ����ڸ� ����� �ǽ�
+SQL> show user
+USER is "BATMAN"
+SQL> CREATE  TABLE  MEMBER(
+  2  NAME VARCHAR2(20)
+  3  );
+CREATE  TABLE  MEMBER(
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> --����ڸ� ����ϰ�, ���ӱ����� �ο��޾Ѵٰ� �Ͽ� ����Ŭ���� ���̺���
+SQL> --������ ���� ����. ���) ���̺��� ���� ������ �����ڷκ��� �ο� ����
+SQL> SHOW USER
+USER is "BATMAN"
+SQL> --�ٽ� �ý��� ������ �� ������ ��ȯ����
+SQL> CONN  SYSTEM/1234
+Connected.
+SQL> SHOW USER
+USER is "SYSTEM"
+SQL> --�������� ���̺����� �ο��ϱ�
+SQL> GRANT  CREATE TABLE  TO  BATMAN;
+
+Grant succeeded.
+
+SQL> SHOW USER
+USER is "SYSTEM"
+SQL> --�ٽ� BATMAN ���� ��ȯ
+SQL> CONN BATMAN/1234
+Connected.
+SQL> SHOW USER
+USER is "BATMAN"
+SQL> CREATE  TABLE  MEMBER(
+  2  -- ǥ���� �� ���� ����
+  3  NAME VARCHAR2(20)
+  4  , PHONE  VARVCHAR2(13)
+  5  , AREA VARCHAR2(20)
+  6  );
+, AREA VARCHAR2(20)
+   *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> EDIT
+Wrote file afiedt.buf
+
+  1  CREATE  TABLE  MEMBER(
+  2  -- ǥ���� �� ���� ����
+  3  NAME VARCHAR2(20)
+  4  , PHONE  VARCHAR2(13)
+  5  , AREA VARCHAR2(20)
+  6* )
+SQL> RUN
+  1  CREATE  TABLE  MEMBER(
+  2  -- ǥ���� �� ���� ����
+  3  NAME VARCHAR2(20)
+  4  , PHONE  VARCHAR2(13)
+  5  , AREA VARCHAR2(20)
+  6* )
+
+Table created.
+
+SQL> --�����ͺ��̽� �ý��۸��� �����ϴ� �� ������ SQL���̶� �Ѵ�
+SQL> --������ ���̺��� �����͸� ����
+SQL> INSERT INTO MEMBER(NAME, PHONE, AREA)
+  2  VALUES('BATMAN','011', 'KOREA');
+
+1 row created.
+
+SQL> --�� ������ ��ȸ�غ���
+SQL> SELECT NAME, PHONE, AREA FROM  MEMBER;
+
+NAME                                     PHONE                                  
+---------------------------------------- --------------------------             
+AREA                                                                            
+----------------------------------------                                        
+BATMAN                                   011                                    
+KOREA                                                                           
+                                                                                
+
+SQL> SELECT NAME, PHONE, AREA FROM  MEMBER;
+
+NAME                                     PHONE                                  
+---------------------------------------- --------------------------             
+AREA                                                                            
+----------------------------------------                                        
+BATMAN                                   011                                    
+KOREA                                                                           
+                                                                                
+
+SQL> -- ������ �������� ����â�� �ʹ� ������, SQLPLUS �� ��ü�� ������ �ٲ���
+SQL> SET LINESIZE 250
+SQL> SELECT NAME, PHONE, AREA FROM  MEMBER;
+
+NAME                                     PHONE                      AREA                                                                                                                                                                                  
+---------------------------------------- -------------------------- ----------------------------------------                                                                                                                                              
+BATMAN                                   011                        KOREA                                                                                                                                                                                 
+
+SQL> SPOOL OFF
